@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ski-resort-managament",
-    "slug": "ski-resort-managament",
+    "name": "ski-resort-management",
+    "slug": "ski-resort-management",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
