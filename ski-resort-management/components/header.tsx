@@ -3,22 +3,17 @@ import { router } from "expo-router";
 
 
 
-export default function Header({ title }: { title: string }) {
+export default function Header() {
     return (
               <View style={{
                 flexDirection: 'row',
-                justifyContent: 'space-between',
+                justifyContent: 'flex-end',
                 alignItems: 'center',
                 paddingHorizontal: 20,
                 paddingTop: 60,
                 paddingBottom: 20,
                 backgroundColor: '#fff',
               }}>
-                <Text style={{
-                  fontSize: 32,
-                  fontWeight: 'bold',
-                  color: '#000',
-                }}>{title}</Text>
                 <Pressable
                   style={{
                     width: 40,

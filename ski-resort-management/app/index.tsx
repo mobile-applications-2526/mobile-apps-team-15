@@ -9,7 +9,7 @@ export default function Index() {
       backgroundColor: '#f5f5f5',
     }}>
 
-      <Header title="Ski-Free" />
+      <Header />
 
       {/* Welcome Card */}
       <View style={{
@@ -23,6 +23,11 @@ export default function Index() {
         shadowRadius: 4,
         elevation: 3,
       }}>
+        <Text style={{
+                  fontSize: 32,
+                  fontWeight: 'bold',
+                  color: '#000',
+                }}>Ski-Free</Text>
         <Text style={{
           fontSize: 18,
           color: '#333',
