@@ -20,10 +20,6 @@ export default function Index() {
 
       <Header />
 
-      <Pressable onPress={() => {router.push("skipass")}}>
-        <Text>Skipass test</Text>
-      </Pressable>
-
       {/* Welcome Card */}
       <View style={{
         backgroundColor: '#fff',
