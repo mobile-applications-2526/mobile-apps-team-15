@@ -1,5 +1,6 @@
 import { Text, View, Pressable, ScrollView } from "react-native";
 import { router } from "expo-router";
+import Header from "../components/header";
 
 export default function Index() {
   return (
@@ -7,35 +8,8 @@ export default function Index() {
       flex: 1,
       backgroundColor: '#f5f5f5',
     }}>
-      {/* Header Section */}
-      <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 60,
-        paddingBottom: 20,
-        backgroundColor: '#fff',
-      }}>
-        <Text style={{
-          fontSize: 32,
-          fontWeight: 'bold',
-          color: '#000',
-        }}>Ski-Free</Text>
-        <Pressable 
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: '#e0e0e0',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          onPress={() => router.push('account')}
-        >
-          <Text style={{ fontSize: 20 }}>👤</Text>
-        </Pressable>
-      </View>
+
+      <Header title="Ski-Free" />
 
       {/* Welcome Card */}
       <View style={{
