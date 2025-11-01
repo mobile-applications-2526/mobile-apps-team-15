@@ -1,6 +1,6 @@
 import { View, Text, Image } from "react-native";
 
-export default function SlopeCard({ imageUrl, name, description }: { imageUrl: any; name: string; description?: string }) {
+export default function SlopeCard({ imageUrl, name, description }: { readonly imageUrl: any; readonly name: string; readonly description?: string }) {
     return (
         <View>
                            

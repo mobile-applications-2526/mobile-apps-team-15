@@ -89,7 +89,9 @@ export default function Index() {
                 marginBottom: 15,
                 }}>Your favorite slope</Text>
 
-            <SlopeCard imageUrl={favouriteSlope.imageUrl} name={favouriteSlope.name} description={favouriteSlope.description} />
+            <Pressable onPress={() => {router.push("slopes")}}>
+              <SlopeCard imageUrl={favouriteSlope.imageUrl} name={favouriteSlope.name} description={favouriteSlope.description} />
+            </Pressable>
         </View>
 
 
