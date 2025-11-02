@@ -1,35 +1,129 @@
-import { Text, View, ScrollView } from "react-native";
+import React, { useMemo, useState } from "react";
+import {
+    View,
+    Text,
+    FlatList,
+    TextInput,
+    LayoutAnimation,
+    Platform,
+    UIManager,
+} from "react-native";
 import Header from "@components/header";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SlopeCard, { WeatherInfo } from "@components/slopeCard";
+
+if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+type Slope = {
+    id: string;
+    name: string;
+    description?: string;
+    imageUrl: any;
+    weather?: WeatherInfo;
+};
+
+const MOCK_SLOPES: Slope[] = [
+    {
+        id: "1",
+        name: "Bluebird Ridge",
+        description:
+            "Body text for whatever you'd like to say. Add main takeaway points, quotes, anecdotes, or even a very short story.",
+        imageUrl: require("@assets/skislope1.png"),
+        weather: { windKmh: 18, snowQuality: "good", visibility: "clear", busyness: "Calm" },
+    },
+    {
+        id: "2",
+        name: "Eagle Pass",
+        description: "Short description of the slope with a few notes.",
+        imageUrl: require("@assets/skislope1.png"),
+        weather: { windKmh: null, snowQuality: null, visibility: "low", busyness: null },
+    },
+    {
+        id: "3",
+        name: "Glacier Line",
+        description: "A scenic route with wide turns.",
+        imageUrl: require("@assets/skislope1.png"),
+    },
+];
 
 export default function Index() {
+    const [query, setQuery] = useState("");
+    const [expandedId, setExpandedId] = useState<string | null>(null);
+
+    const data = useMemo(() => {
+        const q = query.trim().toLowerCase();
+        if (!q) return MOCK_SLOPES;
+        return MOCK_SLOPES.filter((s) => s.name.toLowerCase().includes(q));
+    }, [query]);
+
+    const toggle = (id: string) => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        setExpandedId((curr) => (curr === id ? null : id));
+    };
+
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <Header />
-            <ScrollView style={{
-                flex: 1,
-                backgroundColor: '#f5f5f5',
-            }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#f5f5f5" }}>
+            <FlatList
+                data={data}
+                keyExtractor={(item) => item.id}
+                ListHeaderComponent={
+                    <>
+                        <Header />
+                        <View
+                            style={{
+                                backgroundColor: "#fff",
+                                marginHorizontal: 16,
+                                marginTop: 12,
+                                padding: 16,
+                                borderRadius: 12,
+                                borderWidth: 1,
+                                borderColor: "#ececec",
+                            }}
+                        >
+                            <Text style={{ fontSize: 22, fontWeight: "800", marginBottom: 4 }}>
+                                Discover the slopes!
+                            </Text>
+                            <Text style={{ color: "#666" }}>
+                                View the condition and busyness of all your favorite slopes
+                            </Text>
 
-
-                <View style={{
-                    backgroundColor: '#fff',
-                    margin: 20,
-                    padding: 20,
-                    borderRadius: 12,
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 4,
-                    elevation: 3,
-                }}>
-                    <Text style={{
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        color: '#000',
-                    }}>Slopes</Text>
-                </View>
-            </ScrollView>
+                            <View
+                                style={{
+                                    marginTop: 12,
+                                    backgroundColor: "#f3f3f3",
+                                    borderRadius: 10,
+                                    paddingHorizontal: 12,
+                                    paddingVertical: 10,
+                                }}
+                            >
+                                <TextInput
+                                    placeholder="Search"
+                                    value={query}
+                                    onChangeText={setQuery}
+                                    style={{ fontSize: 16 }}
+                                    autoCorrect={false}
+                                />
+                            </View>
+                        </View>
+                    </>
+                }
+                contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}
+                ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+                renderItem={({ item }) => (
+                    <SlopeCard
+                        imageUrl={item.imageUrl}
+                        name={item.name}
+                        description={item.description}
+                        weather={item.weather}
+                        expandable
+                        expanded={expandedId === item.id}
+                        onToggle={() => toggle(item.id)}
+                    />
+                )}
+            />
         </SafeAreaView>
     );
 }
+
