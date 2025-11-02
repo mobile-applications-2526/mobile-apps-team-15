@@ -1,22 +1,29 @@
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, Image } from "react-native";
 import Card from "@components/Card";
 
 
-export default function MaterialCard({ title, pricePerHour, pricePerDay, size }: {
-    readonly title: string,
+export default function MaterialCard({ name, pricePerHour, pricePerDay, size }: {
+    readonly name: string,
     readonly pricePerHour: number,
     readonly pricePerDay: number,
     readonly size: string
 }) {
     return (
-        <Card>
+        <Card marginY={0} marginX={0} paddingY={10} paddingX={10} shadow={false} border>
             {/* Title */}
+            <Image source={require("@assets/material.svg")} style={{
+                width: "100%",
+                height: 120,
+                borderRadius: 8,
+                marginBottom: 12,
+                backgroundColor: "#f3f3f3",
+            }} />
             <Text style={{
                 fontSize: 18,
                 fontWeight: 'bold',
                 color: '#333',
                 marginBottom: 10,
-            }}>{title}</Text>
+            }}>{name}</Text>
 
             {/* Price */}
             <Text style={{
