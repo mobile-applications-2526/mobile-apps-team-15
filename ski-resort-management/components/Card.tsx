@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { ReactNode } from "react";
 
+
 interface CardProps {
     readonly children?: ReactNode;
     readonly marginX?: number;
@@ -22,7 +23,7 @@ export default function Card({ children, marginX = 20, marginY = 20 }: CardProps
             shadowOpacity: 0.1,
             shadowRadius: 4,
             elevation: 3,
-        }} >
+        }}>
             {children}
         </View>
     );

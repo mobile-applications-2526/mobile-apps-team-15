@@ -1,7 +1,12 @@
-import { Text, Pressable } from "react-native";
+import { Pressable, Text } from "react-native";
 import Card from "@components/Card";
 
-export default function SkiPassCard({title, price, includedList}: {readonly title: string, readonly price: number, readonly includedList: readonly string[]}) {
+
+export default function SkiPassCard({ title, price, includedList }: {
+    readonly title: string,
+    readonly price: number,
+    readonly includedList: readonly string[]
+}) {
     return (
         <Card>
             {/* Title */}
