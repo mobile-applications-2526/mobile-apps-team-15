@@ -1,4 +1,4 @@
-import { Text, View, Pressable, ScrollView, Image } from "react-native";
+import { Text, View, Pressable, ScrollView } from "react-native";
 import { router } from "expo-router";
 import Header from "@components/header";
 import SlopeCard from "@components/slopeCard";

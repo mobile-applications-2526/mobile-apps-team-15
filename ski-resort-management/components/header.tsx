@@ -1,6 +1,5 @@
-import { Text, View, Pressable, ScrollView } from "react-native";
+import { View, Pressable} from "react-native";
 import { router } from "expo-router";
-import { Icon, VectorIcon } from "expo-router/unstable-native-tabs";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import React from "react";
 

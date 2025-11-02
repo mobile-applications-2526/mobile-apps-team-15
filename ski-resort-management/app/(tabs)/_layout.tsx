@@ -1,15 +1,11 @@
 import React from "react";
 import { Icon, Label, NativeTabs, VectorIcon } from "expo-router/unstable-native-tabs";
-import { StatusBar, useColorScheme } from "react-native";
-import { Colors } from "@constants/Colors";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 
 export default function TabsLayout() {
-    const colorScheme = useColorScheme();
     return (
         <React.Fragment>
-            {/*<StatusBar />*/}
             <NativeTabs>
                 <NativeTabs.Trigger name={"index"} >
                     <Label>Home</Label>
