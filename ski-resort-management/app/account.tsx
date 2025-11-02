@@ -24,6 +24,7 @@ export default function Account() {
                 options={{
                     title: 'Account',
                     headerShown: true,
+                    headerBackButtonDisplayMode: 'minimal',
                 }}
             />
             <SafeAreaView style={{ flex: 1 }}>
