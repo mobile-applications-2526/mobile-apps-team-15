@@ -1,18 +1,20 @@
 import { Text, View, Pressable, ScrollView, Image } from "react-native";
 import { router } from "expo-router";
-import Header from "../components/header";
-import SlopeCard from "../components/slopeCard";
+import Header from "@components/header";
+import SlopeCard from "@components/slopeCard";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
 
   const favouriteSlope = {
-    imageUrl: require('../assets/skislope1.png'),
+    imageUrl: require('@assets/skislope1.png'),
     name: "Slope 1",
     description: "Body text for whatever you'd like to say. Add main takeaway points, quotes, anecdotes, or even a very short story.",
   }
 
 
   return (
+  <SafeAreaView style={{ flex: 1 }}>
     <ScrollView style={{
       flex: 1,
       backgroundColor: '#f5f5f5',
@@ -93,9 +95,7 @@ export default function Index() {
               <SlopeCard imageUrl={favouriteSlope.imageUrl} name={favouriteSlope.name} description={favouriteSlope.description} />
             </Pressable>
         </View>
-
-
-        {/* Space for bottom nav */}
     </ScrollView>
+  </SafeAreaView>
   );
 }
