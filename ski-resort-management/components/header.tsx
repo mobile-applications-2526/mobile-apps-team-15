@@ -1,5 +1,8 @@
 import { Text, View, Pressable, ScrollView } from "react-native";
 import { router } from "expo-router";
+import { Icon, VectorIcon } from "expo-router/unstable-native-tabs";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import React from "react";
 
 
 
@@ -10,7 +13,7 @@ export default function Header() {
                 justifyContent: 'flex-end',
                 alignItems: 'center',
                 paddingHorizontal: 20,
-                paddingTop: 60,
+                paddingTop: 20,
                 paddingBottom: 20,
                 backgroundColor: '#fff',
               }}>
@@ -25,7 +28,7 @@ export default function Header() {
                   }}
                   onPress={() => router.push('account')}
                 >
-                  <Text style={{ fontSize: 20 }}>👤</Text>
+                    <FontAwesome6 name={"user-large"} size={24} color={"black"} />
                 </Pressable>
               </View>
         )
