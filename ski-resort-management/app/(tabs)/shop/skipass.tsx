@@ -1,6 +1,7 @@
 import { View, Text, ScrollView } from "react-native"
-import Header from "../components/header"
-import SkiPassCard from "../components/SkiPassCard"
+import Header from "@components/header"
+import SkiPassCard from "@components/SkiPassCard"
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SkiPass() {
 
@@ -12,7 +13,7 @@ export default function SkiPass() {
     ]
 
     return (
-        <>
+        <SafeAreaView style={{ flex: 1 }}>
             <Header />
             <ScrollView>
                 <View style={{
@@ -39,14 +40,14 @@ export default function SkiPass() {
 
 
                 {skipasscards.map((card) => (
-                    <SkiPassCard 
-                        key={card.title} 
-                        title={card.title} 
-                        price={card.price} 
+                    <SkiPassCard
+                        key={card.title}
+                        title={card.title}
+                        price={card.price}
                         includedList={card.includedList}
                     />
                 ))}
             </ScrollView>
-        </>   
+        </SafeAreaView>
     )
 }
