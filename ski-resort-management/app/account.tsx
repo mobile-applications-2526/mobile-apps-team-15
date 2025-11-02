@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import Header from "../components/header";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Account() {
 
@@ -18,50 +18,45 @@ export default function Account() {
     }
 
     return (
-      <>
+        <SafeAreaView style={{ flex: 1 }}>
+              <View style={{
+              backgroundColor: '#fff',
+              margin: 20,
+              padding: 20,
+              borderRadius: 12,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+              elevation: 3,
+            }}>
+              <Text style={{
+                        fontSize: 32,
+                        fontWeight: 'bold',
+                        color: '#000',
+                      }}>Account</Text>
+              <Text style={{
+                fontSize: 18,
+                color: '#333',
+              }}>View your account info</Text>
+              <View style={{ padding: 20 }}>
+                  <Text style={{ marginTop: 20, textDecorationLine: 'underline',  fontSize: 18 }}>Account info</Text>
+                  <Text>👤{User.name}</Text>
+                  <Text>🏠 Road 123, 12345 City</Text>
+                  <Text>📧 {User.email}</Text>
 
-        <Header />
+                  <Text style={{ marginTop: 20, textDecorationLine: 'underline',  fontSize: 18 }}>Purchases</Text>
+                  {User.purchases.map((purchase) => (
+                      <Text key={purchase.item}>⭐ {purchase.item} {purchase.status !== "Active" && `- ${purchase.status}`}</Text>
+                  ))}
 
-          <View style={{
-          backgroundColor: '#fff',
-          margin: 20,
-          padding: 20,
-          borderRadius: 12,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 3,
-        }}>
-          <Text style={{
-                    fontSize: 32,
-                    fontWeight: 'bold',
-                    color: '#000',
-                  }}>Account</Text>
-          <Text style={{
-            fontSize: 18,
-            color: '#333',
-          }}>View your account info</Text>
-          <View style={{ padding: 20 }}>            
-              <Text style={{ marginTop: 20, textDecorationLine: 'underline',  fontSize: 18 }}>Account info</Text>
-              <Text>👤{User.name}</Text>
-              <Text>🏠 Road 123, 12345 City</Text>
-              <Text>📧 {User.email}</Text>
+                  <Text style={{ marginTop: 20, textDecorationLine: 'underline',  fontSize: 18 }}>Loans</Text>
 
-              <Text style={{ marginTop: 20, textDecorationLine: 'underline',  fontSize: 18 }}>Purchases</Text>
-              {User.purchases.map((purchase) => (
-                  <Text key={purchase.item}>⭐ {purchase.item} {purchase.status !== "Active" && `- ${purchase.status}`}</Text>
-              ))}
-
-              <Text style={{ marginTop: 20, textDecorationLine: 'underline',  fontSize: 18 }}>Loans</Text>
-              
-              {User.loans.map((loan) => (
-                  <Text key={loan.item}>⭐ {loan.item} - {loan.status}</Text>
-              ))}
-          </View>
-        </View>
-
-        {/* Space for bottom nav */}
-      </>
-       )
-   }
+                  {User.loans.map((loan) => (
+                      <Text key={loan.item}>⭐ {loan.item} - {loan.status}</Text>
+                  ))}
+              </View>
+            </View>
+        </SafeAreaView>
+    );
+}
