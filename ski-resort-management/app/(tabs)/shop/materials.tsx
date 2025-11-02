@@ -1,22 +1,22 @@
 import { View, Text, ScrollView } from "react-native"
-import SkiPassCard from "@components/SkiPassCard"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
+import MaterialCard from "@components/MaterialCard";
 
 export default function SkiPass() {
 
-    const skipasscards = [
-        {title: "Gold", price: 50, includedList: ["Allowed in domain 1 to 3", "Free drinks at the ski resort bars"]},
-        {title: "Basic", price: 25, includedList: ["Access to beginner slopes", "Equipment rental discount", "Basic parking"]},
-        {title: "Premium", price: 75, includedList: ["Access to all slopes", "Free equipment rental", "VIP lounge access", "Free ski lessons"]},
-        {title: "Family", price: 120, includedList: ["Access for up to 4 people", "Kids ski school included", "Family restaurant discounts"]}
+    const materials = [
+        {title: "Boots", pricePerHour: 5, pricePerDay: 25, size: "38"},
+        {title: "Jacket", pricePerHour: 6, pricePerDay: 30, size: "M"},
+        {title: "Pants", pricePerHour: 5, pricePerDay: 25, size: "M"},
+        {title: "Skis", pricePerHour: 8, pricePerDay: 40, size: "38"},
     ]
 
     return (
         <>
             <Stack.Screen
                 options={{
-                    title: 'Ski Passes',
+                    title: 'Materials',
                     headerShown: true,
                 }}
             />
@@ -45,12 +45,13 @@ export default function SkiPass() {
                     </View>
 
 
-                    {skipasscards.map((card) => (
-                        <SkiPassCard
+                    {materials.map((card) => (
+                        <MaterialCard
                             key={card.title}
                             title={card.title}
-                            price={card.price}
-                            includedList={card.includedList}
+                            pricePerHour={card.pricePerHour}
+                            pricePerDay={card.pricePerDay}
+                            size={card.size}
                         />
                     ))}
                 </ScrollView>

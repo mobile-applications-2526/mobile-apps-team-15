@@ -1,7 +1,7 @@
 import { Text, Pressable } from "react-native";
 import Card from "@components/Card";
 
-export default function SkiPassCard({title, price, includedList}: {readonly title: string, readonly price: number, readonly includedList: readonly string[]}) {
+export default function MaterialCard({title, pricePerHour, pricePerDay, size}: {readonly title: string, readonly pricePerHour: number, readonly pricePerDay: number, readonly size: string}) {
     return (
         <Card>
             {/* Title */}
@@ -18,16 +18,14 @@ export default function SkiPassCard({title, price, includedList}: {readonly titl
                 fontWeight: 'bold',
                 color: '#333',
                 marginBottom: 15,
-            }}>${price}/mo</Text>
+            }}>${pricePerHour}/hr or ${pricePerDay}/day</Text>
 
-            {/* Included List */}
-            {includedList.map((item) => (
-                <Text key={item} style={{
-                    fontSize: 14,
-                    color: '#666',
-                    marginBottom: 5,
-                }}>• {item}</Text>
-            ))}
+            {/* Size */}
+            <Text style={{
+                fontSize: 14,
+                color: '#666',
+                marginBottom: 5,
+            }}>Size: {size}</Text>
 
             {/* Button */}
             <Pressable style={{
