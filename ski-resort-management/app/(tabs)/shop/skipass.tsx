@@ -1,7 +1,7 @@
 import { View, Text, ScrollView } from "react-native"
-import Header from "@components/header"
 import SkiPassCard from "@components/SkiPassCard"
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Stack } from "expo-router";
 
 export default function SkiPass() {
 
@@ -13,41 +13,48 @@ export default function SkiPass() {
     ]
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <Header />
-            <ScrollView>
-                <View style={{
-                        backgroundColor: '#fff',
-                        margin: 20,
-                        padding: 20,
-                        borderRadius: 12,
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.1,
-                        shadowRadius: 4,
-                        elevation: 3,
-                    }}>
-                        <Text style={{
-                                fontSize: 32,
-                                fontWeight: 'bold',
-                                color: '#000',
-                                }}>Ski Passes</Text>
-                        <Text style={{
-                        fontSize: 18,
-                        color: '#333',
-                        }}>Get your skipass</Text>
-                </View>
+        <>
+            <Stack.Screen
+                options={{
+                    title: 'Ski Passes',
+                    headerShown: true,
+                }}
+            />
+            <SafeAreaView style={{ flex: 1 }}>
+                <ScrollView>
+                    <View style={{
+                            backgroundColor: '#fff',
+                            margin: 20,
+                            padding: 20,
+                            borderRadius: 12,
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.1,
+                            shadowRadius: 4,
+                            elevation: 3,
+                        }}>
+                            <Text style={{
+                                    fontSize: 32,
+                                    fontWeight: 'bold',
+                                    color: '#000',
+                                    }}>Ski Passes</Text>
+                            <Text style={{
+                            fontSize: 18,
+                            color: '#333',
+                            }}>Get your skipass</Text>
+                    </View>
 
 
-                {skipasscards.map((card) => (
-                    <SkiPassCard
-                        key={card.title}
-                        title={card.title}
-                        price={card.price}
-                        includedList={card.includedList}
-                    />
-                ))}
-            </ScrollView>
-        </SafeAreaView>
+                    {skipasscards.map((card) => (
+                        <SkiPassCard
+                            key={card.title}
+                            title={card.title}
+                            price={card.price}
+                            includedList={card.includedList}
+                        />
+                    ))}
+                </ScrollView>
+            </SafeAreaView>
+        </>
     )
 }
