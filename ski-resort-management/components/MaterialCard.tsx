@@ -1,7 +1,13 @@
-import { Text, Pressable } from "react-native";
+import { Pressable, Text } from "react-native";
 import Card from "@components/Card";
 
-export default function MaterialCard({title, pricePerHour, pricePerDay, size}: {readonly title: string, readonly pricePerHour: number, readonly pricePerDay: number, readonly size: string}) {
+
+export default function MaterialCard({ title, pricePerHour, pricePerDay, size }: {
+    readonly title: string,
+    readonly pricePerHour: number,
+    readonly pricePerDay: number,
+    readonly size: string
+}) {
     return (
         <Card>
             {/* Title */}

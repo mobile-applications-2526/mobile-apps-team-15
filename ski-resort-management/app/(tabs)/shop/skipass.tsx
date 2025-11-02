@@ -1,7 +1,9 @@
-import { View, Text, ScrollView } from "react-native"
+import { ScrollView, Text } from "react-native"
 import SkiPassCard from "@components/SkiPassCard"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
+import Card from "@components/Card";
+
 
 export default function SkiPass() {
 
@@ -22,27 +24,21 @@ export default function SkiPass() {
             />
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView>
-                    <View style={{
-                            backgroundColor: '#fff',
-                            margin: 20,
-                            padding: 20,
-                            borderRadius: 12,
-                            shadowColor: '#000',
-                            shadowOffset: { width: 0, height: 2 },
-                            shadowOpacity: 0.1,
-                            shadowRadius: 4,
-                            elevation: 3,
+                    <Card>
+                        <Text style={{
+                            fontSize: 32,
+                            fontWeight: 'bold',
+                            color: '#000',
                         }}>
-                            <Text style={{
-                                    fontSize: 32,
-                                    fontWeight: 'bold',
-                                    color: '#000',
-                                    }}>Ski Passes</Text>
-                            <Text style={{
+                            Ski Passes
+                        </Text>
+                        <Text style={{
                             fontSize: 18,
                             color: '#333',
-                            }}>Get your skipass</Text>
-                    </View>
+                        }}>
+                            Get your ski pass
+                        </Text>
+                    </Card>
 
 
                     {skipasscards.map((card) => (
