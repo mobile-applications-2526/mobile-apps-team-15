@@ -1,6 +1,7 @@
 import { Text, View, ScrollView } from "react-native";
 import Header from "@components/header";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ListNavigationCard } from "@components/ListNavigationCard";
 
 export default function Index() {
     return (
@@ -24,6 +25,11 @@ export default function Index() {
                         color: '#000',
                     }}>Shop</Text>
                 </View>
+                <ListNavigationCard
+                    items={[
+                        { title: "Ski Passes", route: "shop/skipass" },
+                        { title: "Materials", route: "shop/materials" },
+                    ]} />
             </ScrollView>
         </SafeAreaView>
     );
