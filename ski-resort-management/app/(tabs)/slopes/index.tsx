@@ -55,8 +55,8 @@ export default function Index() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#f5f5f5" }}>
-            <ScrollView style={{ flex: 1 }}>
-                <Header />
+            <ScrollView style={{ flex: 1, paddingBottom: 100 }}>
+                <Header/>
 
                 <Card>
                     <H1>Discover the slopes!</H1>
@@ -81,16 +81,16 @@ export default function Index() {
                     </View>
                 </Card>
 
-                { data.map((slope) => (
-                <View key={slope.id} style={{ paddingBottom: 100 }}>
+                {data.map((slope) => (
+                    <Card key={slope.id}>
                         <SlopeOverview
                             slope={slope}
                             expandable
                             expanded={expandedId === slope.id}
                             onToggle={() => toggle(slope.id)}
                         />
-                </View>
-                )) }
+                    </Card>
+                ))}
             </ScrollView>
         </SafeAreaView>
     );
