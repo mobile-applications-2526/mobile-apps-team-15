@@ -1,13 +1,13 @@
 import { Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
-import useTheme from "@components/ThemeContext";
+import H1 from "@components/text/H1";
+import SubHeading from "@components/text/SubHeading";
+import Paragraph from "@components/text/Paragraph";
 
 
 export default function Account() {
-
-    const theme = useTheme();
 
     const User = {
         name: "Mark Johnson",
@@ -34,25 +34,25 @@ export default function Account() {
             />
             <SafeAreaView style={{ flex: 1 }}>
                 <Card>
-                    <Text style={theme.text.H1}>Account</Text>
-                    <Text style={theme.text.subheading}>View your account info</Text>
+                    <H1>Account</H1>
+                    <SubHeading>View your account info</SubHeading>
                     <View style={{ padding: 20 }}>
-                        <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Account
-                            info</Text>
-                        <Text>👤{User.name}</Text>
-                        <Text>🏠 Road 123, 12345 City</Text>
-                        <Text>📧 {User.email}</Text>
+                        <Paragraph style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Account
+                            info</Paragraph>
+                        <Paragraph>👤{User.name}</Paragraph>
+                        <Paragraph>🏠 Road 123, 12345 City</Paragraph>
+                        <Paragraph>📧 {User.email}</Paragraph>
 
-                        <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Purchases</Text>
+                        <Paragraph style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Purchases</Paragraph>
                         {User.purchases.map((purchase) => (
-                            <Text
-                                key={purchase.item}>⭐ {purchase.item} {purchase.status !== "Active" && `- ${purchase.status}`}</Text>
+                            <Paragraph
+                                key={purchase.item}>⭐ {purchase.item} {purchase.status !== "Active" && `- ${purchase.status}`}</Paragraph>
                         ))}
 
-                        <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Loans</Text>
+                        <Paragraph style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Loans</Paragraph>
 
                         {User.loans.map((loan) => (
-                            <Text key={loan.item}>⭐ {loan.item} - {loan.status}</Text>
+                            <Paragraph key={loan.item}>⭐ {loan.item} - {loan.status}</Paragraph>
                         ))}
                     </View>
                 </Card>
