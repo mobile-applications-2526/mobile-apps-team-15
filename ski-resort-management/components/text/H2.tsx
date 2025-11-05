@@ -1,14 +1,9 @@
-import { StyleProp, Text, TextStyle } from "react-native";
-import { ReactNode } from "react";
+import { Text } from "react-native";
 import useTheme from "@components/ThemeContext";
+import { HeadingProps } from "@constants/types";
 
 
-interface H2Props {
-    readonly children?: ReactNode;
-    readonly style?: StyleProp<TextStyle>;
-}
-
-export default function H2({ children, style }: H2Props) {
+export default function H2({ children, style }: Readonly<HeadingProps>) {
     const theme = useTheme();
 
     return (
