@@ -1,7 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { router } from 'expo-router';
 import Card from "@components/Card";
+import Paragraph from "@components/text/Paragraph";
+import useTheme from "@components/ThemeContext";
+import Divider from "@components/text/Divider";
 
 
 interface NavigationItem {
@@ -13,56 +16,29 @@ interface ListNavigationCardProps {
     items: NavigationItem[];
 }
 
-export const ListNavigationCard: React.FC<ListNavigationCardProps> = ({
-                                                                          items,
-                                                                      }) => {
+export const ListNavigationCard: React.FC<ListNavigationCardProps> = ({ items }) => {
+    const theme = useTheme();
+
     const handleNavigate = (route: string) => {
         router.push(route);
     };
 
     return (
-        <Card marginY={0}>
+        <Card style={{ marginVertical: 0, paddingVertical: theme.spacing.sm }}>
             {items.map((item, index) => (
-                <TouchableOpacity
-                    key={item.route}
-                    style={[
-                        styles.listItem,
-                        index === items.length - 1 && styles.lastItem
-                    ]}
+                <React.Fragment key={item.route}>
+                    <TouchableOpacity
+                    style={theme.list.listItem}
                     onPress={() => handleNavigate(item.route)}
                 >
-                    <View style={styles.itemContent}>
-                        <Text style={styles.itemTitle}>{item.title}</Text>
+                    <View style={{ flex: 1 }}>
+                        <Paragraph>{item.title}</Paragraph>
                     </View>
-                    <Text style={styles.arrow}>›</Text>
+                    <Paragraph style={{ fontSize: 26 }}>›</Paragraph>
                 </TouchableOpacity>
+                { index !== items.length - 1 && <Divider /> }
+                </React.Fragment>
             ))}
         </Card>
     );
 };
-
-const styles = StyleSheet.create({
-    listItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 5,
-        paddingHorizontal: 0,
-        borderBottomWidth: 1,
-        borderBottomColor: '#f0f0f0',
-    },
-    lastItem: {
-        borderBottomWidth: 0,
-    },
-    itemContent: {
-        flex: 1,
-    },
-    itemTitle: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#333',
-    },
-    arrow: {
-        fontSize: 26,
-        color: '#ccc',
-    },
-});
