@@ -1,12 +1,19 @@
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { router } from "expo-router";
 import Header from "@components/Header";
 import SlopeOverview from "@components/slopes/SlopeOverview";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
+import H1 from "@components/text/H1";
+import SubHeading from "@components/text/SubHeading";
+import useTheme from "@components/ThemeContext";
+import H2 from "@components/text/H2";
+import { Slope } from "@constants/types";
 
 
 export default function Index() {
+
+    const theme = useTheme();
 
     const favouriteSlope: Slope = {
         id: "1",
@@ -27,46 +34,24 @@ export default function Index() {
 
                 {/* Welcome Card */}
                 <Card>
-                    <Text style={{
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        color: '#000',
-                    }}>
-                        Ski-Free
-                    </Text>
-                    <Text style={{
-                        fontSize: 18,
-                        color: '#333',
-                    }}>
-                        Welcome back, Mark!
-                    </Text>
+                    <H1>Ski-Free</H1>
+                    <SubHeading>Welcome back, Mark!</SubHeading>
                 </Card>
 
                 {/* Ski Pass Card */}
                 <Card>
                     <View style={{
-                        backgroundColor: '#d0d0d0',
+                        backgroundColor: theme.colors.surface,
                         padding: 40,
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
-                        <Text style={{
-                            fontSize: 24,
-                            fontWeight: 'bold',
-                            color: '#333',
-                        }}>Ski pass</Text>
+                        <H1>Ski pass</H1>
                     </View>
                 </Card>
 
                 <Card>
-                    <Text style={{
-                        fontSize: 18,
-                        fontWeight: '600',
-                        color: '#333',
-                        marginBottom: 15,
-                    }}>
-                        Your favorite slope
-                    </Text>
+                    <H2>Your favorite slope</H2>
 
                     <Pressable onPress={() => {
                         router.push("slopes")
