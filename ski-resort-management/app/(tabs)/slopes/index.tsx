@@ -3,18 +3,12 @@ import { LayoutAnimation, Platform, ScrollView, TextInput, UIManager, View, } fr
 import Header from "@components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SlopeCard, { WeatherInfo } from "@components/slopeCard";
+import { Slope } from "@constants/types";
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-type Slope = {
-    id: string;
-    name: string;
-    description?: string;
-    imageUrl: any;
-    weather?: WeatherInfo;
-};
 
 const MOCK_SLOPES: Slope[] = [
     {
