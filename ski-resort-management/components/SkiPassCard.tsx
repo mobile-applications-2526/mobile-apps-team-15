@@ -1,5 +1,6 @@
 import { Pressable, Text } from "react-native";
 import Card from "@components/Card";
+import {router} from "expo-router";
 
 
 export default function SkiPassCard({ title, price, includedList }: {
@@ -15,6 +16,7 @@ export default function SkiPassCard({ title, price, includedList }: {
                 fontWeight: 'bold',
                 color: '#333',
                 marginBottom: 10,
+                alignSelf: "center",
             }}>{title}</Text>
 
             {/* Price */}
@@ -22,7 +24,8 @@ export default function SkiPassCard({ title, price, includedList }: {
                 fontSize: 24,
                 fontWeight: 'bold',
                 color: '#333',
-                marginBottom: 15,
+                marginBottom: 20,
+                alignSelf: "center",
             }}>${price}/mo</Text>
 
             {/* Included List */}
@@ -35,7 +38,13 @@ export default function SkiPassCard({ title, price, includedList }: {
             ))}
 
             {/* Button */}
-            <Pressable style={{
+            <Pressable onPress={() => {
+                router.push({
+                    pathname: "shop/skipasscheckout",
+                    params: {
+                        selectedSkiPassTitle: title
+                    }})
+            }} style={{
                 backgroundColor: '#333',
                 padding: 15,
                 borderRadius: 8,
