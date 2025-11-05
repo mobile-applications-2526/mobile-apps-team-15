@@ -1,3 +1,5 @@
+import { TextStyle } from "react-native";
+
 const lightColors = {
     primary: '#007AFF',
     secondary: '#5856D6',
@@ -24,12 +26,12 @@ const darkColors = {
     success: '#32D74B',
 }
 
-const H1 = {
+const H1: TextStyle = {
     fontSize: 32,
     fontWeight: 'bold',
 }
 
-const H2 = {
+const H2: TextStyle = {
 
 }
 
