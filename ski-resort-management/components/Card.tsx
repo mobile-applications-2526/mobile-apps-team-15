@@ -10,11 +10,11 @@ interface CardProps {
     readonly shadow?: boolean;
 }
 
-export default function Card({ children, style, shadow = true, border }: CardProps) {
+export default function Card({ children, style, shadow = true, border = false }: CardProps) {
     const theme = useTheme();
 
     return (
-        <View style={[theme.card, style]}>
+        <View style={[theme.card, (shadow && theme.shadow), (border && theme.border), style]}>
             {children}
         </View>
     );
