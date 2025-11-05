@@ -1,5 +1,6 @@
 import { Pressable, Text, Image } from "react-native";
 import Card from "@components/Card";
+import {router} from "expo-router";
 
 
 export default function MaterialCard({ name, pricePerHour, pricePerDay, size }: {
@@ -41,7 +42,18 @@ export default function MaterialCard({ name, pricePerHour, pricePerDay, size }: 
             }}>Size: {size}</Text>
 
             {/* Button */}
-            <Pressable style={{
+            <Pressable
+                onPress={() =>
+                    router.push({
+                        pathname: "/(tabs)/shop/add-to-cart",
+                        params: {
+                            name,
+                            pricePerHour: String(pricePerHour),
+                            pricePerDay: String(pricePerDay),
+                        },
+                    })
+                }
+                style={{
                 backgroundColor: '#333',
                 padding: 15,
                 borderRadius: 8,
@@ -52,7 +64,7 @@ export default function MaterialCard({ name, pricePerHour, pricePerDay, size }: 
                     color: '#fff',
                     fontSize: 16,
                     fontWeight: '600',
-                }}>Button</Text>
+                }}>Add to cart</Text>
             </Pressable>
         </Card>
     )
