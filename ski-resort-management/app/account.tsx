@@ -2,9 +2,12 @@ import { Stack } from "expo-router";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
+import useTheme from "@components/ThemeContext";
 
 
 export default function Account() {
+
+    const theme = useTheme();
 
     const User = {
         name: "Mark Johnson",
@@ -31,15 +34,8 @@ export default function Account() {
             />
             <SafeAreaView style={{ flex: 1 }}>
                 <Card>
-                    <Text style={{
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        color: '#000',
-                    }}>Account</Text>
-                    <Text style={{
-                        fontSize: 18,
-                        color: '#333',
-                    }}>View your account info</Text>
+                    <Text style={theme.text.H1}>Account</Text>
+                    <Text style={theme.text.subheading}>View your account info</Text>
                     <View style={{ padding: 20 }}>
                         <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Account
                             info</Text>

@@ -35,6 +35,11 @@ const H2: TextStyle = {
 
 }
 
+const subheading: TextStyle = {
+    fontSize: 18,
+    color: '#333',
+}
+
 const spacing = {
     xs: 4,
     sm: 8,
@@ -69,6 +74,10 @@ export const lightTheme = {
         H1: {
             color: lightColors.text,
             ...H1,
+        },
+        subheading: {
+            color: lightColors.textSecondary,
+            ...subheading,
         }
     },
 };
@@ -97,6 +106,10 @@ export const darkTheme = {
         H1: {
             color: darkColors.text,
             ...H1,
+        },
+        subheading: {
+            color: darkColors.textSecondary,
+            ...subheading,
         }
     }
 };
