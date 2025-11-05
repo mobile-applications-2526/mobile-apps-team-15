@@ -180,12 +180,12 @@ export const darkTheme = {
         ...card,
     },
     shadow: {
-        shadowColor: lightColors.shadow,
-        shadowOpacity: 0.1,
+        shadowColor: darkColors.shadow,
+        shadowOpacity: 0.3,
         ...shadow,
     },
     border: {
-        borderColor: lightColors.border,
+        borderColor: darkColors.border,
         ...border,
     },
     list: {
