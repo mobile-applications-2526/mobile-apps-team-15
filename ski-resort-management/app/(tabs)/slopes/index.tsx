@@ -7,6 +7,7 @@ import Card from "@components/Card";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import { Slope } from "@constants/types";
+import useTheme from "@components/ThemeContext";
 
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -39,6 +40,8 @@ const MOCK_SLOPES: Slope[] = [
 ];
 
 export default function Index() {
+
+    const theme = useTheme();
     const [query, setQuery] = useState("");
     const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -54,7 +57,7 @@ export default function Index() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#f5f5f5" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <ScrollView style={{ flex: 1, paddingBottom: 100 }}>
                 <Header/>
 
