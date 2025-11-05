@@ -114,6 +114,10 @@ export const lightTheme = {
             color: lightColors.text,
             ...H1,
         },
+        H2: {
+            color: lightColors.text,
+            ...H2,
+        },
         subheading: {
             color: lightColors.textSecondary,
             ...subheading,
@@ -146,6 +150,10 @@ export const darkTheme = {
         H1: {
             color: darkColors.text,
             ...H1,
+        },
+        H2: {
+            color: darkColors.text,
+            ...H2,
         },
         subheading: {
             color: darkColors.textSecondary,
