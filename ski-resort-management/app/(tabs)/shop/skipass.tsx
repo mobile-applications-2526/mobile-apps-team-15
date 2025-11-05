@@ -1,11 +1,15 @@
 import { ScrollView, Text } from "react-native"
 import SkiPassCard from "@components/shop/SkiPassCard"
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import Card from "@components/Card";
+import useTheme from "@components/ThemeContext";
 
 
 export default function SkiPass() {
+
+    const theme = useTheme();
+    const insets = useSafeAreaInsets();
 
     const skipasscards = [
         {title: "Gold", price: 50, includedList: ["Allowed in domain 1 to 3", "Free drinks at the ski resort bars"]},
@@ -20,37 +24,44 @@ export default function SkiPass() {
                 options={{
                     title: 'Ski Passes',
                     headerShown: true,
+                    headerBackButtonDisplayMode: 'minimal',
+                    headerStyle: {
+                        backgroundColor: theme.colors.surface,
+                    },
+                    headerTitleStyle: {
+                        color: theme.colors.text
+                    },
+                    headerTintColor: theme.colors.text,
                 }}
             />
-            <SafeAreaView style={{ flex: 1 }}>
-                <ScrollView>
-                    <Card>
-                        <Text style={{
-                            fontSize: 32,
-                            fontWeight: 'bold',
-                            color: '#000',
-                        }}>
-                            Ski Passes
-                        </Text>
-                        <Text style={{
-                            fontSize: 18,
-                            color: '#333',
-                        }}>
-                            Get your ski pass
-                        </Text>
-                    </Card>
+            <ScrollView
+                contentContainerStyle={{ backgroundColor: theme.colors.background, paddingBottom: insets.bottom + 70 }}>
+                <Card>
+                    <Text style={{
+                        fontSize: 32,
+                        fontWeight: 'bold',
+                        color: '#000',
+                    }}>
+                        Ski Passes
+                    </Text>
+                    <Text style={{
+                        fontSize: 18,
+                        color: '#333',
+                    }}>
+                        Get your ski pass
+                    </Text>
+                </Card>
 
 
-                    {skipasscards.map((card) => (
-                        <SkiPassCard
-                            key={card.title}
-                            title={card.title}
-                            price={card.price}
-                            includedList={card.includedList}
-                        />
-                    ))}
-                </ScrollView>
-            </SafeAreaView>
+                {skipasscards.map((card) => (
+                    <SkiPassCard
+                        key={card.title}
+                        title={card.title}
+                        price={card.price}
+                        includedList={card.includedList}
+                    />
+                ))}
+            </ScrollView>
         </>
     )
 }
