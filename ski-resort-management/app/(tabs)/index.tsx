@@ -1,7 +1,7 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
-import Header from "@components/header";
 import SlopeCard from "@components/slopeCard";
+import Header from "@components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 

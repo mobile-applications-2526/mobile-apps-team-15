@@ -8,7 +8,7 @@ import {
     Platform,
     UIManager,
 } from "react-native";
-import Header from "@components/header";
+import Header from "@components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SlopeCard, { WeatherInfo } from "@components/slopeCard";
 
