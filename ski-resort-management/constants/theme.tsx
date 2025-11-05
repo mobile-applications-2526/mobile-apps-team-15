@@ -61,6 +61,11 @@ const H2: TextStyle = {
     fontWeight: 'bold',
 }
 
+const H3: TextStyle = {
+    fontSize: fontsize.h3,
+    fontWeight: 'bold',
+}
+
 const subheading: TextStyle = {
     fontSize: fontsize.h4,
 }
@@ -118,6 +123,10 @@ export const lightTheme = {
             color: lightColors.text,
             ...H2,
         },
+        H3: {
+            color: lightColors.text,
+            ...H3,
+        },
         subheading: {
             color: lightColors.textSecondary,
             ...subheading,
@@ -154,6 +163,10 @@ export const darkTheme = {
         H2: {
             color: darkColors.text,
             ...H2,
+        },
+        H3: {
+            color: darkColors.text,
+            ...H3,
         },
         subheading: {
             color: darkColors.textSecondary,
