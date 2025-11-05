@@ -1,5 +1,5 @@
 import { ScrollView } from "react-native"
-import SkiPassCard from "@components/shop/SkiPassCard"
+import SkiPassOverview from "@components/shop/SkiPassOverview"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import Card from "@components/Card";
@@ -57,12 +57,13 @@ export default function SkiPass() {
 
 
                 {skipasscards.map((card) => (
-                    <SkiPassCard
-                        key={card.title}
+                    <Card key={card.title}>
+                        <SkiPassOverview
                         title={card.title}
                         price={card.price}
                         includedList={card.includedList}
                     />
+                    </Card>
                 ))}
             </ScrollView>
         </>

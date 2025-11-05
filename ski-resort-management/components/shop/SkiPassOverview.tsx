@@ -1,37 +1,31 @@
 import { Pressable, Text } from "react-native";
-import Card from "@components/Card";
+import H3 from "@components/text/H3";
+import H4 from "@components/text/H4";
+import Description from "@components/text/Description";
+import useTheme from "@components/ThemeContext";
 
 
-export default function SkiPassCard({ title, price, includedList }: {
+export default function SkiPassOverview({ title, price, includedList }: {
     readonly title: string,
     readonly price: number,
     readonly includedList: readonly string[]
 }) {
+
+    const theme = useTheme();
+
     return (
-        <Card>
+        <>
             {/* Title */}
-            <Text style={{
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: '#333',
+            <H4 style={{
                 marginBottom: 10,
-            }}>{title}</Text>
+            }}>{title}</H4>
 
             {/* Price */}
-            <Text style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                color: '#333',
-                marginBottom: 15,
-            }}>${price}/mo</Text>
+            <H3 style={{ marginBottom: 15, color: theme.colors.textSecondary }}>${price}/mo</H3>
 
             {/* Included List */}
             {includedList.map((item) => (
-                <Text key={item} style={{
-                    fontSize: 14,
-                    color: '#666',
-                    marginBottom: 5,
-                }}>• {item}</Text>
+                <Description key={item} style={{ marginBottom: 5 }}>• {item}</Description>
             ))}
 
             {/* Button */}
@@ -48,6 +42,6 @@ export default function SkiPassCard({ title, price, includedList }: {
                     fontWeight: '600',
                 }}>Button</Text>
             </Pressable>
-        </Card>
+        </>
     )
 }
