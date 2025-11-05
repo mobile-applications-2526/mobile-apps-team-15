@@ -1,10 +1,12 @@
-import { ScrollView, Text, TextInput, View } from "react-native"
+import { ScrollView, TextInput, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import MaterialCard from "@components/shop/MaterialCard";
 import Card from "@components/Card";
 import React, { useMemo, useState } from "react";
 import useTheme from "@components/ThemeContext";
+import H1 from "@components/text/H1";
+import SubHeading from "@components/text/SubHeading";
 
 
 type Material = {
@@ -54,15 +56,8 @@ export default function SkiPass() {
             <ScrollView
                 contentContainerStyle={{ backgroundColor: theme.colors.background, paddingBottom: insets.bottom + 70 }}>
                 <Card>
-                    <Text style={{
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        color: '#000',
-                    }}>Materials</Text>
-                    <Text style={{
-                        fontSize: 18,
-                        color: '#333',
-                    }}>Rent out materials</Text>
+                    <H1>Materials</H1>
+                    <SubHeading>Rent out materials</SubHeading>
                     <View
                         style={{
                             marginTop: 12,
