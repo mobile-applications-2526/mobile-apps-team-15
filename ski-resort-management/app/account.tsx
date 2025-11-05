@@ -5,9 +5,12 @@ import Card from "@components/Card";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import Paragraph from "@components/text/Paragraph";
+import useTheme from "@components/ThemeContext";
 
 
 export default function Account() {
+
+    const theme = useTheme();
 
     const User = {
         name: "Mark Johnson",
@@ -30,9 +33,16 @@ export default function Account() {
                     title: 'Account',
                     headerShown: true,
                     headerBackButtonDisplayMode: 'minimal',
+                    headerStyle: {
+                        backgroundColor: theme.colors.surface,
+                    },
+                    headerTitleStyle: {
+                        color: theme.colors.text
+                    },
+                    headerTintColor: theme.colors.text,
                 }}
             />
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 <Card>
                     <H1>Account</H1>
                     <SubHeading>View your account info</SubHeading>
