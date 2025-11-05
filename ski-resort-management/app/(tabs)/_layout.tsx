@@ -1,11 +1,19 @@
 import React from "react";
 import { Icon, Label, NativeTabs, VectorIcon } from "expo-router/unstable-native-tabs";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { Platform } from "react-native";
+import useTheme from "@components/ThemeContext";
 
 
 export default function TabsLayout() {
+
+    const theme = useTheme();
+
     return (
-        <NativeTabs>
+        <NativeTabs
+            backgroundColor={Platform.OS === "android" ? theme.colors.tabBackground : undefined}
+            indicatorColor={Platform.OS === "android" ? theme.colors.tabIndicator: undefined}
+        >
             <NativeTabs.Trigger name={"index"}>
                 <Label>Home</Label>
                 <Icon src={<VectorIcon family={FontAwesome6} name={"house"}/>}/>
