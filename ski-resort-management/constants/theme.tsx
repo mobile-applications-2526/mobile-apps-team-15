@@ -1,12 +1,13 @@
 import { TextStyle, ViewStyle } from "react-native";
 
+
 const lightColors = {
     primary: '#007AFF',
     secondary: '#5856D6',
     background: '#F2F2F7',
     surface: '#FFFFFF',
     text: '#000000',
-    textSecondary: '#8E8E93',
+    textSecondary: '#535355',
     border: '#C6C6C8',
     shadow: '#000000',
     error: '#FF3B30',
@@ -66,6 +67,11 @@ const H3: TextStyle = {
     fontWeight: 'bold',
 }
 
+const H4: TextStyle = {
+    fontSize: fontsize.h4,
+    fontWeight: 'bold',
+}
+
 const subheading: TextStyle = {
     fontSize: fontsize.h4,
 }
@@ -75,11 +81,19 @@ const paragraph: TextStyle = {
 }
 
 const card: ViewStyle = {
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: radius.sm,
     elevation: 3,
     margin: spacing.lg,
     padding: spacing.lg,
+    borderRadius: radius.lg,
+}
+
+const shadow: ViewStyle = {
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: radius.sm,
+}
+
+const border: ViewStyle = {
+    borderWidth: 1,
     borderRadius: radius.lg,
 }
 
@@ -103,9 +117,16 @@ export const lightTheme = {
     radius,
     card: {
         backgroundColor: lightColors.surface,
+        ...card,
+    },
+    shadow: {
         shadowColor: lightColors.shadow,
         shadowOpacity: 0.1,
-        ...card,
+        ...shadow,
+    },
+    border: {
+        borderColor: lightColors.border,
+        ...border,
     },
     list: {
         listItem,
@@ -127,12 +148,20 @@ export const lightTheme = {
             color: lightColors.text,
             ...H3,
         },
+        H4: {
+            color: lightColors.text,
+            ...H4,
+        },
         subheading: {
             color: lightColors.textSecondary,
             ...subheading,
         },
         paragraph: {
             color: lightColors.text,
+            ...paragraph,
+        },
+        description: {
+            color: lightColors.textSecondary,
             ...paragraph,
         },
     },
@@ -144,9 +173,16 @@ export const darkTheme = {
     radius,
     card: {
         backgroundColor: darkColors.surface,
-        shadowColor: darkColors.shadow,
-        shadowOpacity: 0.3,
         ...card,
+    },
+    shadow: {
+        shadowColor: lightColors.shadow,
+        shadowOpacity: 0.1,
+        ...shadow,
+    },
+    border: {
+        borderColor: lightColors.border,
+        ...border,
     },
     list: {
         listItem,
@@ -168,12 +204,20 @@ export const darkTheme = {
             color: darkColors.text,
             ...H3,
         },
+        H4: {
+            color: darkColors.text,
+            ...H4,
+        },
         subheading: {
             color: darkColors.textSecondary,
             ...subheading,
         },
         paragraph: {
             color: darkColors.text,
+            ...paragraph,
+        },
+        description: {
+            color: darkColors.textSecondary,
             ...paragraph,
         },
     }
