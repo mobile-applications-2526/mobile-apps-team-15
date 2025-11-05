@@ -1,9 +1,11 @@
-import { View } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 import { ReactNode } from "react";
+import useTheme from "@components/ThemeContext";
 
 
 interface CardProps {
     readonly children?: ReactNode;
+    readonly style?: StyleProp<ViewStyle>;
     readonly marginX?: number;
     readonly marginY?: number;
     readonly paddingX?: number;
@@ -12,7 +14,9 @@ interface CardProps {
     readonly shadow?: boolean;
 }
 
-export default function Card({ children, marginX = 20, marginY = 20, paddingX = 20, paddingY = 20, shadow = true, border }: CardProps) {
+export default function Card({ children, style, marginX = 20, marginY = 20, paddingX = 20, paddingY = 20, shadow = true, border }: CardProps) {
+    const theme = useTheme();
+
     return (
         <View style={{
             backgroundColor: '#fff',
