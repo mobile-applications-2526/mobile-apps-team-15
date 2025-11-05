@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import MaterialCard from "@components/shop/MaterialCard";
 import Card from "@components/Card";
 import React, { useMemo, useState } from "react";
+import useTheme from "@components/ThemeContext";
 
 
 type Material = {
@@ -15,6 +16,9 @@ type Material = {
 
 export default function SkiPass() {
 
+    const theme = useTheme();
+    const insets = useSafeAreaInsets();
+
     const materials: Material[] = [
         { name: "Boots", pricePerHour: 5, pricePerDay: 25, size: "38" },
         { name: "Jacket", pricePerHour: 6, pricePerDay: 30, size: "M" },
@@ -22,7 +26,6 @@ export default function SkiPass() {
         { name: "Skis", pricePerHour: 8, pricePerDay: 40, size: "38" },
     ]
 
-    const insets = useSafeAreaInsets();
 
     const [query, setQuery] = useState("");
 
@@ -38,16 +41,24 @@ export default function SkiPass() {
                 options={{
                     title: 'Materials',
                     headerShown: true,
+                    headerBackButtonDisplayMode: 'minimal',
+                    headerStyle: {
+                        backgroundColor: theme.colors.surface,
+                    },
+                    headerTitleStyle: {
+                        color: theme.colors.text
+                    },
+                    headerTintColor: theme.colors.text,
                 }}
             />
             <ScrollView
-                contentContainerStyle={{ paddingBottom: insets.bottom + 70 }} >
+                contentContainerStyle={{ backgroundColor: theme.colors.background, paddingBottom: insets.bottom + 70 }}>
                 <Card>
                     <Text style={{
                         fontSize: 32,
                         fontWeight: 'bold',
                         color: '#000',
-                    }}>Ski Passes</Text>
+                    }}>Materials</Text>
                     <Text style={{
                         fontSize: 18,
                         color: '#333',
@@ -71,25 +82,25 @@ export default function SkiPass() {
                     </View>
                 </Card>
 
-                    <Card>
-                        <View style={{
-                            flexDirection: 'row',
-                            flexWrap: 'wrap',
-                            justifyContent: 'space-between',
-                            gap: 8,
-                        }}>
-                            {data.map((material) => (
-                                <View style={{ width: '48%' }} key={material.name}>
-                                    <MaterialCard
-                                        name={material.name}
-                                        pricePerHour={material.pricePerHour}
-                                        pricePerDay={material.pricePerDay}
-                                        size={material.size}
-                                    />
-                                </View>
-                            ))}
-                        </View>
-                    </Card>
+                <Card>
+                    <View style={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-between',
+                        gap: 8,
+                    }}>
+                        {data.map((material) => (
+                            <View style={{ width: '48%' }} key={material.name}>
+                                <MaterialCard
+                                    name={material.name}
+                                    pricePerHour={material.pricePerHour}
+                                    pricePerDay={material.pricePerDay}
+                                    size={material.size}
+                                />
+                            </View>
+                        ))}
+                    </View>
+                </Card>
             </ScrollView>
         </>
     )
