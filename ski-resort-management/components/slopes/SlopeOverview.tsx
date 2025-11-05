@@ -1,8 +1,11 @@
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
 import { Slope } from "@constants/types";
-import useTheme from "@components/ThemeContext";
 import H3 from "@components/text/H3";
+import H4 from "@components/text/H4";
+import Description from "@components/text/Description";
+import Paragraph from "@components/text/Paragraph";
+import Divider from "@components/text/Divider";
 
 
 export default function SlopeOverview({
@@ -22,21 +25,13 @@ export default function SlopeOverview({
     readonly onToggle?: () => void;
 }) {
 
-    const theme = useTheme();
     const HeaderWrapper = expandable ? Pressable : View;
 
     const safe = (v?: string | number | null, suffix = "") =>
         v === undefined || v === null || v === "" ? "-" : `${v}${suffix}`;
 
     return (
-        <View
-            style={{
-                borderWidth: 1,
-                borderColor: theme.colors.border,
-                borderRadius: 12,
-                padding: 16,
-            }}
-        >
+        <>
             <HeaderWrapper
                 {...(expandable
                     ? { onPress: onToggle, style: { flexDirection: "row", alignItems: "center" } }
@@ -54,50 +49,32 @@ export default function SlopeOverview({
                         }}
                     />
                     <H3>{name}</H3>
-
-                    {!!description && (
-                        <Text style={{ fontSize: 14, color: "#666", lineHeight: 20 }}>
-                            {description}
-                        </Text>
-                    )}
+                    {!!description && <Description>{description}</Description>}
                 </View>
 
                 {expandable && (
-                    <Text style={{ fontSize: 18, color: "#111" }}>
+                    <Paragraph style={{ fontSize: 18 }}>
                         {expanded ? "▲" : "▼"}
-                    </Text>
+                    </Paragraph>
                 )}
             </HeaderWrapper>
 
             {expandable && expanded && (
-                <View style={{ marginTop: 16 }}>
-                    <Text style={{ fontSize: 18, fontWeight: "700", marginBottom: 8 }}>
-                        Weather
-                    </Text>
-
-                    <View
-                        style={{
-                            borderTopWidth: 1,
-                            borderBottomWidth: 1,
-                            borderColor: "#e9e9e9",
-                            paddingVertical: 10,
-                            gap: 12,
-                        }}
-                    >
+                <View style={{ marginTop: 8 }}>
+                    <Divider/>
+                    <H4 style={{ marginTop: 16, marginBottom: 8 }}>Weather</H4>
+                    <View style={{ paddingVertical: 8, gap: 12 }}>
                         <Row label="wind" value={safe(weather?.windKmh, " km/h")}/>
                         <Row label="snow quality" value={safe(weather?.snowQuality ?? null)}/>
                         <Row label="visibility" value={safe(weather?.visibility ?? null)}/>
                     </View>
 
-                    <Text style={{ fontSize: 18, fontWeight: "700", marginTop: 16 }}>
-                        Busyness
-                    </Text>
-                    <Text style={{ marginTop: 6, color: "#333" }}>
-                        {safe(weather?.busyness ?? null)}
-                    </Text>
+                    <Divider/>
+                    <H4 style={{ marginTop: 16 }}>Busyness</H4>
+                    <Paragraph style={{ marginTop: 6 }}>{safe(weather?.busyness ?? null)}</Paragraph>
                 </View>
             )}
-        </View>
+        </>
     );
 }
 
@@ -110,8 +87,8 @@ function Row({ label, value }: Readonly<{ label: string; value: string }>) {
                 alignItems: "center",
             }}
         >
-            <Text style={{ color: "#444" }}>{label}</Text>
-            <Text style={{ color: "#111" }}>{value}</Text>
+            <Description>{label}</Description>
+            <Paragraph>{value}</Paragraph>
         </View>
     );
 }
