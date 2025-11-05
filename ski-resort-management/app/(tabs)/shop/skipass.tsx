@@ -1,5 +1,5 @@
 import { ScrollView, Text } from "react-native"
-import SkiPassCard from "@components/SkiPassCard"
+import SkiPassCard from "@components/shop/SkiPassCard"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import Card from "@components/Card";

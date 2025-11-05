@@ -1,14 +1,15 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { router } from "expo-router";
-import SlopeCard from "@components/slopeCard";
 import Header from "@components/Header";
+import SlopeOverview from "@components/slopes/SlopeOverview";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 
 
 export default function Index() {
 
-    const favouriteSlope = {
+    const favouriteSlope: Slope = {
+        id: "1",
         imageUrl: require('@assets/skislope1.png'),
         name: "Slope 1",
         description: "Body text for whatever you'd like to say. Add main takeaway points, quotes, anecdotes, or even a very short story.",
@@ -70,8 +71,7 @@ export default function Index() {
                     <Pressable onPress={() => {
                         router.push("slopes")
                     }}>
-                        <SlopeCard imageUrl={favouriteSlope.imageUrl} name={favouriteSlope.name}
-                                   description={favouriteSlope.description}/>
+                        <SlopeOverview slope={favouriteSlope}/>
                     </Pressable>
                 </Card>
             </ScrollView>

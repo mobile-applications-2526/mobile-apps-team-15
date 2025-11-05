@@ -1,13 +1,5 @@
 import React, { useMemo, useState } from "react";
-import {
-    View,
-    Text,
-    ScrollView,
-    TextInput,
-    LayoutAnimation,
-    Platform,
-    UIManager,
-} from "react-native";
+import { LayoutAnimation, Platform, ScrollView, TextInput, UIManager, View, } from "react-native";
 import Header from "@components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SlopeCard, { WeatherInfo } from "@components/slopeCard";

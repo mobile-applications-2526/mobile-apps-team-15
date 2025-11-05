@@ -1,7 +1,7 @@
 import { ScrollView, Text, TextInput, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
-import MaterialCard from "@components/MaterialCard";
+import MaterialCard from "@components/shop/MaterialCard";
 import Card from "@components/Card";
 import React, { useMemo, useState } from "react";
 
