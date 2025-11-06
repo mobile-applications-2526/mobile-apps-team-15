@@ -47,7 +47,7 @@ export default function SkiPass() {
                         fontSize: 32,
                         fontWeight: 'bold',
                         color: '#000',
-                    }}>Ski Passes</Text>
+                    }}>Materials</Text>
                     <Text style={{
                         fontSize: 18,
                         color: '#333',
