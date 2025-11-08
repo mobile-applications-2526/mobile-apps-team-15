@@ -1,10 +1,17 @@
 import { Stack } from "expo-router";
-import {Pressable, Text, View} from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
+import H1 from "@components/text/H1";
+import SubHeading from "@components/text/SubHeading";
+import Paragraph from "@components/text/Paragraph";
+import useTheme from "@components/ThemeContext";
+import Button from "@components/Button";
 
 
 export default function Account() {
+
+    const theme = useTheme();
 
     const User = {
         name: "Mark Johnson",
@@ -31,58 +38,45 @@ export default function Account() {
                     title: 'Account',
                     headerShown: true,
                     headerBackButtonDisplayMode: 'minimal',
+                    headerStyle: {
+                        backgroundColor: theme.colors.surface,
+                    },
+                    headerTitleStyle: {
+                        color: theme.colors.text
+                    },
+                    headerTintColor: theme.colors.text,
                 }}
             />
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 <Card>
-                    <Text style={{
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        color: '#000',
-                    }}>Account</Text>
-                    <Text style={{
-                        fontSize: 18,
-                        color: '#333',
-                    }}>View your account info</Text>
+                    <H1>Account</H1>
+                    <SubHeading>View your account info</SubHeading>
                     <View style={{ padding: 20 }}>
-                        <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Account
-                            info</Text>
-                        <Text>👤{User.name}</Text>
-                        <Text>🏠 Road 123, 12345 City</Text>
-                        <Text>📧 {User.email}</Text>
+                        <Paragraph style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Account
+                            info</Paragraph>
+                        <Paragraph>👤{User.name}</Paragraph>
+                        <Paragraph>🏠 Road 123, 12345 City</Paragraph>
+                        <Paragraph>📧 {User.email}</Paragraph>
 
-                        <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Purchases</Text>
+                        <Paragraph style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Purchases</Paragraph>
                         {User.purchases.map((purchase) => (
-                            <Text
-                                key={purchase.item}>⭐ {purchase.item} {purchase.status !== "Active" && `- ${purchase.status}`}</Text>
+                            <Paragraph
+                                key={purchase.item}>⭐ {purchase.item} {purchase.status !== "Active" && `- ${purchase.status}`}</Paragraph>
                         ))}
 
-                        <Text style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Loans</Text>
+                        <Paragraph style={{ marginTop: 20, textDecorationLine: 'underline', fontSize: 18 }}>Loans</Paragraph>
 
                         {User.loans.map((loan) => (
-                            <Text key={loan.item}>⭐ {loan.item} - {loan.status}</Text>
+                            <Paragraph key={loan.item}>⭐ {loan.item} - {loan.status}</Paragraph>
                         ))}
                     </View>
                 </Card>
 
-                <Pressable style={{
-                    backgroundColor: '#333',
-                    padding: 15,
-                    paddingLeft: 25,
-                    paddingRight: 25,
-                    borderRadius: 8,
-                    marginLeft: 20,
-                    alignItems: 'center',
-                    alignSelf: "flex-start"
-                }} onPress={() => {handleLogoutClick()}}>
-                    <Text style={{
-                        color: '#fff',
-                        fontSize: 16,
-                        fontWeight: '600',
-                    }}>
+                <View style={{ paddingHorizontal: theme.spacing.lg }}>
+                    <Button onPress={handleLogoutClick}>
                         Log out
-                    </Text>
-                </Pressable>
+                    </Button>
+                </View>
             </SafeAreaView>
         </>
     );

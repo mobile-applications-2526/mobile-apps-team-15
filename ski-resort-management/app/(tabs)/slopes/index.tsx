@@ -1,28 +1,19 @@
 import React, { useMemo, useState } from "react";
-import {
-    View,
-    Text,
-    ScrollView,
-    TextInput,
-    LayoutAnimation,
-    Platform,
-    UIManager,
-} from "react-native";
-import Header from "@components/header";
+import { LayoutAnimation, Platform, ScrollView, TextInput, UIManager, View, } from "react-native";
+import Header from "@components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SlopeCard, { WeatherInfo } from "@components/slopeCard";
+import SlopeOverview from "@components/slopes/SlopeOverview";
+import Card from "@components/Card";
+import H1 from "@components/text/H1";
+import SubHeading from "@components/text/SubHeading";
+import { Slope } from "@constants/types";
+import useTheme from "@components/ThemeContext";
+
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-type Slope = {
-    id: string;
-    name: string;
-    description?: string;
-    imageUrl: any;
-    weather?: WeatherInfo;
-};
 
 const MOCK_SLOPES: Slope[] = [
     {
@@ -49,6 +40,8 @@ const MOCK_SLOPES: Slope[] = [
 ];
 
 export default function Index() {
+
+    const theme = useTheme();
     const [query, setQuery] = useState("");
     const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -64,27 +57,13 @@ export default function Index() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#f5f5f5" }}>
-            <ScrollView style={{ flex: 1 }}>
-                <Header />
+        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <ScrollView style={{ flex: 1, paddingBottom: 100 }}>
+                <Header/>
 
-                <View
-                    style={{
-                        backgroundColor: "#fff",
-                        marginHorizontal: 16,
-                        marginTop: 12,
-                        padding: 16,
-                        borderRadius: 12,
-                        borderWidth: 1,
-                        borderColor: "#ececec",
-                    }}
-                >
-                    <Text style={{ fontSize: 22, fontWeight: "800", marginBottom: 4 }}>
-                        Discover the slopes!
-                    </Text>
-                    <Text style={{ color: "#666" }}>
-                        View the condition and busyness of all your favorite slopes
-                    </Text>
+                <Card>
+                    <H1>Discover the slopes!</H1>
+                    <SubHeading>View the condition and busyness of all your favorite slopes</SubHeading>
 
                     <View
                         style={{
@@ -103,22 +82,18 @@ export default function Index() {
                             autoCorrect={false}
                         />
                     </View>
-                </View>
+                </Card>
 
-                <View style={{ padding: 16, gap: 12, paddingBottom: 100 }}>
-                    {data.map((item) => (
-                        <SlopeCard
-                            key={item.id}
-                            imageUrl={item.imageUrl}
-                            name={item.name}
-                            description={item.description}
-                            weather={item.weather}
+                {data.map((slope) => (
+                    <Card key={slope.id}>
+                        <SlopeOverview
+                            slope={slope}
                             expandable
-                            expanded={expandedId === item.id}
-                            onToggle={() => toggle(item.id)}
+                            expanded={expandedId === slope.id}
+                            onToggle={() => toggle(slope.id)}
                         />
-                    ))}
-                </View>
+                    </Card>
+                ))}
             </ScrollView>
         </SafeAreaView>
     );

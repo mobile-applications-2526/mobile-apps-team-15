@@ -1,9 +1,12 @@
-import { ScrollView, Text, TextInput, View } from "react-native"
+import { ScrollView, TextInput, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
-import MaterialCard from "@components/MaterialCard";
+import MaterialOverview from "@components/shop/MaterialOverview";
 import Card from "@components/Card";
 import React, { useMemo, useState } from "react";
+import useTheme from "@components/ThemeContext";
+import H1 from "@components/text/H1";
+import SubHeading from "@components/text/SubHeading";
 
 
 type Material = {
@@ -15,6 +18,9 @@ type Material = {
 
 export default function SkiPass() {
 
+    const theme = useTheme();
+    const insets = useSafeAreaInsets();
+
     const materials: Material[] = [
         { name: "Boots", pricePerHour: 5, pricePerDay: 25, size: "38" },
         { name: "Jacket", pricePerHour: 6, pricePerDay: 30, size: "M" },
@@ -22,7 +28,6 @@ export default function SkiPass() {
         { name: "Skis", pricePerHour: 8, pricePerDay: 40, size: "38" },
     ]
 
-    const insets = useSafeAreaInsets();
 
     const [query, setQuery] = useState("");
 
@@ -32,34 +37,36 @@ export default function SkiPass() {
         return materials.filter((s) => s.name.toLowerCase().includes(q));
     }, [query]);
 
+
     return (
         <>
             <Stack.Screen
                 options={{
                     title: 'Materials',
                     headerShown: true,
+                    headerBackButtonDisplayMode: 'minimal',
+                    headerStyle: {
+                        backgroundColor: theme.colors.surface,
+                    },
+                    headerTitleStyle: {
+                        color: theme.colors.text
+                    },
+                    headerTintColor: theme.colors.text,
                 }}
             />
             <ScrollView
-                contentContainerStyle={{ paddingBottom: insets.bottom + 70 }} >
+                contentContainerStyle={{ backgroundColor: theme.colors.background, paddingBottom: insets.bottom + 70 }}>
                 <Card>
-                    <Text style={{
-                        fontSize: 32,
-                        fontWeight: 'bold',
-                        color: '#000',
-                    }}>Materials</Text>
-                    <Text style={{
-                        fontSize: 18,
-                        color: '#333',
-                    }}>Rent out materials</Text>
+                    <H1>Materials</H1>
+                    <SubHeading>Rent out materials</SubHeading>
                     <View
-                        style={{
+                        style={[theme.border, {
                             marginTop: 12,
                             backgroundColor: "#f3f3f3",
                             borderRadius: 10,
                             paddingHorizontal: 12,
                             paddingVertical: 10,
-                        }}
+                        }]}
                     >
                         <TextInput
                             placeholder="Search"
@@ -71,25 +78,25 @@ export default function SkiPass() {
                     </View>
                 </Card>
 
-                    <Card>
-                        <View style={{
-                            flexDirection: 'row',
-                            flexWrap: 'wrap',
-                            justifyContent: 'space-between',
-                            gap: 8,
-                        }}>
-                            {data.map((material) => (
-                                <View style={{ width: '48%' }} key={material.name}>
-                                    <MaterialCard
-                                        name={material.name}
-                                        pricePerHour={material.pricePerHour}
-                                        pricePerDay={material.pricePerDay}
-                                        size={material.size}
-                                    />
-                                </View>
-                            ))}
-                        </View>
-                    </Card>
+                <View style={{
+                    paddingHorizontal: 20,
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between',
+                    gap: 19,
+                }}>
+                    {data.map((material) => (
+                        <Card style={{ width: '47%', margin: 0 }} key={material.name}>
+                            <MaterialOverview
+                                key={material.name}
+                                name={material.name}
+                                pricePerHour={material.pricePerHour}
+                                pricePerDay={material.pricePerDay}
+                                size={material.size}
+                            />
+                        </Card>
+                    ))}
+                </View>
             </ScrollView>
         </>
     )

@@ -1,45 +1,37 @@
 import { Pressable, Text, Image } from "react-native";
-import Card from "@components/Card";
+import Description from "@components/text/Description";
+import H4 from "@components/text/H4";
+import H3 from "@components/text/H3";
+import useTheme from "@components/ThemeContext";
 import {router} from "expo-router";
 
 
-export default function MaterialCard({ name, pricePerHour, pricePerDay, size }: {
+export default function MaterialOverview({ name, pricePerHour, pricePerDay, size }: {
     readonly name: string,
     readonly pricePerHour: number,
     readonly pricePerDay: number,
     readonly size: string
 }) {
+
+    const theme = useTheme();
+
     return (
-        <Card marginY={0} marginX={0} paddingY={10} paddingX={10} shadow={false} border>
+        <>
             {/* Title */}
             <Image source={require("@assets/material.svg")} style={{
                 width: "100%",
                 height: 120,
-                borderRadius: 8,
-                marginBottom: 12,
+                borderRadius: 12,
+                marginBottom: 8,
                 backgroundColor: "#f3f3f3",
             }} />
-            <Text style={{
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: '#333',
-                marginBottom: 10,
-            }}>{name}</Text>
-
-            {/* Price */}
-            <Text style={{
-                fontSize: 24,
-                fontWeight: 'bold',
-                color: '#333',
-                marginBottom: 15,
-            }}>${pricePerHour}/hr or ${pricePerDay}/day</Text>
+            <H4>{name}</H4>
 
             {/* Size */}
-            <Text style={{
-                fontSize: 14,
-                color: '#666',
-                marginBottom: 5,
-            }}>Size: {size}</Text>
+            <Description>Size: {size}</Description>
+
+            {/* Price */}
+            <H3 style={{ marginTop: 8, color: theme.colors.textSecondary }}>${pricePerHour}/hr or ${pricePerDay}/day</H3>
 
             {/* Button */}
             <Pressable
@@ -66,6 +58,6 @@ export default function MaterialCard({ name, pricePerHour, pricePerDay, size }: 
                     fontWeight: '600',
                 }}>Add to cart</Text>
             </Pressable>
-        </Card>
+        </>
     )
 }
