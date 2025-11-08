@@ -8,6 +8,8 @@ const lightColors = {
     tabBackground: '#FFFFFF',
     tabIndicator: '#DDDDDD',
     surface: '#f4f4f4',
+    button: '#FFFFFF',
+    buttonBackground: '#333333',
     text: '#000000',
     textSecondary: '#535355',
     border: '#C6C6C8',
@@ -23,6 +25,8 @@ const darkColors = {
     tabBackground: '#232323',
     tabIndicator: '#101010',
     surface: '#1C1C1E',
+    button: '#FFFFFF',
+    buttonBackground: '#333333',
     text: '#FFFFFF',
     textSecondary: '#8E8E93',
     border: '#38383A',
@@ -53,7 +57,7 @@ const fontsize = {
     h4: 18,
     h5: 16,
     h6: 14,
-    p: 14,
+    p: 16,
 }
 
 const H1: TextStyle = {
