@@ -1,65 +1,54 @@
-import Header from "@components/header";
-import {Stack, useLocalSearchParams} from "expo-router";
-import React, {useEffect} from "react";
+import { Stack, useLocalSearchParams } from "expo-router";
+import React from "react";
 import Card from "@components/Card";
-import {Pressable, Text} from "react-native";
+import { View } from "react-native";
+import H3 from "@components/text/H3";
+import H1 from "@components/text/H1";
+import Description from "@components/text/Description";
+import useTheme from "@components/ThemeContext";
+import Button from "@components/Button";
 
-export default function SkiPassCheckout () {
-    const {selectedSkiPassTitle} = useLocalSearchParams();
+
+export default function SkiPassCheckout() {
+    const theme = useTheme();
+
+    const { selectedSkiPassTitle } = useLocalSearchParams();
     //Use this param to lookup skipass price
 
-    const mockedSkipass = {title: "Gold", price: 50, includedList: ["Allowed in domain 1 to 3", "Free drinks at the ski resort bars"]}
+    const mockedSkipass = {
+        title: "Gold",
+        price: 50,
+        includedList: ["Allowed in domain 1 to 3", "Free drinks at the ski resort bars"]
+    }
 
 
-    return(
+    return (
         <>
             <Stack.Screen
                 options={{
                     title: 'Ski-Pass Checkout',
                     headerShown: true,
+                    headerBackButtonDisplayMode: 'minimal',
+                    headerStyle: {
+                        backgroundColor: theme.colors.surface,
+                    },
+                    headerTitleStyle: {
+                        color: theme.colors.text
+                    },
+                    headerTintColor: theme.colors.text,
                 }}
             />
 
-            <Card>
-                <Text style={{
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                    color: '#000',
-                    marginTop: 10,
-                    alignSelf: "center"
-                }}>Summary</Text>
-                <Text style={{
-                    fontWeight: 'bold',
-                    fontSize: 32,
-                    color: '#333',
-                    marginTop: 5,
-                    alignSelf: "center",
-                }}>${mockedSkipass.price}/mo</Text>
-                <Text style={{
-                    fontSize: 18,
-                    marginTop: 20,
-                    color: '#666',
-                }}>
-                    You'll pay once in the app. Your subscription renews automatically each month until cancelled.
-                </Text>
-
-                <Pressable style={{
-                    backgroundColor: '#333',
-                    borderRadius: 8,
-                    marginTop: 15,
-                    marginBottom: 30,
-                    alignItems: 'center',
-                    padding: 15
-                }}>
-                    <Text style={{
-                        color: '#fff',
-                        fontSize: 16,
-                        fontWeight: '600',
-                    }}>
-                        Pay
-                    </Text>
-                </Pressable>
-            </Card>
+            <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+                <Card>
+                    <H3 style={{ marginTop: 10, alignSelf: "center" }}>Summary</H3>
+                    <H1 style={{ marginTop: 5, alignSelf: "center", }}>${mockedSkipass.price}/mo</H1>
+                    <Description style={{ fontSize: 18, marginTop: 20 }}>
+                        You'll pay once in the app. Your subscription renews automatically each month until cancelled.
+                    </Description>
+                    <Button>Pay</Button>
+                </Card>
+            </View>
         </>
     )
 }

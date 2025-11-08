@@ -1,11 +1,12 @@
 import { Stack } from "expo-router";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import Paragraph from "@components/text/Paragraph";
 import useTheme from "@components/ThemeContext";
+import Button from "@components/Button";
 
 
 export default function Account() {
@@ -71,24 +72,11 @@ export default function Account() {
                     </View>
                 </Card>
 
-                <Pressable style={{
-                    backgroundColor: '#333',
-                    padding: 15,
-                    paddingLeft: 25,
-                    paddingRight: 25,
-                    borderRadius: 8,
-                    marginLeft: 20,
-                    alignItems: 'center',
-                    alignSelf: "flex-start"
-                }} onPress={() => {handleLogoutClick()}}>
-                    <Text style={{
-                        color: '#fff',
-                        fontSize: 16,
-                        fontWeight: '600',
-                    }}>
+                <View style={{ paddingHorizontal: theme.spacing.lg }}>
+                    <Button onPress={handleLogoutClick}>
                         Log out
-                    </Text>
-                </Pressable>
+                    </Button>
+                </View>
             </SafeAreaView>
         </>
     );
