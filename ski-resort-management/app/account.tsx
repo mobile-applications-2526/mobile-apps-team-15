@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 import H1 from "@components/text/H1";
@@ -24,7 +24,11 @@ export default function Account() {
             { item: "Helmet", status: "Overdue" },
             { item: "Goggles", status: "Returned" },
         ]
-    }
+    };
+
+    const handleLogoutClick = () => {
+      console.log("Logout not yet implemented!")
+    };
 
     return (
         <>
@@ -66,6 +70,25 @@ export default function Account() {
                         ))}
                     </View>
                 </Card>
+
+                <Pressable style={{
+                    backgroundColor: '#333',
+                    padding: 15,
+                    paddingLeft: 25,
+                    paddingRight: 25,
+                    borderRadius: 8,
+                    marginLeft: 20,
+                    alignItems: 'center',
+                    alignSelf: "flex-start"
+                }} onPress={() => {handleLogoutClick()}}>
+                    <Text style={{
+                        color: '#fff',
+                        fontSize: 16,
+                        fontWeight: '600',
+                    }}>
+                        Log out
+                    </Text>
+                </Pressable>
             </SafeAreaView>
         </>
     );
