@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import Card from "@components/Card";
 import { View } from "react-native";
@@ -11,6 +11,7 @@ import Button from "@components/Button";
 
 export default function SkiPassCheckout() {
     const theme = useTheme();
+    const router = useRouter();
 
     const { selectedSkiPassTitle } = useLocalSearchParams();
     //Use this param to lookup skipass price
@@ -46,7 +47,15 @@ export default function SkiPassCheckout() {
                     <Description style={{ fontSize: 18, marginTop: 20 }}>
                         You'll pay once in the app. Your subscription renews automatically each month until cancelled.
                     </Description>
-                    <Button>Pay</Button>
+                    <Button
+                        onPress={() => {
+
+                            router.replace("/(tabs)/shop/payment-complete");
+                        }}
+                        style={{ marginBottom: 12 }}
+                    >
+                        Pay
+                    </Button>
                 </Card>
             </View>
         </>

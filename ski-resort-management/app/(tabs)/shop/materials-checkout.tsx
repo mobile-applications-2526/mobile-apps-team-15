@@ -1,7 +1,6 @@
-// `ski-resort-management/app/%28tabs%29/shop/materials-checkout.tsx`
 import React, { useMemo, useState } from "react";
 import { Pressable, View } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import Card from "@components/Card";
 import H2 from "@components/text/H2";
 import H3 from "@components/text/H3";
@@ -37,6 +36,7 @@ type ItemState = {
 
 export default function MaterialsCheckout() {
     const theme = useTheme();
+    const router = useRouter();
 
     const { items } = useLocalSearchParams<{ items?: string }>();
     const parsed: IncomingItem[] = useMemo(() => {
@@ -48,8 +48,6 @@ export default function MaterialsCheckout() {
             return [];
         }
     }, [items]);
-
-
 
     const [rows, setRows] = useState<ItemState[]>(
         () =>
@@ -122,8 +120,7 @@ export default function MaterialsCheckout() {
                 <Card>
                     <H2 style={{ marginBottom: 12 }}>Checkout</H2>
 
-                    {/* Items list */}
-                    {rows.map((row, idx) => (
+                    {rows.map((row) => (
                         <View
                             key={row.id}
                             style={{
@@ -195,8 +192,6 @@ export default function MaterialsCheckout() {
                             >
                                 <Description>Duration:</Description>
 
-                                {/* A single rounded pill with value and a small chevron to mirror screenshot.
-                    Tap left/right sides to change value; tap chevron area to switch unit. */}
                                 <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
                                     <Pressable
                                         onPress={() =>
@@ -264,7 +259,14 @@ export default function MaterialsCheckout() {
                         </View>
                     </View>
 
-                    <Button onPress={() => { /* integrate payment */ }} style={{ marginBottom: 12 }}>
+                    {/* Pay -> navigate to payment complete */}
+                    <Button
+                        onPress={() => {
+                            // eventueel: lokale cart leegmaken hier
+                            router.replace("/(tabs)/shop/payment-complete");
+                        }}
+                        style={{ marginBottom: 12 }}
+                    >
                         Pay
                     </Button>
 
