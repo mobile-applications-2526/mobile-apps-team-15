@@ -37,6 +37,25 @@ export default function AddToCart() {
             ? amount * durationValue * pph
             : amount * durationValue * ppd;
 
+    const goToCheckout = () => {
+        const itemPrice =
+            durationUnit === "hours" ? pph * durationValue : ppd * durationValue;
+
+        const cartItems = [
+            {
+                id: `${name}-${Date.now()}`, // simple unique id
+                name,
+                price: itemPrice,
+                quantity: amount,
+            },
+        ];
+
+        router.push({
+            pathname: "/(tabs)/shop/materials-checkout",
+            params: { items: JSON.stringify(cartItems) },
+        });
+    };
+
     return (
         <>
             <Stack.Screen
@@ -165,7 +184,7 @@ export default function AddToCart() {
                         justifyContent: "space-evenly"
                     }}>
                         <Button onPress={() => router.back()}>Continue shopping</Button>
-                        <Button>Checkout</Button>
+                        <Button onPress={goToCheckout}>Checkout</Button>
                     </View>
                 </Card>
             </View>
