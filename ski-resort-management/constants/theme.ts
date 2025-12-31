@@ -15,6 +15,7 @@ const lightColors = {
     border: '#C6C6C8',
     shadow: '#000000',
     error: '#FF3B30',
+    errorBackground: '#EA8080',
     success: '#34C759',
 }
 
@@ -32,6 +33,7 @@ const darkColors = {
     border: '#38383A',
     shadow: '#000000',
     error: '#FF453A',
+    errorBackground: '#EA3737',
     success: '#32D74B',
 }
 
