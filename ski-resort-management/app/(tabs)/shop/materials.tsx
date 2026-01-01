@@ -1,4 +1,4 @@
-import { ScrollView, TextInput, View } from "react-native"
+import { Platform, ScrollView, TextInput, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import MaterialOverview from "@components/shop/MaterialOverview";
@@ -19,7 +19,7 @@ type Material = {
 export default function SkiPass() {
 
     const theme = useTheme();
-    const insets = useSafeAreaInsets();
+    const safeAreaInsets = useSafeAreaInsets();
 
     const materials: Material[] = [
         { name: "Boots", pricePerHour: 5, pricePerDay: 25, size: "38" },
@@ -54,8 +54,7 @@ export default function SkiPass() {
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <ScrollView
-                contentContainerStyle={{ backgroundColor: theme.colors.background, paddingBottom: insets.bottom + 70 }}>
+            <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 80 } : null } >
                 <Card>
                     <H1>Materials</H1>
                     <SubHeading>Rent out materials</SubHeading>

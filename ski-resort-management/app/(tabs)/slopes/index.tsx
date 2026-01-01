@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { LayoutAnimation, Platform, ScrollView, TextInput, UIManager, View, } from "react-native";
 import Header from "@components/Header";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import SlopeOverview from "@components/slopes/SlopeOverview";
 import Card from "@components/Card";
 import H1 from "@components/text/H1";
@@ -42,6 +42,8 @@ const MOCK_SLOPES: Slope[] = [
 export default function Index() {
 
     const theme = useTheme();
+    const safeAreaInsets = useSafeAreaInsets();
+
     const [query, setQuery] = useState("");
     const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -58,7 +60,7 @@ export default function Index() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <ScrollView style={{ flex: 1, paddingBottom: 100 }}>
+            <ScrollView style={{ flex: 1 }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 56 } : null } >
                 <Header/>
 
                 <Card>
