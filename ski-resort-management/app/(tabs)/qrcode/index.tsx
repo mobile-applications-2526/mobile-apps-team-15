@@ -11,7 +11,7 @@ export default function Index() {
     const theme = useTheme();
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <SafeAreaView testID= "screen-qrcode" style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <Header/>
             <ScrollView style={{ flex: 1 }}>
                 <Card>

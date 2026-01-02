@@ -24,7 +24,7 @@ export default function Index() {
 
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <SafeAreaView testID="screen-home" style={{ flex: 1, backgroundColor: theme.colors.background }}>
             <ScrollView style={{ flex: 1 }}>
 
                 <Header/>
