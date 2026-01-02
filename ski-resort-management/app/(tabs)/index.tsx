@@ -50,7 +50,7 @@ export default function Index() {
                 <Card>
                     <H2>Your favorite slope</H2>
 
-                    <Pressable onPress={() => {
+                    <Pressable testID="btn-favorite-slope" onPress={() => {
                         router.push("slopes")
                     }}>
                         <SlopeOverview slope={favouriteSlope}/>
