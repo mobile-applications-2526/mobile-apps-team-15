@@ -6,7 +6,9 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "cypress": "cypress open",
+    "e2e": "start-server-and-test web http://localhost:8081 cypress run"
   },
   "dependencies": {
     "expo": "~54.0.21",
