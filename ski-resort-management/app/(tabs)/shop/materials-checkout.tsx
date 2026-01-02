@@ -116,7 +116,7 @@ export default function MaterialsCheckout() {
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <View testID="screen-shop-materials-checkout" style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 <Card>
                     <H2 style={{ marginBottom: 12 }}>Checkout</H2>
 

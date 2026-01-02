@@ -29,7 +29,7 @@ export default function PaymentComplete() {
             />
 
             {/* 👇 Pagina-achtergrond nu in lijn met andere schermen */}
-            <View style={{ flex: 1, backgroundColor: colors.background }}>
+            <View testID="screen-shop-payment-complete" style={{ flex: 1, backgroundColor: colors.background }}>
                 {/* Bovenste balk als surface, zoals andere headers */}
                 <View
                     style={{

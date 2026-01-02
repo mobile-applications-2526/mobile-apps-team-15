@@ -49,6 +49,7 @@ export default function SkiPass() {
                 }}
             />
             <ScrollView
+                testID="screen-shop-skipass"
                 contentContainerStyle={{ backgroundColor: theme.colors.background, paddingBottom: insets.bottom + 70 }}>
                 <Card>
                     <H1>Ski Passes</H1>
