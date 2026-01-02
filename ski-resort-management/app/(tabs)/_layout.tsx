@@ -1,20 +1,30 @@
 import React from "react";
-import { Platform, Text } from "react-native";
-import { Stack } from "expo-router";
+import { Platform } from "react-native";
+import useTheme from "@components/ThemeContext";
+
+// native tabs
 import { Icon, Label, NativeTabs, VectorIcon } from "expo-router/unstable-native-tabs";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import useTheme from "@components/ThemeContext";
+
+// web tabs
+import { Tabs } from "expo-router";
 
 export default function TabsLayout() {
     const theme = useTheme();
 
-    // Web fallback: avoid NativeTabs + Icon renderingToImageAsync issue
+    // WEB: use stable Tabs (shows tab bar)
     if (Platform.OS === "web") {
-        // For web (and Cypress), just render routes normally.
-        return <Stack screenOptions={{ headerShown: false }} />;
+        return (
+            <Tabs screenOptions={{ headerShown: false }}>
+                <Tabs.Screen name="index" options={{ title: "Home" }} />
+                <Tabs.Screen name="slopes/index" options={{ title: "Slopes" }} />
+                <Tabs.Screen name="shop" options={{ title: "Shop" }} />
+                <Tabs.Screen name="qrcode/index" options={{ title: "QR Code" }} />
+            </Tabs>
+        );
     }
 
-    //Native tabs for iOS/Android
+    // NATIVE: keep NativeTabs
     return (
         <NativeTabs
             backgroundColor={Platform.OS === "android" ? theme.colors.tabBackground : undefined}
