@@ -75,6 +75,7 @@ export default function Index() {
                         }}
                     >
                         <TextInput
+                            testID="input-slopes-search"
                             placeholder="Search"
                             value={query}
                             onChangeText={setQuery}
@@ -85,15 +86,19 @@ export default function Index() {
                 </Card>
 
                 {data.map((slope) => (
-                    <Card key={slope.id}>
-                        <SlopeOverview
-                            slope={slope}
-                            expandable
-                            expanded={expandedId === slope.id}
-                            onToggle={() => toggle(slope.id)}
-                        />
-                    </Card>
+                    //Ik heb hier even view rond gezet, omdat anders de testID niet werkte
+                    <View key={slope.id} testID={`card-slope-${slope.id}`}>
+                        <Card>
+                            <SlopeOverview
+                                slope={slope}
+                                expandable
+                                expanded={expandedId === slope.id}
+                                onToggle={() => toggle(slope.id)}
+                            />
+                        </Card>
+                    </View>
                 ))}
+
             </ScrollView>
         </SafeAreaView>
     );
