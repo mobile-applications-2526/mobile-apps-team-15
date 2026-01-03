@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
@@ -7,11 +7,16 @@ import SubHeading from "@components/text/SubHeading";
 import Paragraph from "@components/text/Paragraph";
 import useTheme from "@components/ThemeContext";
 import StyledButton from "@components/StyledButton";
+import { auth } from "@/services/FirebaseConfig"
+import { useContext } from "react";
+import { AuthContext } from "@components/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function Account() {
 
     const theme = useTheme();
+    const { user } = useContext(AuthContext)
 
     const User = {
         name: "Mark Johnson",
@@ -27,8 +32,9 @@ export default function Account() {
         ]
     };
 
-    const handleLogoutClick = () => {
-      console.log("Logout not yet implemented!")
+    const handleLogoutClick = async () => {
+        await auth.signOut();
+        AsyncStorage.removeItem("user");
     };
 
     return (
@@ -78,6 +84,7 @@ export default function Account() {
                     </StyledButton>
                 </View>
             </SafeAreaView>
+            { user === null && <Redirect href={"(landing)"} />}
         </>
     );
 }
