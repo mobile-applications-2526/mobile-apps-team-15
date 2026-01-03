@@ -30,12 +30,8 @@ export default function SkiPassCheckout() {
                     title: 'Ski-Pass Checkout',
                     headerShown: true,
                     headerBackButtonDisplayMode: 'minimal',
-                    headerStyle: {
-                        backgroundColor: theme.colors.surface,
-                    },
-                    headerTitleStyle: {
-                        color: theme.colors.text
-                    },
+                    headerStyle: { backgroundColor: theme.colors.surface },
+                    headerTitleStyle: { color: theme.colors.text },
                     headerTintColor: theme.colors.text,
                 }}
             />

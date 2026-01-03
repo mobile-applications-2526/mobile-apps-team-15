@@ -6,7 +6,7 @@ import Paragraph from "@components/text/Paragraph";
 import H2 from "@components/text/H2";
 import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
-import Button from "@components/Button";
+import StyledButton from "@components/StyledButton";
 import H3 from "@components/text/H3";
 import Divider from "@components/text/Divider";
 import Description from "@components/text/Description";
@@ -63,12 +63,8 @@ export default function AddToCart() {
                     title: 'Materials',
                     headerShown: true,
                     headerBackButtonDisplayMode: 'minimal',
-                    headerStyle: {
-                        backgroundColor: theme.colors.surface,
-                    },
-                    headerTitleStyle: {
-                        color: theme.colors.text
-                    },
+                    headerStyle: { backgroundColor: theme.colors.surface },
+                    headerTitleStyle: { color: theme.colors.text },
                     headerTintColor: theme.colors.text,
                 }}
             />
@@ -183,8 +179,8 @@ export default function AddToCart() {
                         alignItems: "stretch",
                         justifyContent: "space-evenly"
                     }}>
-                        <Button onPress={() => router.back()}>Continue shopping</Button>
-                        <Button onPress={goToCheckout}>Checkout</Button>
+                        <StyledButton onPress={() => router.back()}>Continue shopping</StyledButton>
+                        <StyledButton onPress={goToCheckout}>Checkout</StyledButton>
                     </View>
                 </Card>
             </View>

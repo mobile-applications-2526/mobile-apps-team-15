@@ -6,7 +6,7 @@ import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import Paragraph from "@components/text/Paragraph";
 import useTheme from "@components/ThemeContext";
-import Button from "@components/Button";
+import StyledButton from "@components/StyledButton";
 
 
 export default function Account() {
@@ -73,9 +73,9 @@ export default function Account() {
                 </Card>
 
                 <View style={{ paddingHorizontal: theme.spacing.lg }}>
-                    <Button onPress={handleLogoutClick}>
+                    <StyledButton onPress={handleLogoutClick}>
                         Log out
-                    </Button>
+                    </StyledButton>
                 </View>
             </SafeAreaView>
         </>

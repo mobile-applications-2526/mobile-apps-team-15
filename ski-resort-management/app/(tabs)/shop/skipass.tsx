@@ -38,13 +38,8 @@ export default function SkiPass() {
                 options={{
                     title: 'Ski Passes',
                     headerShown: true,
-                    headerBackButtonDisplayMode: 'minimal',
-                    headerStyle: {
-                        backgroundColor: theme.colors.surface,
-                    },
-                    headerTitleStyle: {
-                        color: theme.colors.text
-                    },
+                    headerStyle: { backgroundColor: theme.colors.surface },
+                    headerTitleStyle: { color: theme.colors.text },
                     headerTintColor: theme.colors.text,
                 }}
             />
@@ -55,14 +50,13 @@ export default function SkiPass() {
                     <SubHeading>Get your ski pass</SubHeading>
                 </Card>
 
-
                 {skipasscards.map((card) => (
                     <Card key={card.title}>
                         <SkiPassOverview
-                        title={card.title}
-                        price={card.price}
-                        includedList={card.includedList}
-                    />
+                            title={card.title}
+                            price={card.price}
+                            includedList={card.includedList}
+                        />
                     </Card>
                 ))}
             </ScrollView>
