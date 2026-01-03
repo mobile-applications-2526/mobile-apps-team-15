@@ -55,12 +55,14 @@ export type SkiPassRequestDto = {
 
 export type User = {
   id: string,
+  uid: string,
   firstName: string,
   lastName: string,
   email: string
 }
 
 export type RegisterUserDto = {
+  uid: string,
   firstName: string,
   lastName: string,
   email: string
