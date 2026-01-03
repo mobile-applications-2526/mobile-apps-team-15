@@ -10,6 +10,13 @@ const RootLayout = () => {
             <AuthProvider>
                 <Stack>
                     <Stack.Screen
+                        name="(landing)"
+                        options={{
+                            title: 'SkiFree',
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
                         name="(tabs)"
                         options={{
                             title: 'SkiFree',
