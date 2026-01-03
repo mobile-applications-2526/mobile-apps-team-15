@@ -7,7 +7,7 @@ import H3 from "@components/text/H3";
 import Paragraph from "@components/text/Paragraph";
 import Description from "@components/text/Description";
 import Divider from "@components/text/Divider";
-import Button from "@components/Button";
+import StyledButton from "@components/StyledButton";
 import useTheme from "@components/ThemeContext";
 
 type Unit = "hours" | "days";
@@ -260,7 +260,7 @@ export default function MaterialsCheckout() {
                     </View>
 
                     {/* Pay -> navigate to payment complete */}
-                    <Button
+                    <StyledButton
                         onPress={() => {
                             // eventueel: lokale cart leegmaken hier
                             router.replace("/(tabs)/shop/payment-complete");
@@ -268,7 +268,7 @@ export default function MaterialsCheckout() {
                         style={{ marginBottom: 12 }}
                     >
                         Pay
-                    </Button>
+                    </StyledButton>
 
                     <Description style={{ opacity: 0.7 }}>
                         Items will be available for pickup after payment was completed.

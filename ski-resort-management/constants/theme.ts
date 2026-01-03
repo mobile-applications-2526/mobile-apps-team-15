@@ -3,6 +3,7 @@ import { TextStyle, ViewStyle } from "react-native";
 
 const lightColors = {
     primary: '#007AFF',
+    pressedPrimary: '#0057bc',
     secondary: '#5856D6',
     background: '#F2F2F7',
     tabBackground: '#FFFFFF',
@@ -10,8 +11,12 @@ const lightColors = {
     surface: '#f4f4f4',
     button: '#FFFFFF',
     buttonBackground: '#333333',
+    buttonPressedBackground: '#292929',
+    buttonDisabledBackground: '#bababa',
     text: '#000000',
     textSecondary: '#535355',
+    textInputBackground: '#f6f6f6',
+    textPlaceholder: '#c7c7c7',
     border: '#C6C6C8',
     shadow: '#000000',
     error: '#FF3B30',
@@ -21,6 +26,7 @@ const lightColors = {
 
 const darkColors = {
     primary: '#0A84FF',
+    pressedPrimary: '#0a66c5',
     secondary: '#5E5CE6',
     background: '#000000',
     tabBackground: '#232323',
@@ -28,8 +34,12 @@ const darkColors = {
     surface: '#1C1C1E',
     button: '#FFFFFF',
     buttonBackground: '#333333',
+    buttonPressedBackground: '#171717',
+    buttonDisabledBackground: '#292929',
     text: '#FFFFFF',
     textSecondary: '#8E8E93',
+    textInputBackground: '#141414',
+    textPlaceholder: '#535353',
     border: '#38383A',
     shadow: '#000000',
     error: '#FF453A',
