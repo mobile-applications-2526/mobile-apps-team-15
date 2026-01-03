@@ -1,4 +1,5 @@
 import { Lift, LiftStatus } from "@/types";
+import { auth } from "@/services/FirebaseConfig";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -6,7 +7,8 @@ const getAllLifts = async (): Promise<Lift[]> => {
   const response = await fetch(`${API_URL}/lifts`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + await auth.currentUser.getIdToken()
     }
   });
   if (response.ok) return await response.json();
@@ -17,7 +19,8 @@ const getLiftById = async (liftId: string): Promise<Lift> => {
   const response = await fetch(`${API_URL}/lifts/${liftId}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + await auth.currentUser.getIdToken()
     }
   });
   if (response.ok) return await response.json();
@@ -28,7 +31,8 @@ const getLiftsByDomainId = async (domainId: string): Promise<Lift[]> => {
   const response = await fetch(`${API_URL}/lifts/domain/${domainId}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + await auth.currentUser.getIdToken()
     }
   });
   if (response.ok) return await response.json();
@@ -39,7 +43,8 @@ const getLiftsByStatus = async (status: LiftStatus): Promise<Lift[]> => {
   const response = await fetch(`${API_URL}/lifts/status/${status}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + await auth.currentUser.getIdToken()
     }
   });
   if (response.ok) return await response.json();
@@ -50,7 +55,8 @@ const getLiftsByDomainIdAndStatus = async (domainId: string, status: LiftStatus)
   const response = await fetch(`${API_URL}/lifts/domain/${domainId}/status/${status}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + await auth.currentUser.getIdToken()
     }
   });
   if (response.ok) return await response.json();
