@@ -8,6 +8,8 @@ import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import { Slope } from "@constants/types";
 import useTheme from "@components/ThemeContext";
+import { Stack } from "expo-router";
+import StyledTextInput from "@components/StyledTextInput";
 
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -59,44 +61,36 @@ export default function Index() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <ScrollView style={{ flex: 1 }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 56 } : null } >
-                <Header/>
+        <>
+            <Stack.Screen options={{headerShown: false, title: "Slopes"}}/>
+            <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.background}}>
+                <ScrollView style={{flex: 1}}
+                            contentContainerStyle={Platform.OS === "android" ? {paddingBottom: safeAreaInsets.bottom + 56} : null}>
+                    <Header/>
 
-                <Card>
-                    <H1>Discover the slopes!</H1>
-                    <SubHeading>View the condition and busyness of all your favorite slopes</SubHeading>
+                    <Card>
+                        <H1>Discover the slopes!</H1>
+                        <SubHeading>View the condition and busyness of all your favorite slopes</SubHeading>
 
-                    <View
-                        style={{
-                            marginTop: 12,
-                            backgroundColor: "#f3f3f3",
-                            borderRadius: 10,
-                            paddingHorizontal: 12,
-                            paddingVertical: 10,
-                        }}
-                    >
-                        <TextInput
+                        <StyledTextInput
                             placeholder="Search"
                             value={query}
                             onChangeText={setQuery}
-                            style={{ fontSize: 16 }}
-                            autoCorrect={false}
-                        />
-                    </View>
-                </Card>
-
-                {data.map((slope) => (
-                    <Card key={slope.id}>
-                        <SlopeOverview
-                            slope={slope}
-                            expandable
-                            expanded={expandedId === slope.id}
-                            onToggle={() => toggle(slope.id)}
                         />
                     </Card>
-                ))}
-            </ScrollView>
-        </SafeAreaView>
+
+                    {data.map((slope) => (
+                        <Card key={slope.id}>
+                            <SlopeOverview
+                                slope={slope}
+                                expandable
+                                expanded={expandedId === slope.id}
+                                onToggle={() => toggle(slope.id)}
+                            />
+                        </Card>
+                    ))}
+                </ScrollView>
+            </SafeAreaView>
+        </>
     );
 }

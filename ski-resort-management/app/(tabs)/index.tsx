@@ -9,6 +9,7 @@ import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
 import H2 from "@components/text/H2";
 import { Slope } from "@constants/types";
+import React from "react";
 
 
 export default function Index() {

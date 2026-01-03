@@ -53,23 +53,7 @@ export default function SkiPass() {
                 <Card>
                     <H1>Materials</H1>
                     <SubHeading>Rent out materials</SubHeading>
-                    <View
-                        style={[theme.border, {
-                            marginTop: 12,
-                            backgroundColor: "#f3f3f3",
-                            borderRadius: 10,
-                            paddingHorizontal: 12,
-                            paddingVertical: 10,
-                        }]}
-                    >
-                        <TextInput
-                            placeholder="Search"
-                            value={query}
-                            onChangeText={setQuery}
-                            style={{ fontSize: 16 }}
-                            autoCorrect={false}
-                        />
-                    </View>
+                    <StyledTextInput placeholder={"Search"} value={query} onChangeText={setQuery} />
                 </Card>
 
                 <View style={{
