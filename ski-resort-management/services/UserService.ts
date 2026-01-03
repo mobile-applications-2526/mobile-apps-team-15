@@ -13,13 +13,14 @@ const getUserById = async (userId: string): Promise<User> => {
   else throw new Error('Failed to fetch user, please try again later.');
 }
 
-const registerUser = async ({firstName, lastName, email}: RegisterUserDto): Promise<User> => {
-  const response = await fetch(`${API_URL}/users`, {
+const registerUser = async ({uid, firstName, lastName, email}: RegisterUserDto): Promise<User> => {
+  const response = await fetch(`${API_URL}/users/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      uid,
       firstName,
       lastName,
       email
@@ -27,20 +28,6 @@ const registerUser = async ({firstName, lastName, email}: RegisterUserDto): Prom
   });
   if (response.ok) return response.json();
   else throw new Error('Failed to register user, please try again later.');
-}
-
-const loginUser = async (email: string, password: string): Promise<User> => {
-  const response = await fetch(`${API_URL}/users/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email
-    })
-  });
-  if (response.ok) return await response.json();
-  else throw new Error('Failed to login user, please try again later.');
 }
 
 const updateUser = async ({id, firstName, lastName, email}: User): Promise<User> => {
