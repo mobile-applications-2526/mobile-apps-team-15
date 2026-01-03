@@ -1,4 +1,4 @@
-import { Platform, ScrollView, TextInput, View } from "react-native"
+import { Platform, ScrollView, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import MaterialOverview from "@components/shop/MaterialOverview";
@@ -7,36 +7,32 @@ import React, { useMemo, useState } from "react";
 import useTheme from "@components/ThemeContext";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
+import useSWR from "swr";
+import materialService from "@/services/MaterialService";
+import ErrorPopup from "@components/ErrorPopup";
+import StyledTextInput from "@components/StyledTextInput";
+import { auth } from "@/services/FirebaseConfig";
 
-
-type Material = {
-    name: string;
-    pricePerHour: number;
-    pricePerDay: number;
-    size: string;
-};
 
 export default function SkiPass() {
 
     const theme = useTheme();
     const safeAreaInsets = useSafeAreaInsets();
 
-    const materials: Material[] = [
-        { name: "Boots", pricePerHour: 5, pricePerDay: 25, size: "38" },
-        { name: "Jacket", pricePerHour: 6, pricePerDay: 30, size: "M" },
-        { name: "Pants", pricePerHour: 5, pricePerDay: 25, size: "M" },
-        { name: "Skis", pricePerHour: 8, pricePerDay: 40, size: "38" },
-    ]
+    const materialFetcher = async () => {
+        return await materialService.getAllMaterials()
+    }
 
+    const {data: materials, isLoading, error} = useSWR("api/materials", materialFetcher)
 
     const [query, setQuery] = useState("");
 
-    const data = useMemo(() => {
+    const filteredMaterials = useMemo(() => {
+        auth.currentUser.getIdToken().then(token => console.log(token))
         const q = query.trim().toLowerCase();
         if (!q) return materials;
         return materials.filter((s) => s.name.toLowerCase().includes(q));
-    }, [query]);
-
+    }, [materials, query]);
 
     return (
         <>
@@ -63,19 +59,18 @@ export default function SkiPass() {
                     justifyContent: 'space-between',
                     gap: 19,
                 }}>
-                    {data.map((material) => (
-                        <Card style={{ width: '47%', margin: 0 }} key={material.name}>
+                    { isLoading && <></> }
+                    { materials && filteredMaterials.map((material) => (
+                        <Card style={{width: '47%', margin: 0}} key={material.id}>
                             <MaterialOverview
-                                key={material.name}
-                                name={material.name}
-                                pricePerHour={material.pricePerHour}
-                                pricePerDay={material.pricePerDay}
-                                size={material.size}
+                                key={material.id}
+                                material={material}
                             />
                         </Card>
-                    ))}
+                    )) }
                 </View>
             </ScrollView>
+            { error && <ErrorPopup message={error.message}/> }
         </>
     )
 }
