@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import SlopesScreen from "../app/(tabs)/slopes/index";
+import SlopesScreen from "../../app/(tabs)/slopes";
 
 // Theme mock: voldoende props voor Card + text components
 jest.mock("@components/ThemeContext", () => () => ({

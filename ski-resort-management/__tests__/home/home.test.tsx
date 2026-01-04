@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import Home from "../app/(tabs)/index";
+import Home from "../../app/(tabs)";
 
 jest.mock("expo-router", () => {
     const mockPush = jest.fn();
