@@ -70,6 +70,7 @@ export default function SkiPass() {
                         }]}
                     >
                         <TextInput
+                            testID="input-materials-search"
                             placeholder="Search"
                             value={query}
                             onChangeText={setQuery}
