@@ -12,14 +12,17 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci"
-
   },
   "jest": {
     "preset": "jest-expo",
-    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
-    "testPathIgnorePatterns": ["/node_modules/", "/cypress/"]
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/cypress/"
+    ]
   },
-
   "dependencies": {
     "expo": "~54.0.21",
     "expo-constants": "~18.0.10",
@@ -38,6 +41,7 @@
   "devDependencies": {
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.1.10",
     "cypress": "^15.8.1",
     "jest": "~29.7.0",

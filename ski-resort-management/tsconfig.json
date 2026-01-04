@@ -4,8 +4,10 @@
       "@/*": ["./*"],
       "@assets/*": ["./assets/*"],
       "@constants/*": ["./constants/*"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "types": ["jest", "node"]
     }
   },
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "include": ["**/*.ts", "**/*.tsx", "jest.d.ts"]
 }
