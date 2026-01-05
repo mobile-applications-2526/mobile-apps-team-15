@@ -56,7 +56,7 @@ export default function Login() {
             .then(() => userService.getUserByEmail(email)
                 .then(user => setUser(user)))
             .catch(error => {
-                if (error.message.includes("auth/invalid-credentials") || error.message.includes("auth/user-not-found") || error.message.includes("auth/wrong-password")) {
+                if (error.message.includes("auth/invalid-credentials") || error.message.includes("auth/user-not-found") || error.message.includes("auth/invalid-email") || error.message.includes("auth/wrong-password")) {
                     setLoginError("Invalid Credentials. Please try again.");
                 } else {
                     console.log(error);
