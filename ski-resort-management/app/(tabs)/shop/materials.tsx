@@ -28,7 +28,6 @@ export default function SkiPass() {
     const [query, setQuery] = useState("");
 
     const filteredMaterials = useMemo(() => {
-        auth.currentUser.getIdToken().then(token => console.log(token))
         const q = query.trim().toLowerCase();
         if (!q) return materials;
         return materials.filter((s) => s.name.toLowerCase().includes(q));
