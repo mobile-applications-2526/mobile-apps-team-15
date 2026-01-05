@@ -30,9 +30,9 @@ export default function Index() {
                 </Card>
 
                 <View style={{marginTop: theme.spacing.lg, paddingHorizontal: theme.spacing.lg}}>
-                    <StyledLink href={"(landing)/login"} label="Log in" primary>Log in</StyledLink>
+                    <StyledLink href={"(landing)/login"} accessibilityLabel={"Log in"} primary>Log in</StyledLink>
                     <Paragraph style={{textAlign: "center", color: theme.colors.textSecondary}}>— or —</Paragraph>
-                    <StyledLink href={"(landing)/register"} label="Register">Register</StyledLink>
+                    <StyledLink href={"(landing)/register"} accessibilityLabel={"Register"}>Register</StyledLink>
                 </View>
             </SafeAreaView>
         </>

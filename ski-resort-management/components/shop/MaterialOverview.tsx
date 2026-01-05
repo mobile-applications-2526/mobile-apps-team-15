@@ -29,6 +29,7 @@ export default function MaterialOverview({material}: Readonly<MaterialOverviewPr
                 ${material.pricePerDay}/day</H3>
 
             <Pressable
+                accessibilityRole={"button"}
                 onPress={() =>
                     router.push({
                         pathname: "/(tabs)/shop/add-to-cart",

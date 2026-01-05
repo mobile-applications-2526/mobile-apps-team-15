@@ -1,30 +1,31 @@
-import { ColorValue, Pressable, PressableProps } from "react-native";
-import React, { ReactNode } from "react";
+import { Pressable, PressableProps, View } from "react-native";
+import React, { forwardRef, ReactNode } from "react";
 import useTheme from "@components/ThemeContext";
 import Paragraph from "@components/text/Paragraph";
 
 
-interface ButtonProps {
-    readonly children?: ReactNode;
+interface ButtonProps extends PressableProps {
+    readonly children: ReactNode;
     readonly primary?: boolean;
-    readonly disabled?: boolean;
 }
 
-export default function StyledButton({ children, onPress, primary, disabled }: ButtonProps & PressableProps) {
+const StyledButton = forwardRef<View, ButtonProps>((props, ref) => {
     const theme = useTheme();
 
     const getBackgroundColor = (pressed: boolean) => {
-        if (disabled) return theme.colors.buttonDisabledBackground;
+        if (props.disabled) return theme.colors.buttonDisabledBackground;
         if (pressed) {
-            return primary ? theme.colors.pressedPrimary : theme.colors.buttonPressedBackground;
+            return props.primary ? theme.colors.pressedPrimary : theme.colors.buttonPressedBackground;
         } else {
-            return primary ? theme.colors.primary : theme.colors.buttonBackground;
+            return props.primary ? theme.colors.primary : theme.colors.buttonBackground;
         }
     }
 
     return (
         <Pressable
-            onPress={onPress}
+            {...props}
+            accessibilityRole={"button"}
+            ref={ref}
             style={({ pressed }) =>
                 ({
                     borderRadius: 8,
@@ -39,8 +40,10 @@ export default function StyledButton({ children, onPress, primary, disabled }: B
                 color: theme.colors.button,
                 fontWeight: '600',
             }}>
-                {children}
+                {props.children}
             </Paragraph>
         </Pressable>
     );
-}
+});
+
+export default StyledButton;
