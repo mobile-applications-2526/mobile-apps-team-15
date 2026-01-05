@@ -12,13 +12,19 @@ import StyledTextInput from "@components/StyledTextInput";
 import Paragraph from "@components/text/Paragraph";
 import userService from "@/services/UserService";
 import { RegisterUserDto, User } from "@/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserStore } from "@/store/UserStore";
 
 
 export default function Register() {
 
     const theme = useTheme();
     const {user} = useContext(AuthContext);
+    const setUser = useUserStore((state) => state.setUser);
+
+    const lastNameRef = useRef<TextInput>(null);
+    const emailRef = useRef<TextInput>(null);
+    const passwordRef = useRef<TextInput>(null);
+    const passwordConfirmationRef = useRef<TextInput>(null);
 
     const [firstName, setFirstName] = useState<string>("");
     const [firstNameError, setFirstNameError] = useState<string>("");
@@ -78,9 +84,9 @@ export default function Register() {
                     const registerUserDto: RegisterUserDto = {uid: gUser.uid, firstName, lastName, email: gUser.email};
                     userService.registerUser(registerUserDto)
                         .then((user: User) => {
-                        AsyncStorage.setItem("user", JSON.stringify(user));
-                        gUser.getIdToken(true)
-                    })
+                            setUser(user);
+                            gUser.getIdToken(true)
+                        })
                         .catch(error => {
                             console.log(error);
                         })

@@ -10,13 +10,14 @@ import StyledButton from "@components/StyledButton";
 import { auth } from "@/services/FirebaseConfig"
 import { useContext } from "react";
 import { AuthContext } from "@components/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserStore } from "@/store/UserStore";
 
 
 export default function Account() {
 
     const theme = useTheme();
     const { user } = useContext(AuthContext)
+    const removeUser = useUserStore(state => state.removeUser)
 
     const User = {
         name: "Mark Johnson",
@@ -34,7 +35,7 @@ export default function Account() {
 
     const handleLogoutClick = async () => {
         await auth.signOut();
-        AsyncStorage.removeItem("user");
+        removeUser();
     };
 
     return (

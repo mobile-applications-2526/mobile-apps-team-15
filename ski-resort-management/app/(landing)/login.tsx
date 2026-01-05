@@ -10,12 +10,17 @@ import { auth } from "@/services/FirebaseConfig"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "@components/AuthContext";
 import Paragraph from "@components/text/Paragraph";
+import userService from "@/services/UserService";
+import { useUserStore } from "@/store/UserStore";
 
 
 export default function Login() {
 
     const theme = useTheme();
     const {user} = useContext(AuthContext);
+    const setUser = useUserStore((state) => state.setUser);
+
+    const passwordRef = useRef<TextInput>(null);
 
     const [email, setEmail] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
