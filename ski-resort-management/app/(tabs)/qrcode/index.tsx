@@ -6,6 +6,7 @@ import useTheme from "@components/ThemeContext";
 import { QrCodeSvg } from "react-native-qr-svg";
 import { getQRCodeInfo } from "@/lib/storage";
 import { useEffect, useState } from "react";
+import { Stack } from "expo-router";
 
 
 export default function Index() {
@@ -22,13 +23,16 @@ export default function Index() {
     const theme = useTheme();
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <Header/>
-            <ScrollView style={{ flex: 1 }}>
-                <Card style={{ alignItems: "center" }}>
-                    <QrCodeSvg value={ qrInfo || "No UID found"} frameSize={200}/>
-                </Card>
-            </ScrollView>
-        </SafeAreaView>
+        <>
+            <Stack.Screen options={{ headerShown: false, title: "QR Code" }}/>
+            <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+                <Header/>
+                <ScrollView style={{ flex: 1 }}>
+                    <Card style={{ alignItems: "center" }}>
+                        <QrCodeSvg value={ qrInfo || "No UID found"} frameSize={200}/>
+                    </Card>
+                </ScrollView>
+            </SafeAreaView>
+        </>
     );
 }

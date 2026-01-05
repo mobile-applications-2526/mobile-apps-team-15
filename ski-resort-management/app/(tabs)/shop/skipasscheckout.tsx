@@ -6,7 +6,7 @@ import H3 from "@components/text/H3";
 import H1 from "@components/text/H1";
 import Description from "@components/text/Description";
 import useTheme from "@components/ThemeContext";
-import Button from "@components/Button";
+import StyledButton from "@components/StyledButton";
 
 
 export default function SkiPassCheckout() {
@@ -30,12 +30,8 @@ export default function SkiPassCheckout() {
                     title: 'Ski-Pass Checkout',
                     headerShown: true,
                     headerBackButtonDisplayMode: 'minimal',
-                    headerStyle: {
-                        backgroundColor: theme.colors.surface,
-                    },
-                    headerTitleStyle: {
-                        color: theme.colors.text
-                    },
+                    headerStyle: { backgroundColor: theme.colors.surface },
+                    headerTitleStyle: { color: theme.colors.text },
                     headerTintColor: theme.colors.text,
                 }}
             />
@@ -47,7 +43,7 @@ export default function SkiPassCheckout() {
                     <Description style={{ fontSize: 18, marginTop: 20 }}>
                         You'll pay once in the app. Your subscription renews automatically each month until cancelled.
                     </Description>
-                    <Button
+                    <StyledButton
                         onPress={() => {
 
                             router.replace("/(tabs)/shop/payment-complete");
@@ -55,7 +51,7 @@ export default function SkiPassCheckout() {
                         style={{ marginBottom: 12 }}
                     >
                         Pay
-                    </Button>
+                    </StyledButton>
                 </Card>
             </View>
         </>

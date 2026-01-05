@@ -1,18 +1,28 @@
 import { Stack } from 'expo-router'
+import "@/services/FirebaseConfig";
 import { ThemeProvider } from "@components/ThemeContext";
+import { AuthProvider } from "@components/AuthContext";
 
 
 const RootLayout = () => {
     return (
         <ThemeProvider>
-            <Stack>
-                <Stack.Screen
-                    name="(tabs)"
-                    options={{
-                        headerShown: false
-                    }}
-                />
-            </Stack>
+            <AuthProvider>
+                <Stack>
+                    <Stack.Screen
+                        name="(landing)"
+                        options={{
+                            title: 'SkiFree',
+                            headerShown: false
+                        }}
+                    />
+                    <Stack.Screen
+                        name="(tabs)"
+                        options={{
+                            title: 'SkiFree',
+                        }}/>
+                </Stack>
+            </AuthProvider>
         </ThemeProvider>
     )
 }

@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import H3 from "@components/text/H3";
 import Description from "@components/text/Description";
 import useTheme from "@components/ThemeContext";
-import Button from "@components/Button";
+import StyledButton from "@components/StyledButton";
 import H2 from "@components/text/H2";
 
 
@@ -32,7 +32,7 @@ export default function SkiPassOverview({ title, price, includedList }: {
             ))}
 
             {/* Button */}
-            <Button onPress={() => {
+            <StyledButton onPress={() => {
                 router.push({
                     pathname: "shop/skipasscheckout",
                     params: {
@@ -41,7 +41,7 @@ export default function SkiPassOverview({ title, price, includedList }: {
                 })
             }}>
                 Get ski pass
-            </Button>
+            </StyledButton>
         </>
     )
 }

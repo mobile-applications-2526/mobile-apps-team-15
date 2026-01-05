@@ -6,3 +6,9 @@ To run this project, run one of the following npm commands.
 - `npm run android`
 - `npm run ios` # you need to use macOS to build the iOS project - use the Expo app if you need to do iOS development without a Mac
 - `npm run web`
+
+
+## Back-end
+The back-end folder contains the Spring Boot application used to serve the data.
+
+For it to run, you need access to the service account credentials.

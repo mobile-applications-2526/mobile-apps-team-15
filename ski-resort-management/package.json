@@ -4,25 +4,29 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~54.0.21",
     "expo-constants": "~18.0.10",
+    "expo-dev-client": "~6.0.20",
     "expo-linking": "~8.0.8",
     "expo-notifications": "~0.32.15",
     "expo-router": "~6.0.14",
     "expo-secure-store": "~15.0.8",
     "expo-status-bar": "~3.0.8",
     "expo-system-ui": "^6.0.8",
+    "firebase": "^12.7.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
     "react-native-qr-svg": "1.5.0",
     "react-native-safe-area-context": "~5.6.0",
-    "react-native-screens": "~4.16.0"
+    "react-native-screens": "~4.16.0",
+    "swr": "^2.3.8"
   },
   "private": true,
   "devDependencies": {

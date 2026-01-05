@@ -1,19 +1,21 @@
-import { Pressable, ScrollView, View } from "react-native";
+import { Platform, Pressable, ScrollView, View } from "react-native";
 import { router } from "expo-router";
 import Header from "@components/Header";
 import SlopeOverview from "@components/slopes/SlopeOverview";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import Card from "@components/Card";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
 import H2 from "@components/text/H2";
 import { Slope } from "@constants/types";
+import React from "react";
 
 
 export default function Index() {
 
     const theme = useTheme();
+    const insets = useSafeAreaInsets();
 
     const favouriteSlope: Slope = {
         id: "1",
@@ -25,7 +27,7 @@ export default function Index() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <ScrollView style={{ flex: 1 }}>
+            <ScrollView style={[{ flex: 1 }, Platform.OS === "android" && { marginBottom: insets.bottom + 60 }]}>
 
                 <Header/>
 

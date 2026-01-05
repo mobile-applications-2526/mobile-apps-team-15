@@ -1,13 +1,15 @@
 import React, { useMemo, useState } from "react";
 import { LayoutAnimation, Platform, ScrollView, TextInput, UIManager, View, } from "react-native";
 import Header from "@components/Header";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import SlopeOverview from "@components/slopes/SlopeOverview";
 import Card from "@components/Card";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import { Slope } from "@constants/types";
 import useTheme from "@components/ThemeContext";
+import { Stack } from "expo-router";
+import StyledTextInput from "@components/StyledTextInput";
 
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -42,6 +44,8 @@ const MOCK_SLOPES: Slope[] = [
 export default function Index() {
 
     const theme = useTheme();
+    const safeAreaInsets = useSafeAreaInsets();
+
     const [query, setQuery] = useState("");
     const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -57,44 +61,36 @@ export default function Index() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <ScrollView style={{ flex: 1, paddingBottom: 100 }}>
-                <Header/>
+        <>
+            <Stack.Screen options={{headerShown: false, title: "Slopes"}}/>
+            <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.background}}>
+                <ScrollView style={{flex: 1}}
+                            contentContainerStyle={Platform.OS === "android" ? {paddingBottom: safeAreaInsets.bottom + 56} : null}>
+                    <Header/>
 
-                <Card>
-                    <H1>Discover the slopes!</H1>
-                    <SubHeading>View the condition and busyness of all your favorite slopes</SubHeading>
+                    <Card>
+                        <H1>Discover the slopes!</H1>
+                        <SubHeading>View the condition and busyness of all your favorite slopes</SubHeading>
 
-                    <View
-                        style={{
-                            marginTop: 12,
-                            backgroundColor: "#f3f3f3",
-                            borderRadius: 10,
-                            paddingHorizontal: 12,
-                            paddingVertical: 10,
-                        }}
-                    >
-                        <TextInput
+                        <StyledTextInput
                             placeholder="Search"
                             value={query}
                             onChangeText={setQuery}
-                            style={{ fontSize: 16 }}
-                            autoCorrect={false}
-                        />
-                    </View>
-                </Card>
-
-                {data.map((slope) => (
-                    <Card key={slope.id}>
-                        <SlopeOverview
-                            slope={slope}
-                            expandable
-                            expanded={expandedId === slope.id}
-                            onToggle={() => toggle(slope.id)}
                         />
                     </Card>
-                ))}
-            </ScrollView>
-        </SafeAreaView>
+
+                    {data.map((slope) => (
+                        <Card key={slope.id}>
+                            <SlopeOverview
+                                slope={slope}
+                                expandable
+                                expanded={expandedId === slope.id}
+                                onToggle={() => toggle(slope.id)}
+                            />
+                        </Card>
+                    ))}
+                </ScrollView>
+            </SafeAreaView>
+        </>
     );
 }

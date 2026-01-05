@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native"
+import { Platform, ScrollView } from "react-native"
 import SkiPassOverview from "@components/shop/SkiPassOverview"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
@@ -11,7 +11,7 @@ import SubHeading from "@components/text/SubHeading";
 export default function SkiPass() {
 
     const theme = useTheme();
-    const insets = useSafeAreaInsets();
+    const safeAreaInsets = useSafeAreaInsets();
 
     const skipasscards = [
         { title: "Gold", price: 50, includedList: ["Allowed in domain 1 to 3", "Free drinks at the ski resort bars"] },
@@ -38,31 +38,25 @@ export default function SkiPass() {
                 options={{
                     title: 'Ski Passes',
                     headerShown: true,
-                    headerBackButtonDisplayMode: 'minimal',
-                    headerStyle: {
-                        backgroundColor: theme.colors.surface,
-                    },
-                    headerTitleStyle: {
-                        color: theme.colors.text
-                    },
+                    headerStyle: { backgroundColor: theme.colors.surface },
+                    headerTitleStyle: { color: theme.colors.text },
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <ScrollView
-                contentContainerStyle={{ backgroundColor: theme.colors.background, paddingBottom: insets.bottom + 70 }}>
+
+            <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 80 } : null } >
                 <Card>
                     <H1>Ski Passes</H1>
                     <SubHeading>Get your ski pass</SubHeading>
                 </Card>
 
-
                 {skipasscards.map((card) => (
                     <Card key={card.title}>
                         <SkiPassOverview
-                        title={card.title}
-                        price={card.price}
-                        includedList={card.includedList}
-                    />
+                            title={card.title}
+                            price={card.price}
+                            includedList={card.includedList}
+                        />
                     </Card>
                 ))}
             </ScrollView>
