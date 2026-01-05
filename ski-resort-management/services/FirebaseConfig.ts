@@ -32,7 +32,7 @@ if (getApps().length === 0) {
 
 const app = getApp();
 const auth = getAuth();
-if (__DEV__) connectAuthEmulator(auth, 'http://192.168.1.28:9099');
+if (__DEV__) connectAuthEmulator(auth, process.env.EXPO_PUBLIC_AUTH_EMULATOR_HOST);
 
 export { app, auth };
 // For more information on how to access Firebase in your project,

@@ -30,8 +30,8 @@ export type SkiPass = {
   name: string,
   price: number,
   skiPassType: SkiPassType,
-  startTime: Date,
-  endTime: Date,
+  startDate: Date,
+  endDate: Date,
   user: {
     id: string,
     firstName: string,

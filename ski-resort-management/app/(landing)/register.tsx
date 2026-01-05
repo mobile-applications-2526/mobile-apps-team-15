@@ -97,7 +97,6 @@ export default function Register() {
                     setRegisterError("An error occurred. Please try again.");
                 }
             })
-        setIsRegistering(false);
     }
 
     if (user) {
