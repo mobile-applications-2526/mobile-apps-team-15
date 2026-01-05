@@ -1,4 +1,3 @@
-import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
@@ -79,7 +78,9 @@ export default function Login() {
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.background, justifyContent: "center"}}>
+            <ScrollView automaticallyAdjustKeyboardInsets={true}
+                        style={{ flex: 1, backgroundColor: theme.colors.background }}
+                        contentContainerStyle={{ marginTop: "auto", marginBottom: "auto" }}>
                 <Card>
                     <SubHeading>Enter your email and password</SubHeading>
 
@@ -117,7 +118,7 @@ export default function Login() {
                     </StyledButton>
                     {user && <Redirect href={"(tabs)"}/>}
                 </Card>
-            </SafeAreaView>
+            </ScrollView>
         </>
     );
 }

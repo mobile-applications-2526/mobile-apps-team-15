@@ -1,4 +1,3 @@
-import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
@@ -124,7 +123,9 @@ export default function Register() {
                     headerTitleStyle: {color: theme.colors.text},
                     headerTintColor: theme.colors.text,
                 }}/>
-            <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.background, justifyContent: "center"}}>
+            <ScrollView automaticallyAdjustKeyboardInsets={true}
+                        style={{ flex: 1, backgroundColor: theme.colors.background }}
+                        contentContainerStyle={{ marginTop: "auto", marginBottom: "auto" }}>
                 <Card>
                     <SubHeading>Fill in your information</SubHeading>
 
@@ -201,7 +202,7 @@ export default function Register() {
                         {isRegistering && "Loading..."}
                     </StyledButton>
                 </Card>
-            </SafeAreaView>
+            </ScrollView>
         </>
     );
 }
