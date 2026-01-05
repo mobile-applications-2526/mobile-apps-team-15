@@ -53,6 +53,8 @@ export default function Login() {
         if (!validate()) return;
         setIsLoggingIn(true);
         signInWithEmailAndPassword(auth, email, password)
+            .then(() => userService.getUserByEmail(email)
+                .then(user => setUser(user)))
             .catch(error => {
                 if (error.message.includes("auth/invalid-credentials") || error.message.includes("auth/user-not-found") || error.message.includes("auth/wrong-password")) {
                     setLoginError("Invalid Credentials. Please try again.");
