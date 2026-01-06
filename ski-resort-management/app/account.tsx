@@ -11,6 +11,7 @@ import { auth } from "@/services/FirebaseConfig"
 import { useContext } from "react";
 import { AuthContext } from "@components/AuthContext";
 import { useUserStore } from "@/store/UserStore";
+import { useCartStore } from "@/store/CartStore";
 
 
 export default function Account() {
@@ -18,6 +19,7 @@ export default function Account() {
     const theme = useTheme();
     const { user } = useContext(AuthContext)
     const removeUser = useUserStore(state => state.removeUser)
+    const clearCart = useCartStore(state => state.clearCart)
 
     const User = {
         name: "Mark Johnson",
@@ -36,6 +38,7 @@ export default function Account() {
     const handleLogoutClick = async () => {
         await auth.signOut();
         removeUser();
+        clearCart();
     };
 
     return (
