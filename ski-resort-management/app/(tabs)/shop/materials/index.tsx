@@ -11,7 +11,7 @@ import useSWR from "swr";
 import materialService from "@/services/MaterialService";
 import ErrorPopup from "@components/ErrorPopup";
 import StyledTextInput from "@components/StyledTextInput";
-import { auth } from "@/services/FirebaseConfig";
+import MaterialCartHeaderButton from "@components/header/MaterialCartHeaderButton";
 
 
 export default function SkiPass() {
@@ -42,6 +42,7 @@ export default function SkiPass() {
                     headerStyle: { backgroundColor: theme.colors.surface },
                     headerTitleStyle: { color: theme.colors.text },
                     headerTintColor: theme.colors.text,
+                    headerRight: () => <MaterialCartHeaderButton />
                 }}
             />
             <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 80 } : null } >
