@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
-import { LayoutAnimation, Platform, ScrollView, TextInput, UIManager, View, } from "react-native";
-import Header from "@components/Header";
+import { LayoutAnimation, Platform, ScrollView, UIManager } from "react-native";
+import Header from "@components/header/Header";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import SlopeOverview from "@components/slopes/SlopeOverview";
 import Card from "@components/Card";

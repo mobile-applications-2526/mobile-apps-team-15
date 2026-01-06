@@ -1,5 +1,5 @@
 import { ScrollView } from "react-native";
-import Header from "@components/Header";
+import Header from "@components/header/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ListNavigationCard } from "@components/shop/ListNavigationCard";
 import Card from "@components/Card";
