@@ -26,15 +26,16 @@ const StyledButton = forwardRef<View, ButtonProps>((props, ref) => {
             {...props}
             accessibilityRole={"button"}
             ref={ref}
-            style={({ pressed }) =>
-                ({
+            style={({ pressed }) => [
+                {
                     borderRadius: 8,
                     marginVertical: 15,
                     alignItems: 'center',
                     padding: theme.spacing.md,
                     backgroundColor: getBackgroundColor(pressed),
-                })
-            }
+                },
+                typeof props.style === 'function' ? props.style({ pressed }) : props.style
+            ]}
         >
             <Paragraph style={{
                 color: theme.colors.button,
