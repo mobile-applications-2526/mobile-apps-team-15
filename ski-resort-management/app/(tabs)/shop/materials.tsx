@@ -1,4 +1,4 @@
-import { Platform, ScrollView, TextInput, View } from "react-native"
+import { Platform, ScrollView, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import MaterialOverview from "@components/shop/MaterialOverview";
@@ -7,6 +7,7 @@ import React, { useMemo, useState } from "react";
 import useTheme from "@components/ThemeContext";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
+import StyledTextInput from "@components/StyledTextInput";
 
 
 type Material = {
