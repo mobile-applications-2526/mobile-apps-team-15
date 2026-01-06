@@ -32,12 +32,7 @@ export type SkiPass = {
   skiPassType: SkiPassType,
   startDate: Date,
   endDate: Date,
-  user: {
-    id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-  }
+  user: User
 }
 
 export enum SkiPassType {
