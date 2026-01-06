@@ -4,6 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import useTheme from "@components/ThemeContext";
 
 export default function PaymentComplete() {
+
     const theme = useTheme();
     const router = useRouter();
 
@@ -23,8 +24,12 @@ export default function PaymentComplete() {
         <>
             <Stack.Screen
                 options={{
-                    title: "Payment Complete",
+                    title: 'Payment Complete',
                     headerLargeTitle: false,
+                    headerShown: true,
+                    headerStyle: { backgroundColor: theme.colors.surface },
+                    headerTitleStyle: { color: theme.colors.text },
+                    headerTintColor: theme.colors.text,
                 }}
             />
 
@@ -115,8 +120,6 @@ export default function PaymentComplete() {
                         </Pressable>
                     </View>
                 </View>
-
-                <View style={{ flex: 1 }} />
             </View>
         </>
     );

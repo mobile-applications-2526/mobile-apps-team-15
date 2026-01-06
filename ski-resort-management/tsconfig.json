@@ -4,7 +4,8 @@
       "@/*": ["./*"],
       "@assets/*": ["./assets/*"],
       "@constants/*": ["./constants/*"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
     }
   },
   "extends": "expo/tsconfig.base"
