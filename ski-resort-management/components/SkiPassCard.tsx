@@ -2,7 +2,7 @@ import Card from "@components/Card";
 import H2 from "@components/text/H2";
 import { View } from "react-native";
 import { router, useFocusEffect } from "expo-router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SkiPass } from "@/types";
 import SkiPassService from "@/services/SkiPassService";
 import StyledButton from "@components/StyledButton";
@@ -11,6 +11,7 @@ import Paragraph from "@components/text/Paragraph";
 import H1 from "@components/text/H1";
 import useTheme from "@components/ThemeContext";
 import { User } from "firebase/auth";
+import { LinearGradient } from "expo-linear-gradient";
 
 type SkiPassCardProps = {
     user: User
@@ -60,11 +61,23 @@ export default function SkiPassCard({ user }: Readonly<SkiPassCardProps>) {
                 </View>
             )}
             {activeSkiPass && (
-                <View style={{
-                    backgroundColor: theme.colors.surface,
+                <LinearGradient
+                    colors={
+                    activeSkiPass.skiPassType === "GOLD"
+                        ? ['#bfae4f', '#fffbe6', '#ffe066', '#bfae4f']
+                        : activeSkiPass.skiPassType === "SILVER"
+                        ? ['#aaa', '#eee', '#ccc', '#aaa']
+                        : ['#ad7a50', '#fff2e0', '#cd7f32', '#ad7a50']
+                    }
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={{
                     padding: 20,
                     borderRadius: 12,
-                }}>
+                    marginBottom: 10,
+                    marginTop: 10
+                    }}
+                >
                     <H1 style={{ textAlign: 'center', marginBottom: 8 }}>
                         {activeSkiPass.name}
                     </H1>
@@ -74,7 +87,7 @@ export default function SkiPassCard({ user }: Readonly<SkiPassCardProps>) {
                     <Paragraph style={{ textAlign: 'center', color: theme.colors.textSecondary }}>
                         {new Date(activeSkiPass.endDate).toLocaleDateString()}
                     </Paragraph>
-                </View>
+                </LinearGradient>
             )}
             {!isLoadingSkiPass && !activeSkiPass && (<>
                     <Description style={{ textAlign: "center", paddingTop: theme.spacing.lg }}>No active ski
