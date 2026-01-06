@@ -25,6 +25,8 @@ export type Material = {
   available: boolean
 }
 
+export type DurationType = "hours" | "days";
+
 export type SkiPass = {
   id: string,
   name: string,
