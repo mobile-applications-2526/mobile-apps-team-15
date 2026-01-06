@@ -7,6 +7,7 @@ import Paragraph from "@components/text/Paragraph";
 interface ButtonProps extends PressableProps {
     readonly children: ReactNode;
     readonly primary?: boolean;
+    readonly dangerous?: boolean;
 }
 
 const StyledButton = forwardRef<View, ButtonProps>((props, ref) => {
@@ -14,7 +15,14 @@ const StyledButton = forwardRef<View, ButtonProps>((props, ref) => {
 
     const getBackgroundColor = (pressed: boolean) => {
         if (props.disabled) return theme.colors.buttonDisabledBackground;
-        if (pressed) {
+        if (props.dangerous) {
+            if (pressed) {
+                return theme.colors.buttonDangerousPressedBackground;
+            } else {
+                return theme.colors.buttonDangerousBackground;
+            }
+        }
+        else if (pressed) {
             return props.primary ? theme.colors.pressedPrimary : theme.colors.buttonPressedBackground;
         } else {
             return props.primary ? theme.colors.primary : theme.colors.buttonBackground;
