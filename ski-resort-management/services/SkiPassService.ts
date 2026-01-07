@@ -1,4 +1,4 @@
-import { SkiPass, SkiPassRequestDto } from "@/types";
+import { SkiPass, SkiPassRequestDto } from "@constants/types";
 import { auth } from "@/services/FirebaseConfig";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;

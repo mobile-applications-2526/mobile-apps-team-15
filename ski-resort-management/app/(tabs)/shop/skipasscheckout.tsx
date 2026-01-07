@@ -8,7 +8,7 @@ import Description from "@components/text/Description";
 import useTheme from "@components/ThemeContext";
 import StyledButton from "@components/StyledButton";
 import SkiPassService from "@/services/SkiPassService";
-import { SkiPassType, SkiPassRequestDto } from "@/types";
+import { SkiPassType, SkiPassRequestDto } from "@constants/types";
 import { AuthContext } from "@components/AuthContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { scheduleSkiPassExpiryNotification, requestNotificationPermissions } from "@/services/NotificationService";
@@ -82,7 +82,6 @@ export default function SkiPassCheckout() {
 
                             setIsProcessing(true);
                             try {
-                                {/*End date calculation */}
                                 const endDate = new Date();
                                 if (passType === 'week') {
                                     endDate.setDate(endDate.getDate() + 7);
@@ -90,7 +89,6 @@ export default function SkiPassCheckout() {
                                     endDate.setDate(endDate.getDate() + 1);
                                 }
 
-                                {/*Map title to SkiPassType enum*/}
                                 let skiPassType: SkiPassType;
                                 switch (title.toString().toUpperCase()) {
                                     case 'GOLD':

@@ -1,4 +1,4 @@
-import { Lift, LiftStatus } from "@/types";
+import { Lift, LiftStatus } from "@constants/types";
 import { auth } from "@/services/FirebaseConfig";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;

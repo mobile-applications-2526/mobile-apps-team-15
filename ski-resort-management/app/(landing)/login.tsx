@@ -1,21 +1,26 @@
-import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
 import StyledButton from "@components/StyledButton";
 import { Redirect, Stack } from "expo-router";
 import StyledTextInput from "@components/StyledTextInput";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { auth } from "@/services/FirebaseConfig"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "@components/AuthContext";
 import Paragraph from "@components/text/Paragraph";
+import { ScrollView, TextInput } from "react-native";
+import userService from "@/services/UserService";
+import { useUserStore } from "@/store/UserStore";
 
 
 export default function Login() {
 
     const theme = useTheme();
     const {user} = useContext(AuthContext);
+    const setUser = useUserStore((state) => state.setUser);
+
+    const passwordRef = useRef<TextInput>(null);
 
     const [email, setEmail] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
@@ -48,15 +53,23 @@ export default function Login() {
         if (!validate()) return;
         setIsLoggingIn(true);
         signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                userService.getUserByEmail(email)
+                    .then(user => setUser(user))
+                    .catch(error => {
+                        console.log(error);
+                    })
+                setIsLoggingIn(false);
+            })
             .catch(error => {
-                if (error.message.includes("auth/invalid-credentials") || error.message.includes("auth/user-not-found") || error.message.includes("auth/wrong-password")) {
+                if (error.message.includes("auth/invalid-credentials") || error.message.includes("auth/user-not-found") || error.message.includes("auth/invalid-email") || error.message.includes("auth/wrong-password")) {
                     setLoginError("Invalid Credentials. Please try again.");
                 } else {
                     console.log(error);
                     setLoginError("An error occurred. Please try again.");
                 }
+                setIsLoggingIn(false);
             });
-        setIsLoggingIn(false);
     }
 
     return (
@@ -71,24 +84,47 @@ export default function Login() {
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.background, justifyContent: "center"}}>
+            <ScrollView automaticallyAdjustKeyboardInsets={true}
+                        style={{ flex: 1, backgroundColor: theme.colors.background }}
+                        contentContainerStyle={{ marginTop: "auto", marginBottom: "auto" }}>
                 <Card>
                     <SubHeading>Enter your email and password</SubHeading>
 
-                    <StyledTextInput placeholder="Email" value={email} onChangeText={setEmail}
-                                     accessibilityLabel="Email text input" textContentType={"emailAddress"} keyboardType={"email-address"}/>
-                    { emailError && <Paragraph style={{color: theme.colors.error}}>{emailError}</Paragraph> }
-                    <StyledTextInput placeholder="Password" value={password} onChangeText={setPassword}
-                                     accessibilityLabel="Password input" secureTextEntry={true} textContentType={"password"}/>
-                    { passwordError && <Paragraph style={{color: theme.colors.error}}>{passwordError}</Paragraph> }
-                    { loginError && <Paragraph style={{color: theme.colors.error, marginTop: theme.spacing.sm}}>{loginError}</Paragraph> }
+                    <StyledTextInput placeholder="Email"
+                                     accessibilityLabel="Email text input"
+                                     value={email}
+                                     onChangeText={setEmail}
+                                     onSubmitEditing={() => passwordRef.current?.focus()}
+                                     autoCapitalize={"none"}
+                                     autoCorrect={false}
+                                     returnKeyType={"next"}
+                                     submitBehavior={"submit"}
+                                     textContentType={"emailAddress"}
+                                     keyboardType={"email-address"}
+                    />
+                    {!!(emailError) && <Paragraph style={{ color: theme.colors.error }}>{emailError}</Paragraph>}
+                    <StyledTextInput ref={passwordRef} placeholder="Password"
+                                     accessibilityLabel="Password input"
+                                     secureTextEntry={true}
+                                     value={password}
+                                     onChangeText={setPassword}
+                                     onSubmitEditing={handleLogIn}
+                                     autoCapitalize={"none"}
+                                     autoCorrect={false}
+                                     textContentType={"password"}
+                                     returnKeyType={"next"}
+                                     submitBehavior={"submit"}
+                    />
+                    {!!(passwordError) && <Paragraph style={{ color: theme.colors.error }}>{passwordError}</Paragraph>}
+                    {!!(loginError) && <Paragraph
+                        style={{ color: theme.colors.error, marginTop: theme.spacing.sm }}>{loginError}</Paragraph>}
                     <StyledButton onPress={handleLogIn} primary disabled={isLoggingIn}>
                         {!isLoggingIn && "Log in"}
                         {isLoggingIn && "Loading..."}
                     </StyledButton>
                     {user && <Redirect href={"(tabs)"}/>}
                 </Card>
-            </SafeAreaView>
+            </ScrollView>
         </>
     );
 }
