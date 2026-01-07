@@ -37,6 +37,7 @@ export default function Account() {
     const handleLogoutClick = async () => {
         await auth.signOut();
         AsyncStorage.removeItem("user");
+        AsyncStorage.removeItem("user_notification_permission_asked")
     };
 
     return (
