@@ -1,38 +1,17 @@
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import Header from "@components/header/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Card from "@components/Card";
 import useTheme from "@components/ThemeContext";
 import { QrCodeSvg } from "react-native-qr-svg";
-import { useCallback, useState } from "react";
-import { Stack, useFocusEffect } from "expo-router";
+import { Stack } from "expo-router";
 import Paragraph from "@/components/text/Paragraph";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserStore } from "@/store/UserStore";
 
 
 export default function Index() {
-    const [uid, setUid] = useState<string | null>(null);
+    const { user } = useUserStore()
 
-    const fetchQR = useCallback(async () => {
-        try {
-            const userString = await AsyncStorage.getItem("user");
-            if (userString) {
-                const user = JSON.parse(userString);
-                setUid(user.uid);
-            } else {
-                setUid(null);
-            }
-        } catch (error) {
-            console.error("Failed to fetch user from AsyncStorage:", error);
-            setUid(null);
-        }
-    }, []);
-
-    useFocusEffect(
-        useCallback(() => {
-            fetchQR();
-        }, [fetchQR])
-    );
 
     const theme = useTheme();
 
@@ -43,8 +22,10 @@ export default function Index() {
                 <Header/>
                 <ScrollView style={{ flex: 1 }}>
                     <Card style={{ alignItems: "center" }}>
-                        {uid ? (
-                            <QrCodeSvg value={uid} frameSize={200}/>
+                        {user?.uid ? (
+                            <View style={{ padding: theme.spacing.sm, backgroundColor: "#ffffff", borderRadius: theme.spacing.xs }}>
+                                <QrCodeSvg value={user.uid} frameSize={200}/>
+                            </View>
                         ) : (
                             <Paragraph>{"No UID found.\n\nPlease log in to view your QR code."}</Paragraph>
                         )}
