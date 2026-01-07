@@ -60,7 +60,7 @@ export default function SkiPass() {
                     gap: 19,
                 }}>
                     { isLoading && <></> }
-                    { materials && filteredMaterials.map((material) => (
+                    { !!(materials) && filteredMaterials.map((material) => (
                         <Card style={{width: '47%', margin: 0}} key={material.id}>
                             <MaterialOverview
                                 key={material.id}
