@@ -4,12 +4,15 @@ import Description from "@components/text/Description";
 import useTheme from "@components/ThemeContext";
 import StyledButton from "@components/StyledButton";
 import H2 from "@components/text/H2";
+import Paragraph from "@components/text/Paragraph";
 
 
-export default function SkiPassOverview({ title, price, includedList }: {
+export default function SkiPassOverview({ title, price, includedList, passType, hasActiveSkiPass = false }: {
     readonly title: string,
     readonly price: number,
     readonly includedList: readonly string[]
+    readonly passType: string
+    readonly hasActiveSkiPass?: boolean
 }) {
 
     const theme = useTheme();
@@ -23,7 +26,7 @@ export default function SkiPassOverview({ title, price, includedList }: {
 
             {/* Price */}
             <H3 style={{ marginBottom: 20, alignSelf: "center", color: theme.colors.textSecondary }}>
-                ${price}/mo
+                ${price}
             </H3>
 
             {/* Included List */}
@@ -32,16 +35,23 @@ export default function SkiPassOverview({ title, price, includedList }: {
             ))}
 
             {/* Button */}
-            <StyledButton onPress={() => {
-                router.push({
-                    pathname: "shop/skipasscheckout",
-                    params: {
-                        selectedSkiPassTitle: title
-                    }
-                })
-            }}>
-                Get ski pass
-            </StyledButton>
+            {hasActiveSkiPass ? (
+                <StyledButton disabled>
+                    Active skipass detected
+                </StyledButton>
+                
+            ) : (
+                <StyledButton onPress={() => {
+                    router.push({
+                        pathname: "shop/skipasscheckout",
+                        params: {
+                            title, price, passType
+                        }
+                    })
+                }}>
+                    Get ski pass
+                </StyledButton>
+            )}
         </>
     )
 }

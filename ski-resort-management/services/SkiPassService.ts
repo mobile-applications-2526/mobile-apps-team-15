@@ -28,7 +28,7 @@ const getSkiPassesByUserId = async (userId: string): Promise<SkiPass[]> => {
 }
 
 const getCurrentSkiPassByUserId = async (userId: string): Promise<SkiPass[]> => {
-  const response = await fetch(`${API_URL}/skipasses/current/user/${userId}`, {
+  const response = await fetch(`${API_URL}/skipasses/user/current/${userId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,8 @@ const getCurrentSkiPassByUserId = async (userId: string): Promise<SkiPass[]> => 
     }
   });
   if (response.ok) return await response.json();
-  else throw new Error('Failed to fetch current ski-passes, please try again later.');
+  if (response.status === 404) return [];
+  return [];
 }
 
 const postSkiPass = async ({ name, userId, skiPassType, endDateTime }: SkiPassRequestDto): Promise<SkiPass> => {
