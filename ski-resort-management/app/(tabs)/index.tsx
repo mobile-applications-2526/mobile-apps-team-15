@@ -1,5 +1,4 @@
-import { Platform, Pressable, ScrollView } from "react-native";
-import { router } from "expo-router";
+import { Platform, ScrollView } from "react-native";
 import Header from "@components/header/Header";
 import SlopeOverview from "@components/slopes/SlopeOverview";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
@@ -8,11 +7,13 @@ import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
 import H2 from "@components/text/H2";
-import { Slope } from "@constants/types";
 import React, { useContext } from "react";
 import { AuthContext } from "@components/AuthContext";
 import SkiPassCard from "@components/SkiPassCard";
 import { useUserStore } from "@/store/UserStore";
+import { useFavoriteSlopeStore } from "@/store/FavoriteSlopeStore";
+import StyledLink from "@components/StyledLink";
+import Description from "@components/text/Description";
 
 
 export default function Index() {
@@ -21,13 +22,8 @@ export default function Index() {
     const insets = useSafeAreaInsets();
     const { user } = useContext(AuthContext);
     const { user: backEndUser } = useUserStore()
+    const { favoriteSlope } = useFavoriteSlopeStore()
 
-    const favouriteSlope: Slope = {
-        id: "1",
-        imageUrl: require('@assets/skislope1.png'),
-        name: "Slope 1",
-        description: "Body text for whatever you'd like to say. Add main takeaway points, quotes, anecdotes, or even a very short story.",
-    }
 
 
     return (
@@ -45,13 +41,13 @@ export default function Index() {
                 <SkiPassCard user={user}/>
 
                 <Card>
-                    <H2>Your favorite slope</H2>
-
-                    <Pressable onPress={() => {
-                        router.push("slopes")
-                    }}>
-                        <SlopeOverview slope={favouriteSlope}/>
-                    </Pressable>
+                    <H2 style={{paddingBottom: theme.spacing.md}}>Your favorite slope</H2>
+                    {favoriteSlope === null && (<>
+                        <Description style={{ textAlign: "center" }}>No favorite slope yet</Description>
+                        <StyledLink href={"(tabs)/slopes"}>See
+                        slopes</StyledLink>
+                    </>)}
+                    {!!(favoriteSlope) && <SlopeOverview slope={favoriteSlope} expanded/>}
                 </Card>
             </ScrollView>
         </SafeAreaView>

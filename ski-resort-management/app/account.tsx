@@ -15,18 +15,20 @@ import { useCartStore } from "@/store/CartStore";
 import SkiPassService from "@/services/SkiPassService";
 import LoanService from "@/services/LoanService";
 import ErrorPopup from "@components/ErrorPopup";
-import { Loan, SkiPass } from "@/types";
+import { Loan, SkiPass } from "@constants/types";
 import H3 from "@components/text/H3";
 import Divider from "@components/text/Divider";
+import { useFavoriteSlopeStore } from "@/store/FavoriteSlopeStore";
 
 
 export default function Account() {
 
     const theme = useTheme();
-    const { user } = useContext(AuthContext)
-    const { user: backEndUser } = useUserStore()
-    const removeUser = useUserStore(state => state.removeUser)
-    const clearCart = useCartStore(state => state.clearCart)
+    const { user } = useContext(AuthContext);
+    const { user: backEndUser } = useUserStore();
+    const removeUser = useUserStore(state => state.removeUser);
+    const clearCart = useCartStore(state => state.clearCart);
+    const clearFavoriteSlope = useFavoriteSlopeStore(state => state.clearFavoriteSlope);
     const [ownedSkipasses, setOwnedSkipasses] = useState([]);
     const [loans, setLoans] = useState([]);
     const [error, setError] = useState<Error | null>(null);
@@ -64,6 +66,7 @@ export default function Account() {
         await auth.signOut();
         removeUser();
         clearCart();
+        clearFavoriteSlope();
     };
 
     return (
