@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import Card from "@components/Card";
@@ -11,6 +11,11 @@ import StyledButton from "@components/StyledButton";
 import useTheme from "@components/ThemeContext";
 import { useCartStore } from "@/store/CartStore";
 import StyledButtonSmall from "@components/StyledButtonSmall";
+import loanService from "@/services/LoanService";
+import { LoanRequestDto } from "@/types";
+import dayjs, { Dayjs } from "dayjs";
+import { useUserStore } from "@/store/UserStore";
+import ErrorPopup from "@components/ErrorPopup";
 
 
 export default function Cart() {
@@ -19,6 +24,10 @@ export default function Cart() {
     const theme = useTheme();
 
     const { materials, duration, durationType, setDuration, setDurationType, getTotalPrice, clearCart } = useCartStore();
+
+    const { user } = useUserStore()
+
+    const [error, setError] = useState<Error | null>(null);
 
     const pill = {
         width: 95,
@@ -29,6 +38,26 @@ export default function Cart() {
         borderColor: theme.colors.border,
         backgroundColor: theme.colors.surface,
     } as const;
+
+    function handlePay() {
+        setError(null);
+        const startDate: Dayjs = dayjs();
+        const endDate: Dayjs = startDate.add(duration, durationType);
+        const loan: LoanRequestDto = {
+            userId: user.id,
+            startTime: startDate.toDate(),
+            endTime: endDate.toDate(),
+            materials: materials.map(material => material.id)
+        }
+        loanService.postLoan(loan)
+            .then(() => {
+                clearCart();
+                router.replace("/(tabs)/shop/payment-complete");
+            })
+            .catch((error) => {
+                setError(error);
+            })
+    }
 
     return (
         <>
@@ -85,7 +114,7 @@ export default function Cart() {
                                 gap: 8
                             }}>
                                 <Description>Duration:</Description>
-                                <View style={{flexDirection: "row", gap: theme.spacing.sm}}>
+                                <View style={{ flexDirection: "row", gap: theme.spacing.sm }}>
                                     <StyledButtonSmall
                                         onPress={() => setDuration(Math.max(1, duration - 1))}>
                                         -
@@ -137,10 +166,7 @@ export default function Cart() {
 
                     {/* Pay -> navigate to payment complete */}
                     <StyledButton
-                        onPress={() => {
-                            clearCart();
-                            router.replace("/(tabs)/shop/payment-complete");
-                        }}
+                        onPress={handlePay}
                         disabled={materials.length === 0}
                         primary
                     >
@@ -168,6 +194,7 @@ export default function Cart() {
                     </StyledButton>
                 </Card>
             </ScrollView>
+            {error && <ErrorPopup message={error.message}/>}
         </>
     );
 }
