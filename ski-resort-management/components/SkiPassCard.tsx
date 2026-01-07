@@ -2,7 +2,7 @@ import Card from "@components/Card";
 import H2 from "@components/text/H2";
 import { View } from "react-native";
 import { router, useFocusEffect } from "expo-router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SkiPass } from "@/types";
 import SkiPassService from "@/services/SkiPassService";
 import StyledButton from "@components/StyledButton";
@@ -74,18 +74,14 @@ export default function SkiPassCard({ user }: Readonly<SkiPassCardProps>) {
                     style={{
                     padding: 20,
                     borderRadius: 12,
-                    marginBottom: 10,
                     marginTop: 10
                     }}
                 >
-                    <H1 style={{ textAlign: 'center', marginBottom: 8 }}>
+                    <H1 style={{ textAlign: 'center', marginBottom: theme.spacing.xl, color: "#000000" }}>
                         {activeSkiPass.name}
                     </H1>
-                    <Paragraph style={{ textAlign: 'center', fontSize: 16, marginBottom: 8 }}>
-                        {activeSkiPass.skiPassType} Pass
-                    </Paragraph>
-                    <Paragraph style={{ textAlign: 'center', color: theme.colors.textSecondary }}>
-                        {new Date(activeSkiPass.endDate).toLocaleDateString()}
+                    <Paragraph style={{ textAlign: 'center', fontWeight: "bold", color: "#000000" }}>
+                        Valid until {new Date(activeSkiPass.endDate).toLocaleDateString()}
                     </Paragraph>
                 </LinearGradient>
             )}
