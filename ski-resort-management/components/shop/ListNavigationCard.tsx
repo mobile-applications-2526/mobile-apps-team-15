@@ -30,6 +30,7 @@ export const ListNavigationCard: React.FC<ListNavigationCardProps> = ({ items })
                 <React.Fragment key={item.href}>
                     <TouchableOpacity
                     style={theme.list.listItem}
+                    accessibilityRole="button"
                     onPress={() => handleNavigate(item.href)}
                 >
                     <View style={{ flex: 1 }}>

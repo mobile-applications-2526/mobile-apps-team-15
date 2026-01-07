@@ -1,20 +1,21 @@
-import { Link } from "expo-router";
-import React from "react";
+import { Link, LinkProps } from "expo-router";
+import React, { forwardRef } from "react";
 import StyledButton from "@components/StyledButton";
+import { View } from "react-native";
 
-type StyledLinkProps = {
-    href: string;
-    label: string;
-    children: React.ReactNode;
-    primary?: boolean;
+interface StyledLinkProps extends LinkProps {
+    readonly children: React.ReactNode;
+    readonly primary?: boolean;
 }
 
-export default function StyledLink({href, label, children, primary}: Readonly<StyledLinkProps>) {
+const StyledLink = forwardRef<View, StyledLinkProps>((props, ref) => {
     return (
-        <Link href={href} aria-label={label} asChild>
-            <StyledButton primary={primary}>
-                {children}
+        <Link ref={ref} {...props} asChild>
+            <StyledButton primary={props.primary}>
+                {props.children}
             </StyledButton>
         </Link>
     );
-}
+});
+
+export default StyledLink;

@@ -8,7 +8,7 @@ import Description from "@components/text/Description";
 import useTheme from "@components/ThemeContext";
 import StyledButton from "@components/StyledButton";
 import SkiPassService from "@/services/SkiPassService";
-import { SkiPassType, SkiPassRequestDto } from "@/types";
+import { SkiPassType, SkiPassRequestDto } from "@constants/types";
 import { AuthContext } from "@components/AuthContext";
 
 export default function SkiPassCheckout() {
@@ -18,13 +18,6 @@ export default function SkiPassCheckout() {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const { title, price, passType } = useLocalSearchParams();
-    //Use this param to lookup skipass price
-
-    const mockedSkipass = {
-        title: "Gold",
-        price: 50,
-        includedList: ["Allowed in domain 1 to 3", "Free drinks at the ski resort bars"]
-    }
 
 
     return (
@@ -56,7 +49,6 @@ export default function SkiPassCheckout() {
 
                             setIsProcessing(true);
                             try {
-                                {/*End date calculation */}
                                 const endDate = new Date();
                                 if (passType === 'week') {
                                     endDate.setDate(endDate.getDate() + 7);
@@ -64,7 +56,6 @@ export default function SkiPassCheckout() {
                                     endDate.setDate(endDate.getDate() + 1);
                                 }
 
-                                {/*Map title to SkiPassType enum*/}
                                 let skiPassType: SkiPassType;
                                 switch (title.toString().toUpperCase()) {
                                     case 'GOLD':

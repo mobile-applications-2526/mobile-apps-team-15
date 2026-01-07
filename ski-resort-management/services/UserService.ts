@@ -1,4 +1,4 @@
-import { RegisterUserDto, User } from "@/types";
+import { RegisterUserDto, User } from "@constants/types";
 import { auth } from "@/services/FirebaseConfig";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;

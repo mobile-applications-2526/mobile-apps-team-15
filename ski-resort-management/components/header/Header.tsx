@@ -20,6 +20,8 @@ export default function Header() {
             backgroundColor: theme.colors.surface,
         }}>
             <Pressable
+                accessibilityLabel={"Account"}
+                accessibilityRole={"button"}
                 style={{
                     width: 40,
                     height: 40,

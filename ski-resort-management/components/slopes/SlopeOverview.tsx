@@ -1,77 +1,68 @@
 import React from "react";
-import { Image, Pressable, View } from "react-native";
+import { View } from "react-native";
 import { Slope } from "@constants/types";
 import H3 from "@components/text/H3";
 import H4 from "@components/text/H4";
 import Description from "@components/text/Description";
 import Paragraph from "@components/text/Paragraph";
 import Divider from "@components/text/Divider";
+import StyledButtonSmall from "@components/StyledButtonSmall";
+import { useFavoriteSlopeStore } from "@/store/FavoriteSlopeStore";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import useTheme from "@components/ThemeContext";
 
+
+type SlopeOverviewProps = {
+    slope: Slope;
+    expandable?: boolean;
+    expanded?: boolean;
+    onToggle?: () => void;
+}
 
 export default function SlopeOverview({
-                                          slope: {
-                                              name,
-                                              description,
-                                              imageUrl,
-                                              weather,
-                                          },
+                                          slope,
                                           expandable = false,
                                           expanded = false,
                                           onToggle,
-                                      }: {
-    readonly slope: Slope;
-    readonly expandable?: boolean;
-    readonly expanded?: boolean;
-    readonly onToggle?: () => void;
-}) {
+                                      }: Readonly<SlopeOverviewProps>) {
 
-    const HeaderWrapper = expandable ? Pressable : View;
+    const theme = useTheme();
 
-    const safe = (v?: string | number | null, suffix = "") =>
-        v === undefined || v === null || v === "" ? "-" : `${v}${suffix}`;
+
+    const { favoriteSlope, setFavoriteSlope } = useFavoriteSlopeStore();
 
     return (
         <>
-            <HeaderWrapper
+            <View
                 {...(expandable
-                    ? { onPress: onToggle, style: { flexDirection: "row", alignItems: "center" } }
+                    ? { style: { flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" } }
                     : {})}
             >
-                <View style={{ flex: 1, marginRight: expandable ? 8 : 0 }}>
-                    <Image
-                        source={imageUrl}
-                        style={{
-                            width: "100%",
-                            height: 120,
-                            borderRadius: 8,
-                            marginBottom: 12,
-                            backgroundColor: "#f3f3f3",
-                        }}
-                    />
-                    <H3>{name}</H3>
-                    {!!description && <Description>{description}</Description>}
+                <View style={{ flex: 1 }}>
+                    <H3>{slope.slopeName}</H3>
+                    <Description>{slope.domain.name}</Description>
                 </View>
 
                 {expandable && (
-                    <Paragraph style={{ fontSize: 18 }}>
-                        {expanded ? "▲" : "▼"}
-                    </Paragraph>
+                    <View style={{ flexDirection: "row" }}>
+                        <StyledButtonSmall onPress={() => favoriteSlope?.id === slope.id ? setFavoriteSlope(null) : setFavoriteSlope(slope) } style={{backgroundColor: "transparent"}} accessibilityLabel={favoriteSlope?.id === slope.id ? "Remove favorite" : "Favorite"} >
+                            <FontAwesome6 name={"heart"} solid size={20} color={favoriteSlope?.id === slope.id ? theme.colors.error : theme.colors.textSecondary} />
+                        </StyledButtonSmall>
+                        <StyledButtonSmall onPress={onToggle} style={{backgroundColor: "transparent"}} accessibilityLabel={expanded ? "close" : "expand"} >
+                            <FontAwesome6 name={expanded ? "chevron-up" : "chevron-down"} solid size={20} color={theme.colors.text} />
+                        </StyledButtonSmall>
+                    </View>
                 )}
-            </HeaderWrapper>
+            </View>
 
-            {expandable && expanded && (
+            {expanded && (
                 <View style={{ marginTop: 8 }}>
                     <Divider/>
                     <H4 style={{ marginTop: 16, marginBottom: 8 }}>Weather</H4>
                     <View style={{ paddingVertical: 8, gap: 12 }}>
-                        <Row label="wind" value={safe(weather?.windKmh, " km/h")}/>
-                        <Row label="snow quality" value={safe(weather?.snowQuality ?? null)}/>
-                        <Row label="visibility" value={safe(weather?.visibility ?? null)}/>
+                        <Row label="Status:" value={slope.status}/>
+                        <Row label="Difficulty:" value={slope.difficulty}/>
                     </View>
-
-                    <Divider/>
-                    <H4 style={{ marginTop: 16 }}>Busyness</H4>
-                    <Paragraph style={{ marginTop: 6 }}>{safe(weather?.busyness ?? null)}</Paragraph>
                 </View>
             )}
         </>
