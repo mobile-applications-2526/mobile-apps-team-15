@@ -35,7 +35,7 @@ export default function Index() {
 
     const data = useMemo(() => {
         const q = query.trim().toLowerCase();
-        if (!q) return slopes;
+        if (!q) return slopes ?? [];
         return slopes.filter((s) => s.slopeName.toLowerCase().includes(q));
     }, [query]);
 
