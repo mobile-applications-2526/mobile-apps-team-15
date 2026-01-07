@@ -1,8 +1,8 @@
 export type Loan = {
   id: string;
   userId: string,
-  startDate: Date,
-  endDate: Date,
+  startTime: Date,
+  endTime: Date,
   materials: string[],
   returnTime: Date
   isActive: boolean
@@ -10,8 +10,8 @@ export type Loan = {
 
 export type LoanRequestDto = {
   userId: string,
-  startDate: Date,
-  endDate: Date,
+  startTime: Date,
+  endTime: Date,
   materials: string[]
 }
 
