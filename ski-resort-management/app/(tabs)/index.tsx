@@ -12,6 +12,7 @@ import { Slope } from "@constants/types";
 import React, { useContext } from "react";
 import { AuthContext } from "@components/AuthContext";
 import SkiPassCard from "@components/SkiPassCard";
+import { useUserStore } from "@/store/UserStore";
 
 
 export default function Index() {
@@ -19,6 +20,7 @@ export default function Index() {
     const theme = useTheme();
     const insets = useSafeAreaInsets();
     const { user } = useContext(AuthContext);
+    const { user: backEndUser } = useUserStore()
 
     const favouriteSlope: Slope = {
         id: "1",
@@ -37,7 +39,7 @@ export default function Index() {
                 {/* Welcome Card */}
                 <Card>
                     <H1>Ski-Free</H1>
-                    <SubHeading>Welcome back, Mark!</SubHeading>
+                    {backEndUser && <SubHeading>Welcome back, {backEndUser.firstName}!</SubHeading> }
                 </Card>
 
                 <SkiPassCard user={user}/>
