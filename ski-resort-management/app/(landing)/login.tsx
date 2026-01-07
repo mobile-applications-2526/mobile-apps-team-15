@@ -53,8 +53,14 @@ export default function Login() {
         if (!validate()) return;
         setIsLoggingIn(true);
         signInWithEmailAndPassword(auth, email, password)
-            .then(() => userService.getUserByEmail(email)
-                .then(user => setUser(user)))
+            .then(() => {
+                userService.getUserByEmail(email)
+                    .then(user => setUser(user))
+                    .catch(error => {
+                        console.log(error);
+                    })
+                setIsLoggingIn(false);
+            })
             .catch(error => {
                 if (error.message.includes("auth/invalid-credentials") || error.message.includes("auth/user-not-found") || error.message.includes("auth/invalid-email") || error.message.includes("auth/wrong-password")) {
                     setLoginError("Invalid Credentials. Please try again.");
@@ -62,8 +68,8 @@ export default function Login() {
                     console.log(error);
                     setLoginError("An error occurred. Please try again.");
                 }
+                setIsLoggingIn(false);
             });
-        setIsLoggingIn(false);
     }
 
     return (

@@ -91,6 +91,7 @@ export default function Register() {
                             console.log(error);
                         })
                 }
+                setIsRegistering(false);
             })
             .catch(error => {
                 if (error.message.includes("auth/email-already-in-use")) {
@@ -102,6 +103,7 @@ export default function Register() {
                 } else {
                     setRegisterError("An error occurred. Please try again.");
                 }
+                setIsRegistering(false);
             })
     }
 
