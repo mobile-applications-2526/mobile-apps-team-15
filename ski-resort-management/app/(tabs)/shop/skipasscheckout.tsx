@@ -1,26 +1,23 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Card from "@components/Card";
 import { View } from "react-native";
 import H3 from "@components/text/H3";
 import H1 from "@components/text/H1";
 import Description from "@components/text/Description";
 import useTheme from "@components/ThemeContext";
-import Button from "@components/Button";
-
+import StyledButton from "@components/StyledButton";
+import SkiPassService from "@/services/SkiPassService";
+import { SkiPassType, SkiPassRequestDto } from "@constants/types";
+import { AuthContext } from "@components/AuthContext";
 
 export default function SkiPassCheckout() {
     const theme = useTheme();
     const router = useRouter();
+    const { user } = useContext(AuthContext);
+    const [isProcessing, setIsProcessing] = useState(false);
 
-    const { selectedSkiPassTitle } = useLocalSearchParams();
-    //Use this param to lookup skipass price
-
-    const mockedSkipass = {
-        title: "Gold",
-        price: 50,
-        includedList: ["Allowed in domain 1 to 3", "Free drinks at the ski resort bars"]
-    }
+    const { title, price, passType } = useLocalSearchParams();
 
 
     return (
@@ -30,12 +27,8 @@ export default function SkiPassCheckout() {
                     title: 'Ski-Pass Checkout',
                     headerShown: true,
                     headerBackButtonDisplayMode: 'minimal',
-                    headerStyle: {
-                        backgroundColor: theme.colors.surface,
-                    },
-                    headerTitleStyle: {
-                        color: theme.colors.text
-                    },
+                    headerStyle: { backgroundColor: theme.colors.surface },
+                    headerTitleStyle: { color: theme.colors.text },
                     headerTintColor: theme.colors.text,
                 }}
             />
@@ -45,19 +38,61 @@ export default function SkiPassCheckout() {
                 style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 <Card>
                     <H3 style={{ marginTop: 10, alignSelf: "center" }}>Summary</H3>
-                    <H1 style={{ marginTop: 5, alignSelf: "center", }}>${mockedSkipass.price}/mo</H1>
+                    <H1 style={{ marginTop: 5, alignSelf: "center", }}>${price}</H1>
                     <Description style={{ fontSize: 18, marginTop: 20 }}>
                         You'll pay once in the app. Your subscription renews automatically each month until cancelled.
                     </Description>
-                    <Button
-                        onPress={() => {
+                    <StyledButton
+                        onPress={async () => {
+                            if (!user || !title || !passType) {
+                                console.error('Missing required data for ski pass purchase');
+                                return;
+                            }
 
-                            router.replace("/(tabs)/shop/payment-complete");
+                            setIsProcessing(true);
+                            try {
+                                const endDate = new Date();
+                                if (passType === 'week') {
+                                    endDate.setDate(endDate.getDate() + 7);
+                                } else {
+                                    endDate.setDate(endDate.getDate() + 1);
+                                }
+
+                                let skiPassType: SkiPassType;
+                                switch (title.toString().toUpperCase()) {
+                                    case 'GOLD':
+                                        skiPassType = SkiPassType.GOLD;
+                                        break;
+                                    case 'SILVER':
+                                        skiPassType = SkiPassType.SILVER;
+                                        break;
+                                    case 'BRONZE':
+                                        skiPassType = SkiPassType.BRONZE;
+                                        break;
+                                    default:
+                                        skiPassType = SkiPassType.BRONZE;
+                                }
+
+                                const skiPassRequest: SkiPassRequestDto = {
+                                    name: `${title} ${passType} Pass`,
+                                    skiPassType,
+                                    userId: user.uid,
+                                    endDateTime: endDate
+                                };
+
+                                await SkiPassService.postSkiPass(skiPassRequest);
+                                router.replace("/(tabs)/shop/payment-complete");
+                            } catch (error) {
+                                console.error('Failed to create ski pass:', error);
+                            } finally {
+                                setIsProcessing(false);
+                            }
                         }}
                         style={{ marginBottom: 12 }}
+                        disabled={isProcessing || !user}
                     >
-                        Pay
-                    </Button>
+                        {isProcessing ? 'Processing...' : 'Pay'}
+                    </StyledButton>
                 </Card>
             </View>
         </>

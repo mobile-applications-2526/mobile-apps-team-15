@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import Card from "@components/Card";
 import Paragraph from "@components/text/Paragraph";
 import useTheme from "@components/ThemeContext";
@@ -9,7 +9,7 @@ import Divider from "@components/text/Divider";
 
 interface NavigationItem {
     title: string;
-    route: string;
+    href: string;
 }
 
 interface ListNavigationCardProps {
@@ -18,18 +18,20 @@ interface ListNavigationCardProps {
 
 export const ListNavigationCard: React.FC<ListNavigationCardProps> = ({ items }) => {
     const theme = useTheme();
+    const router = useRouter();
 
-    const handleNavigate = (route: string) => {
-        router.push(route);
+    const handleNavigate = (href: string) => {
+        router.navigate(href);
     };
 
     return (
         <Card style={{ marginVertical: 0, paddingVertical: theme.spacing.sm }}>
             {items.map((item, index) => (
-                <React.Fragment key={item.route}>
+                <React.Fragment key={item.href}>
                     <TouchableOpacity
                     style={theme.list.listItem}
-                    onPress={() => handleNavigate(item.route)}
+                    accessibilityRole="button"
+                    onPress={() => handleNavigate(item.href)}
                 >
                     <View style={{ flex: 1 }}>
                         <Paragraph>{item.title}</Paragraph>

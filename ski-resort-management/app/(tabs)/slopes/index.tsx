@@ -1,13 +1,17 @@
 import React, { useMemo, useState } from "react";
-import { LayoutAnimation, Platform, ScrollView, TextInput, UIManager, View, } from "react-native";
-import Header from "@components/Header";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { LayoutAnimation, Platform, ScrollView, UIManager } from "react-native";
+import Header from "@components/header/Header";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import SlopeOverview from "@components/slopes/SlopeOverview";
 import Card from "@components/Card";
 import H1 from "@components/text/H1";
 import SubHeading from "@components/text/SubHeading";
-import { Slope } from "@constants/types";
 import useTheme from "@components/ThemeContext";
+import { Stack } from "expo-router";
+import StyledTextInput from "@components/StyledTextInput";
+import useSWR from "swr";
+import slopeService from "@/services/SlopeService";
+import ErrorPopup from "@components/ErrorPopup";
 
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -15,40 +19,24 @@ if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental
 }
 
 
-const MOCK_SLOPES: Slope[] = [
-    {
-        id: "1",
-        name: "Bluebird Ridge",
-        description:
-            "Body text for whatever you'd like to say. Add main takeaway points, quotes, anecdotes, or even a very short story.",
-        imageUrl: require("@assets/skislope1.png"),
-        weather: { windKmh: 18, snowQuality: "good", visibility: "clear", busyness: "Calm" },
-    },
-    {
-        id: "2",
-        name: "Eagle Pass",
-        description: "Short description of the slope with a few notes.",
-        imageUrl: require("@assets/skislope1.png"),
-        weather: { windKmh: null, snowQuality: null, visibility: "low", busyness: null },
-    },
-    {
-        id: "3",
-        name: "Glacier Line",
-        description: "A scenic route with wide turns.",
-        imageUrl: require("@assets/skislope1.png"),
-    },
-];
-
 export default function Index() {
 
     const theme = useTheme();
+    const safeAreaInsets = useSafeAreaInsets();
+
     const [query, setQuery] = useState("");
     const [expandedId, setExpandedId] = useState<string | null>(null);
 
+
+    const slopesFetcher = async () => {
+        return await slopeService.getAllSlopes();
+    }
+    const { data: slopes, isLoading, error } = useSWR("api/slopes", slopesFetcher);
+
     const data = useMemo(() => {
         const q = query.trim().toLowerCase();
-        if (!q) return MOCK_SLOPES;
-        return MOCK_SLOPES.filter((s) => s.name.toLowerCase().includes(q));
+        if (!q) return slopes ?? [];
+        return slopes.filter((s) => s.slopeName.toLowerCase().includes(q));
     }, [query]);
 
     const toggle = (id: string) => {
@@ -57,38 +45,26 @@ export default function Index() {
     };
 
     return (
-        <SafeAreaView testID="screen-slopes" style={{ flex: 1, backgroundColor: theme.colors.background }}>
-            <ScrollView style={{ flex: 1, paddingBottom: 100 }}>
-                <Header/>
+        <>
+            <Stack.Screen options={{headerShown: false, title: "Slopes"}}/>
+            <SafeAreaView testID="screen-slopes" style={{flex: 1, backgroundColor: theme.colors.background}}>
+                <ScrollView style={{flex: 1}}
+                            contentContainerStyle={Platform.OS === "android" ? {paddingBottom: safeAreaInsets.bottom + 56} : null}>
+                    <Header/>
 
-                <Card>
-                    <H1>Discover the slopes!</H1>
-                    <SubHeading>View the condition and busyness of all your favorite slopes</SubHeading>
+                    <Card>
+                        <H1>Discover the slopes!</H1>
+                        <SubHeading>View the condition and busyness of all your favorite slopes</SubHeading>
 
-                    <View
-                        style={{
-                            marginTop: 12,
-                            backgroundColor: "#f3f3f3",
-                            borderRadius: 10,
-                            paddingHorizontal: 12,
-                            paddingVertical: 10,
-                        }}
-                    >
-                        <TextInput
-                            testID="input-slopes-search"
+                        <StyledTextInput
                             placeholder="Search"
                             value={query}
                             onChangeText={setQuery}
-                            style={{ fontSize: 16 }}
-                            autoCorrect={false}
                         />
-                    </View>
-                </Card>
+                    </Card>
 
-                {data.map((slope) => (
-                    //Ik heb hier even view rond gezet, omdat anders de testID niet werkte
-                    <View key={slope.id} testID={`card-slope-${slope.id}`}>
-                        <Card>
+                    {!!(slopes) && data.map((slope) => (
+                        <Card key={slope.id}>
                             <SlopeOverview
                                 slope={slope}
                                 expandable
@@ -96,10 +72,10 @@ export default function Index() {
                                 onToggle={() => toggle(slope.id)}
                             />
                         </Card>
-                    </View>
-                ))}
-
-            </ScrollView>
-        </SafeAreaView>
+                    ))}
+                </ScrollView>
+            </SafeAreaView>
+            { error && <ErrorPopup message={error.message}/> }
+        </>
     );
 }
