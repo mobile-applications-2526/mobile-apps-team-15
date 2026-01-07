@@ -12,7 +12,7 @@ import useTheme from "@components/ThemeContext";
 import { useCartStore } from "@/store/CartStore";
 import StyledButtonSmall from "@components/StyledButtonSmall";
 import loanService from "@/services/LoanService";
-import { LoanRequestDto } from "@/types";
+import { LoanRequestDto } from "@constants/types";
 import dayjs, { Dayjs } from "dayjs";
 import { useUserStore } from "@/store/UserStore";
 import ErrorPopup from "@components/ErrorPopup";

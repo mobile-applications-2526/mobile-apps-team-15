@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DurationType, Material } from "@/types";
+import { DurationType, Material } from "@constants/types";
 
 
 export interface CartMaterial extends Readonly<Omit<Material, 'imageUrl'>> {

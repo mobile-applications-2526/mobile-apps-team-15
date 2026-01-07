@@ -3,7 +3,7 @@ import H4 from "@components/text/H4";
 import H3 from "@components/text/H3";
 import useTheme from "@components/ThemeContext";
 import { router } from "expo-router";
-import { Material } from "@/types";
+import { Material } from "@constants/types";
 import StyledButton from "@components/StyledButton";
 import { useCartStore } from "@/store/CartStore";
 

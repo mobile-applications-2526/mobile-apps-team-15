@@ -1,4 +1,4 @@
-import { Loan, LoanRequestDto } from "@/types";
+import { Loan, LoanRequestDto } from "@constants/types";
 import { auth } from "@/services/FirebaseConfig";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
@@ -27,7 +27,7 @@ const getLoanById = async (id: string): Promise<Loan> => {
   else throw new Error('Failed to fetch loan, please try again later.');
 }
 
-const postLoan = async ({ userId, startDate, endDate, materials }: LoanRequestDto): Promise<Loan> => {
+const postLoan = async ({ userId, startTime, endTime, materials }: LoanRequestDto): Promise<Loan> => {
   const response = await fetch(`${API_URL}/loans`, {
     method: 'POST',
     headers: {
@@ -36,8 +36,8 @@ const postLoan = async ({ userId, startDate, endDate, materials }: LoanRequestDt
     },
     body: JSON.stringify({
       userId,
-      startDate,
-      endDate,
+      startTime,
+      endTime,
       materials
     })
   });

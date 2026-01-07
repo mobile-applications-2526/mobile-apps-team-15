@@ -7,7 +7,7 @@ import H2 from "@components/text/H2";
 import SubHeading from "@components/text/SubHeading";
 import useTheme from "@components/ThemeContext";
 import StyledButton from "@components/StyledButton";
-import { Material } from "@/types";
+import { Material } from "@constants/types";
 import { CartMaterial, useCartStore } from "@/store/CartStore";
 import materialService from "@/services/MaterialService";
 import ErrorPopup from "@components/ErrorPopup";

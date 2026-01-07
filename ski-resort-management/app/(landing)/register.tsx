@@ -10,7 +10,7 @@ import { AuthContext } from "@components/AuthContext";
 import StyledTextInput from "@components/StyledTextInput";
 import Paragraph from "@components/text/Paragraph";
 import userService from "@/services/UserService";
-import { RegisterUserDto, User } from "@/types";
+import { RegisterUserDto, User } from "@constants/types";
 import { ScrollView, TextInput } from "react-native";
 import { useUserStore } from "@/store/UserStore";
 

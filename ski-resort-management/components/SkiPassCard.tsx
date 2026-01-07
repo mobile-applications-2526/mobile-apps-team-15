@@ -3,7 +3,7 @@ import H2 from "@components/text/H2";
 import { View } from "react-native";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { SkiPass } from "@/types";
+import { SkiPass } from "@constants/types";
 import SkiPassService from "@/services/SkiPassService";
 import StyledButton from "@components/StyledButton";
 import Description from "@components/text/Description";
