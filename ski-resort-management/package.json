@@ -6,6 +6,7 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "auth": "npx firebase emulators:start",
     "web": "expo start --web",
     "cypress": "cypress open",
     "e2e": "start-server-and-test web http://localhost:8081 cypress run",
