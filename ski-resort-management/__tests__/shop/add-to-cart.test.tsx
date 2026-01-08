@@ -1,8 +1,18 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 
-// Mock Image zonder react-native volledig te require’en
-jest.mock("react-native/Libraries/Image/Image", () => "Image");
+jest.mock("react-native", () => {
+    const actualRN = jest.requireActual("react-native");
+    const React = require("react");
+
+    const MockImage = (props: any) => {
+        return React.createElement("Image", props);
+    };
+
+    return Object.defineProperty(actualRN, "Image", {
+        get: () => MockImage,
+    });
+});
 
 // UI mocks
 jest.mock("@components/ErrorPopup", () => {
