@@ -45,7 +45,7 @@ export default function SkiPass() {
                     headerRight: () => <MaterialCartHeaderButton />
                 }}
             />
-            <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 80 } : null } >
+            <ScrollView testID="screen-shop-materials"  style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 80 } : null } >
                 <Card>
                     <H1>Materials</H1>
                     <SubHeading>Rent out materials</SubHeading>

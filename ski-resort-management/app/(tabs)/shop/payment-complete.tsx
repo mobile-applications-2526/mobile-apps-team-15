@@ -26,7 +26,7 @@ export default function PaymentComplete() {
                 }}
             />
 
-            <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={{ marginVertical: "auto" }}>
+            <ScrollView testID={"screen-shop-payment-complete"} style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={{ marginVertical: "auto" }}>
                 <Card>
                     <View style={{ flexDirection: "row", flex: 1, justifyContent: "center" }}>
                         <View
