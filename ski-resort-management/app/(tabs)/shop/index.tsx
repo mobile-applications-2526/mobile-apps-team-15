@@ -16,7 +16,7 @@ export default function Index() {
     return (
         <>
             <Stack.Screen options={{headerShown: false, title: "Shop"}}/>
-            <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.background}}>
+            <SafeAreaView testID="screen-shop" style={{flex: 1, backgroundColor: theme.colors.background}}>
                 <Header/>
                 <ScrollView style={{flex: 1}}>
                     <Card>

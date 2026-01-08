@@ -89,7 +89,7 @@ export default function SkiPassCard({ user }: Readonly<SkiPassCardProps>) {
                     <Description style={{ textAlign: "center", paddingTop: theme.spacing.lg }}>No active ski
                         pass
                         yet</Description>
-                    <StyledButton primary onPress={() => router.push('/(tabs)/shop/skipass')}>
+                    <StyledButton primary onPress={() => router.push('/(tabs)/shop/skipass')} testID="skipass-button">
                         Purchase Ski Pass
                     </StyledButton>
                 </>

@@ -124,81 +124,97 @@ export default function Register() {
                     headerTitleStyle: {color: theme.colors.text},
                     headerTintColor: theme.colors.text,
                 }}/>
-            <ScrollView automaticallyAdjustKeyboardInsets={true}
-                        style={{ flex: 1, backgroundColor: theme.colors.background }}
-                        contentContainerStyle={{ marginTop: "auto", marginBottom: "auto" }}>
+            <ScrollView
+                automaticallyAdjustKeyboardInsets={true}
+                style={{ flex: 1, backgroundColor: theme.colors.background }}
+                contentContainerStyle={{ marginTop: "auto", marginBottom: "auto" }}
+                testID="register-form-scroll"
+            >
                 <Card>
                     <SubHeading>Fill in your information</SubHeading>
 
-                    <StyledTextInput placeholder="First name"
-                                     accessibilityLabel="First name input"
-                                     value={firstName}
-                                     onChangeText={setFirstName}
-                                     onSubmitEditing={() => lastNameRef.current?.focus()}
-                                     returnKeyType={"next"}
-                                     submitBehavior={"submit"}
-                                     autoCapitalize={"words"}
-                                     autoCorrect={false}
-                                     textContentType={"givenName"}
+                    <StyledTextInput
+                        testID="register-first-name"
+                        placeholder="First name"
+                        accessibilityLabel="First name input"
+                        value={firstName}
+                        onChangeText={setFirstName}
+                        onSubmitEditing={() => lastNameRef.current?.focus()}
+                        returnKeyType={"next"}
+                        submitBehavior={"submit"}
+                        autoCapitalize={"words"}
+                        autoCorrect={false}
+                        textContentType={"givenName"}
                     />
                     {!!(firstNameError) &&
                         <Paragraph style={{ color: theme.colors.error, marginBottom: 0 }}>{firstNameError}</Paragraph>}
-                    <StyledTextInput ref={lastNameRef} placeholder="Last name"
-                                     accessibilityLabel="Last name input"
-                                     value={lastName}
-                                     onChangeText={setlastName}
-                                     onSubmitEditing={() => emailRef.current?.focus()}
-                                     returnKeyType={"next"}
-                                     submitBehavior={"submit"}
-                                     autoCapitalize={"words"}
-                                     autoCorrect={false}
-                                     textContentType={"familyName"}
+                    <StyledTextInput
+                        ref={lastNameRef}
+                        testID="register-last-name"
+                        placeholder="Last name"
+                        accessibilityLabel="Last name input"
+                        value={lastName}
+                        onChangeText={setlastName}
+                        onSubmitEditing={() => emailRef.current?.focus()}
+                        returnKeyType={"next"}
+                        submitBehavior={"submit"}
+                        autoCapitalize={"words"}
+                        autoCorrect={false}
+                        textContentType={"familyName"}
                     />
                     {!!(lastNameError) && <Paragraph style={{ color: theme.colors.error }}>{lastNameError}</Paragraph>}
-                    <StyledTextInput ref={emailRef} placeholder="Email"
-                                     accessibilityLabel="Email input"
-                                     value={email}
-                                     onChangeText={setEmail}
-                                     onSubmitEditing={() => passwordRef.current?.focus()}
-                                     returnKeyType={"next"}
-                                     submitBehavior={"submit"}
-                                     autoCapitalize={"none"}
-                                     autoCorrect={false}
-                                     textContentType={"emailAddress"}
-                                     keyboardType={"email-address"}
+                    <StyledTextInput
+                        ref={emailRef}
+                        testID="register-email"
+                        placeholder="Email"
+                        accessibilityLabel="Email input"
+                        value={email}
+                        onChangeText={setEmail}
+                        onSubmitEditing={() => passwordRef.current?.focus()}
+                        returnKeyType={"next"}
+                        submitBehavior={"submit"}
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
+                        textContentType={"emailAddress"}
+                        keyboardType={"email-address"}
                     />
                     {!!(emailError) && <Paragraph style={{ color: theme.colors.error }}>{emailError}</Paragraph>}
-                    <StyledTextInput ref={passwordRef}
-                                     placeholder="Password"
-                                     accessibilityLabel="Password input"
-                                     secureTextEntry={true}
-                                     value={password}
-                                     onChangeText={setPassword}
-                                     onSubmitEditing={() => passwordConfirmationRef.current?.focus()}
-                                     autoCapitalize={"none"}
-                                     autoCorrect={false}
-                                     returnKeyType={"next"}
-                                     submitBehavior={"submit"}
-                                     textContentType={"newPassword"}
+                    <StyledTextInput
+                        ref={passwordRef}
+                        testID="register-password"
+                        placeholder="Password"
+                        accessibilityLabel="Password input"
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={setPassword}
+                        onSubmitEditing={() => passwordConfirmationRef.current?.focus()}
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
+                        returnKeyType={"next"}
+                        submitBehavior={"submit"}
+                        textContentType={"newPassword"}
                     />
                     {!!(passwordError) && <Paragraph style={{ color: theme.colors.error }}>{passwordError}</Paragraph>}
-                    <StyledTextInput ref={passwordConfirmationRef}
-                                     placeholder="Password Confirmation"
-                                     accessibilityLabel="Password confirmation input" secureTextEntry={true}
-                                     value={passwordConfirmation}
-                                     onChangeText={setPasswordConfirmation}
-                                     onSubmitEditing={handleRegister}
-                                     autoCapitalize={"none"}
-                                     autoCorrect={false}
-                                     returnKeyType={"done"}
-                                     submitBehavior={"submit"}
-                                     textContentType={"newPassword"}
+                    <StyledTextInput
+                        ref={passwordConfirmationRef}
+                        testID="register-password-confirmation"
+                        placeholder="Password Confirmation"
+                        accessibilityLabel="Password confirmation input"
+                        secureTextEntry={true}
+                        value={passwordConfirmation}
+                        onChangeText={setPasswordConfirmation}
+                        onSubmitEditing={handleRegister}
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
+                        returnKeyType={"done"}
+                        submitBehavior={"submit"}
+                        textContentType={"newPassword"}
                     />
                     {!!(passwordConfirmationError) &&
                         <Paragraph style={{ color: theme.colors.error }}>{passwordConfirmationError}</Paragraph>}
                     {!!(registerError) && <Paragraph
                         style={{ color: theme.colors.error, marginTop: theme.spacing.sm }}>{registerError}</Paragraph>}
-                    <StyledButton onPress={handleRegister} primary disabled={isRegistering}>
+                    <StyledButton onPress={handleRegister} primary disabled={isRegistering} testID="submit-button">
                         {!isRegistering && "Register"}
                         {isRegistering && "Loading..."}
                     </StyledButton>

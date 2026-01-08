@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { initializeAuth, connectAuthEmulator, getReactNativePersistence, getAuth } from '@firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from "react-native";
 
 const firebaseConfig = {
     apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -21,13 +22,18 @@ const firebaseDevConfig = {
     appId: "1:123412341234:web:0000000000000000000000"
 };
 
+
 if (getApps().length === 0) {
     const appInstance = initializeApp(__DEV__ ? firebaseDevConfig : firebaseConfig);
-    // This is how firebase suggests initializing auth and have it manage the tokens
-    // See: https://firebase.google.com/docs/reference/js/auth.md#getreactnativepersistence_bab4ada
-    initializeAuth(appInstance, {
-        persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-    })
+    if (Platform.OS === 'web') {
+        getAuth(appInstance);
+    } else {
+        // This is how firebase suggests initializing auth and have it manage the tokens
+        // See: https://firebase.google.com/docs/reference/js/auth.md#getreactnativepersistence_bab4ada
+        initializeAuth(appInstance, {
+            persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+        });
+    }
 }
 
 const app = getApp();

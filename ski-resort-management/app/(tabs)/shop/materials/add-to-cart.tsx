@@ -58,7 +58,7 @@ export default function AddToCart() {
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <View testID={"screen-shop-add-to-cart"} style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 { material && <Card>
                     <H2 style={{ marginBottom: 6 }}>
                         {material.name}

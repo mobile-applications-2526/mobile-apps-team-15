@@ -66,7 +66,9 @@ export default function SkiPassCheckout() {
                 }}
             />
 
-            <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <View
+                testID="screen-shop-skipasscheckout"
+                style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 <Card>
                     <H3 style={{ marginTop: 10, alignSelf: "center" }}>Summary</H3>
                     <H1 style={{ marginTop: 5, alignSelf: "center", }}>${price}</H1>

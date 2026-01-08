@@ -37,7 +37,7 @@ export default function Index() {
         const q = query.trim().toLowerCase();
         if (!q) return slopes ?? [];
         return slopes.filter((s) => s.slopeName.toLowerCase().includes(q));
-    }, [query]);
+    }, [query, slopes]);
 
     const toggle = (id: string) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -47,7 +47,7 @@ export default function Index() {
     return (
         <>
             <Stack.Screen options={{headerShown: false, title: "Slopes"}}/>
-            <SafeAreaView style={{flex: 1, backgroundColor: theme.colors.background}}>
+            <SafeAreaView testID="screen-slopes" style={{flex: 1, backgroundColor: theme.colors.background}}>
                 <ScrollView style={{flex: 1}}
                             contentContainerStyle={Platform.OS === "android" ? {paddingBottom: safeAreaInsets.bottom + 56} : null}>
                     <Header/>
@@ -60,6 +60,7 @@ export default function Index() {
                             placeholder="Search"
                             value={query}
                             onChangeText={setQuery}
+                            testID="input-slopes-search"
                         />
                     </Card>
 

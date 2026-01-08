@@ -18,7 +18,7 @@ export default function Index() {
     return (
         <>
             <Stack.Screen options={{ headerShown: false, title: "QR Code" }}/>
-            <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <SafeAreaView testID="screen-qrcode" style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 <Header/>
                 <ScrollView style={{ flex: 1 }}>
                     <Card style={{ alignItems: "center" }}>

@@ -4,12 +4,25 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Platform } from "react-native";
 import useTheme from "@components/ThemeContext";
 import { Stack } from "expo-router";
-
+import { Tabs } from "expo-router"
 
 export default function TabsLayout() {
 
     const theme = useTheme();
 
+    // WEB: use stable Tabs (shows tab bar)
+    if (Platform.OS === "web") {
+        return (
+            <Tabs screenOptions={{ headerShown: false }}>
+                <Tabs.Screen name="index" options={{ title: "Home" }} />
+                <Tabs.Screen name="slopes/index" options={{ title: "Slopes" }} />
+                <Tabs.Screen name="shop" options={{ title: "Shop" }} />
+                <Tabs.Screen name="qrcode/index" options={{ title: "QR Code" }} />
+            </Tabs>
+        );
+    }
+
+    // NATIVE: keep NativeTabs
     return (
         <>
             <Stack.Screen options={{headerShown: false}}/>

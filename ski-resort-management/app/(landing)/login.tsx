@@ -84,41 +84,49 @@ export default function Login() {
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <ScrollView automaticallyAdjustKeyboardInsets={true}
-                        style={{ flex: 1, backgroundColor: theme.colors.background }}
-                        contentContainerStyle={{ marginTop: "auto", marginBottom: "auto" }}>
+            <ScrollView
+                automaticallyAdjustKeyboardInsets={true}
+                style={{ flex: 1, backgroundColor: theme.colors.background }}
+                contentContainerStyle={{ marginTop: "auto", marginBottom: "auto" }}
+                testID="login-form-scroll"
+            >
                 <Card>
                     <SubHeading>Enter your email and password</SubHeading>
 
-                    <StyledTextInput placeholder="Email"
-                                     accessibilityLabel="Email text input"
-                                     value={email}
-                                     onChangeText={setEmail}
-                                     onSubmitEditing={() => passwordRef.current?.focus()}
-                                     autoCapitalize={"none"}
-                                     autoCorrect={false}
-                                     returnKeyType={"next"}
-                                     submitBehavior={"submit"}
-                                     textContentType={"emailAddress"}
-                                     keyboardType={"email-address"}
+                    <StyledTextInput
+                        testID="login-email"
+                        placeholder="Email"
+                        accessibilityLabel="Email text input"
+                        value={email}
+                        onChangeText={setEmail}
+                        onSubmitEditing={() => passwordRef.current?.focus()}
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
+                        returnKeyType={"next"}
+                        submitBehavior={"submit"}
+                        textContentType={"emailAddress"}
+                        keyboardType={"email-address"}
                     />
                     {!!(emailError) && <Paragraph style={{ color: theme.colors.error }}>{emailError}</Paragraph>}
-                    <StyledTextInput ref={passwordRef} placeholder="Password"
-                                     accessibilityLabel="Password input"
-                                     secureTextEntry={true}
-                                     value={password}
-                                     onChangeText={setPassword}
-                                     onSubmitEditing={handleLogIn}
-                                     autoCapitalize={"none"}
-                                     autoCorrect={false}
-                                     textContentType={"password"}
-                                     returnKeyType={"next"}
-                                     submitBehavior={"submit"}
+                    <StyledTextInput
+                        ref={passwordRef}
+                        testID="login-password"
+                        placeholder="Password"
+                        accessibilityLabel="Password input"
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={setPassword}
+                        onSubmitEditing={handleLogIn}
+                        autoCapitalize={"none"}
+                        autoCorrect={false}
+                        textContentType={"password"}
+                        returnKeyType={"next"}
+                        submitBehavior={"submit"}
                     />
                     {!!(passwordError) && <Paragraph style={{ color: theme.colors.error }}>{passwordError}</Paragraph>}
                     {!!(loginError) && <Paragraph
                         style={{ color: theme.colors.error, marginTop: theme.spacing.sm }}>{loginError}</Paragraph>}
-                    <StyledButton onPress={handleLogIn} primary disabled={isLoggingIn}>
+                    <StyledButton onPress={handleLogIn} primary disabled={isLoggingIn} testID="login-button-2">
                         {!isLoggingIn && "Log in"}
                         {isLoggingIn && "Loading..."}
                     </StyledButton>

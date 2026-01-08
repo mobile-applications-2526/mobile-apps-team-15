@@ -82,7 +82,7 @@ export default function SkiPass() {
                 }}
             />
 
-            <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 80 } : null } >
+            <ScrollView testID = "screen-shop-skipass" style={{ flex: 1, backgroundColor: theme.colors.background }} contentContainerStyle={Platform.OS === "android" ? { paddingBottom: safeAreaInsets.bottom + 80 } : null } >
                 <Card>
                     <H1>Ski Passes</H1>
                     <SubHeading>Get your ski pass</SubHeading>
