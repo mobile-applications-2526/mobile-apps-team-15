@@ -71,7 +71,7 @@ export default function Cart() {
                     headerTintColor: theme.colors.text,
                 }}
             />
-            <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <ScrollView testID="screen-shop-materials-cart" style={{ flex: 1, backgroundColor: theme.colors.background }}>
                 {materials && <Card>
                     <H2 style={{ marginBottom: 12 }}>Checkout</H2>
                     {materials.length === 0 &&
