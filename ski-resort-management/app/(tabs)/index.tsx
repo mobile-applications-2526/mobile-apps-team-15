@@ -44,7 +44,7 @@ export default function Index() {
                     <H2 style={{paddingBottom: theme.spacing.md}}>Your favorite slope</H2>
                     {favoriteSlope === null && (<>
                         <Description style={{ textAlign: "center" }}>No favorite slope yet</Description>
-                        <StyledLink href={"(tabs)/slopes"}>See
+                        <StyledLink testID="btn-favorite-slope" href={"(tabs)/slopes"}>See
                         slopes</StyledLink>
                     </>)}
                     {!!(favoriteSlope) && <SlopeOverview slope={favoriteSlope} expanded/>}

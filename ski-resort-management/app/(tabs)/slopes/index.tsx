@@ -37,7 +37,7 @@ export default function Index() {
         const q = query.trim().toLowerCase();
         if (!q) return slopes ?? [];
         return slopes.filter((s) => s.slopeName.toLowerCase().includes(q));
-    }, [query]);
+    }, [query, slopes]);
 
     const toggle = (id: string) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

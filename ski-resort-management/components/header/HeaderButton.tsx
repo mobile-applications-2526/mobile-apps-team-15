@@ -9,9 +9,10 @@ type HeaderButtonProps = {
     href: string;
     accessibilityLabel: string;
     iconName: string;
+    testID?: string;
 }
 
-export default function HeaderButton({ href, accessibilityLabel, iconName }: Readonly<HeaderButtonProps>) {
+export default function HeaderButton({ href, accessibilityLabel, iconName, testID }: Readonly<HeaderButtonProps>) {
 
     const theme = useTheme();
 
@@ -28,6 +29,7 @@ export default function HeaderButton({ href, accessibilityLabel, iconName }: Rea
         <Pressable
             accessibilityLabel={accessibilityLabel}
             accessibilityRole={"button"}
+            testID={testID}
             style={({ pressed }) =>
                 ({
                     width: 40,

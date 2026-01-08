@@ -126,7 +126,7 @@ export default function Account() {
                 </Card>
 
                 <View style={{ paddingHorizontal: theme.spacing.lg }}>
-                    <StyledButton onPress={handleLogoutClick}>
+                    <StyledButton onPress={handleLogoutClick} testID="logout-button">
                         Log out
                     </StyledButton>
                 </View>
