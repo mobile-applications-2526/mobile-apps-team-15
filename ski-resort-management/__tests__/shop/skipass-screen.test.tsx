@@ -2,9 +2,26 @@ import React from "react";
 import { render } from "@testing-library/react-native";
 import SkiPassScreen from "../../app/(tabs)/shop/skipass";
 
+jest.mock(
+    "@react-native-async-storage/async-storage",
+    () => require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
+
 // Mock Stack.Screen
 jest.mock("expo-router", () => ({
     Stack: { Screen: () => null },
+    useFocusEffect: (cb: any) => cb(),
+}));
+
+jest.mock("@components/AuthContext", () => {
+    const React = require("react");
+    return {
+        AuthContext: React.createContext({ user: { uid: "u1" }, loading: false }),
+    };
+});
+
+jest.mock("@/services/SkiPassService", () => ({
+    getCurrentSkiPassByUserId: jest.fn().mockResolvedValue([]),
 }));
 
 // Mock safe area insets
@@ -41,8 +58,7 @@ describe("SkiPass screen", () => {
         expect(getByTestId("screen-shop-skipass")).toBeTruthy();
 
         expect(getByText("Gold")).toBeTruthy();
-        expect(getByText("Basic")).toBeTruthy();
-        expect(getByText("Premium")).toBeTruthy();
-        expect(getByText("Family")).toBeTruthy();
+        expect(getByText("Silver")).toBeTruthy();
+        expect(getByText("Bronze")).toBeTruthy();
     });
 });

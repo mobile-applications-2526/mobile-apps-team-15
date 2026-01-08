@@ -1,126 +1,147 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import AddToCart from "../../app/(tabs)/shop/add-to-cart";
+import AddToCart from "../../app/(tabs)/shop/materials/add-to-cart";
 
-// --- Mock expo-router hooks used by the screen ---
-jest.mock("expo-router", () => {
-    const mockPush = jest.fn();
-    const mockBack = jest.fn();
+// ✅ Fix: mock Image without loading full react-native (prevents DevMenu crash)
+jest.mock("react-native/Libraries/Image/Image", () => "Image");
 
-    return {
-        Stack: { Screen: () => null },
-        useRouter: () => ({ push: mockPush, back: mockBack }),
-        useLocalSearchParams: () => ({
-            name: "Boots",
-            pricePerHour: "5",
-            pricePerDay: "25",
-        }),
-        __mockPush: mockPush,
-        __mockBack: mockBack,
+// ✅ Mock ErrorPopup / Card / Text components
+jest.mock("@components/ErrorPopup", () => {
+    const React = require("react");
+    const { Text } = require("react-native");
+    return function ErrorPopup({ message }: any) {
+        return <Text>{String(message)}</Text>;
     };
 });
 
-// --- Mock theme so Card/Text/Button styles don't crash ---
+jest.mock("@components/Card", () => {
+    const React = require("react");
+    const { View } = require("react-native");
+    return function Card({ children }: any) {
+        return <View>{children}</View>;
+    };
+});
+
+jest.mock("@components/text/H2", () => {
+    const React = require("react");
+    const { Text } = require("react-native");
+    return function H2({ children }: any) {
+        return <Text>{children}</Text>;
+    };
+});
+
+jest.mock("@components/text/Paragraph", () => {
+    const React = require("react");
+    const { Text } = require("react-native");
+    return function Paragraph({ children }: any) {
+        return <Text>{children}</Text>;
+    };
+});
+
+jest.mock("@components/text/SubHeading", () => {
+    const React = require("react");
+    const { Text } = require("react-native");
+    return function SubHeading({ children }: any) {
+        return <Text>{children}</Text>;
+    };
+});
+
+// ✅ Mock StyledButton to TouchableOpacity
+jest.mock("@components/StyledButton", () => {
+    const React = require("react");
+    const { Text, TouchableOpacity } = require("react-native");
+    return function StyledButton({ children, onPress, disabled }: any) {
+        return (
+            <TouchableOpacity onPress={onPress} disabled={disabled}>
+                <Text>{children}</Text>
+            </TouchableOpacity>
+        );
+    };
+});
+
+// Theme
 jest.mock("@components/ThemeContext", () => () => ({
-    colors: {
-        background: "#fff",
-        surface: "#eee",
-        text: "#000",
-        buttonBackground: "#333",
-        button: "#fff",
-    },
+    colors: { background: "#fff", surface: "#eee", text: "#000" },
     border: {},
     shadow: {},
     card: {},
     divider: {},
-    spacing: { sm: 8 },
     list: { listItem: {} },
-    text: {
-        H1: {},
-        H2: {},
-        H3: {},
-        H4: {},
-        subHeading: {},
-        paragraph: {},
-        description: {},
+    spacing: { xs: 4, sm: 8, md: 12, lg: 16, xl: 20 },
+    radius: { sm: 6, md: 10, lg: 12 },
+    text: { H1: {}, H2: {}, H3: {}, H4: {}, subHeading: {}, paragraph: {}, description: {} },
+}));
+
+// expo-router hooks in this screen
+jest.mock("expo-router", () => {
+    const mockBack = jest.fn();
+    return {
+        Stack: { Screen: () => null },
+        useRouter: () => ({ back: mockBack }),
+        useLocalSearchParams: () => ({ id: "mat-1" }),
+        __mockBack: mockBack,
+    };
+});
+
+// CartStore
+jest.mock("@/store/CartStore", () => {
+    const mockAddMaterial = jest.fn();
+    return {
+        useCartStore: () => ({
+            addMaterial: mockAddMaterial,
+            duration: 2,
+            durationType: "days",
+        }),
+        __mock: { mockAddMaterial },
+    };
+});
+
+// ✅ MaterialService default export
+jest.mock("@/services/MaterialService", () => ({
+    __esModule: true,
+    default: {
+        getMaterialById: jest.fn().mockResolvedValue({
+            id: "mat-1",
+            name: "Boots",
+            pricePerHour: 5,
+            pricePerDay: 25,
+            imageUrl: "https://example.com/boots.png",
+        }),
     },
 }));
 
-describe("AddToCart screen", () => {
+describe("Materials AddToCart screen", () => {
     beforeEach(() => {
-        const { __mockPush, __mockBack } = require("expo-router");
-        __mockPush.mockClear();
+        const { __mockBack } = require("expo-router");
         __mockBack.mockClear();
 
-        // Make Date.now deterministic so the cart item id is stable
-        jest.spyOn(Date, "now").mockReturnValue(123456);
+        const cart = require("@/store/CartStore");
+        cart.__mock.mockAddMaterial.mockClear();
     });
 
-    afterEach(() => {
-        jest.restoreAllMocks();
+    it("renders material info from back-end", async () => {
+        const { findByText } = render(<AddToCart />);
+
+        expect(await findByText("Boots")).toBeTruthy();
+        expect(await findByText("$5")).toBeTruthy();
+        expect(await findByText("$25")).toBeTruthy();
+        expect(await findByText("Add to cart")).toBeTruthy();
     });
 
-    // Tests that the screen renders and shows the received params (name + prices)
-    it("renders item info from route params", () => {
-        const { getByTestId, getByText } = render(<AddToCart />);
+    it("adds the material to the cart and goes back", async () => {
+        const { __mockBack } = require("expo-router");
+        const cart = require("@/store/CartStore");
 
-        expect(getByTestId("screen-shop-add-to-cart")).toBeTruthy();
-        expect(getByText("Boots")).toBeTruthy();
-        expect(getByText("$5")).toBeTruthy();   // price per hour
-        expect(getByText("$25")).toBeTruthy();  // price per day
-        expect(getByText(/Estimated total:/i)).toBeTruthy();
-    });
+        const { findByText, getByText } = render(<AddToCart />);
 
-    // Tests that changing amount/duration updates the estimated total
-    it("updates estimated total when amount/duration changes", () => {
-        const { getByText, getAllByText } = render(<AddToCart />);
+        await findByText("Add to cart");
 
-        // Default: amount=1, durationUnit=days, durationValue=2 => total = 1 * 2 * 25 = 50
-        expect(getByText("Estimated total: $50")).toBeTruthy();
+        fireEvent.press(getByText("Add to cart"));
 
-        // Increase amount (+) once: amount=2 => total = 2 * 2 * 25 = 100
-        const plusButtons = getAllByText("+");
-        fireEvent.press(plusButtons[0]); // first "+" belongs to Amount section
-        expect(getByText("Estimated total: $100")).toBeTruthy();
-
-        // Toggle unit to hours: now total = 2 * 2 * 5 = 20
-        fireEvent.press(getByText("days"));
-        expect(getByText("Estimated total: $20")).toBeTruthy();
-
-        // Increase durationValue (+) once: duration=3 => total = 2 * 3 * 5 = 30
-        fireEvent.press(plusButtons[1]); // second "+" belongs to Duration section
-        expect(getByText("Estimated total: $30")).toBeTruthy();
-    });
-
-    // Tests that pressing Checkout navigates to materials-checkout with correct JSON payload
-    it("pushes to materials-checkout with cart items when pressing Checkout", () => {
-        const { __mockPush } = require("expo-router");
-        const { getByText, getAllByText } = render(<AddToCart />);
-
-        // Make it a bit different from defaults to validate payload
-        // Increase amount: 1 -> 2
-        fireEvent.press(getAllByText("+")[0]);
-
-        // Toggle to hours (days -> hours), durationValue default is 2
-        fireEvent.press(getByText("days"));
-
-        // Checkout
-        fireEvent.press(getByText("Checkout"));
-
-        // itemPrice = pph * durationValue = 5 * 2 = 10
-        // quantity = amount = 2
-        const expectedItems = [
-            {
-                id: "Boots-123456",
-                name: "Boots",
-                price: 10,
-                quantity: 2,
-            },
-        ];
-
-        expect(__mockPush).toHaveBeenCalledWith({
-            pathname: "/(tabs)/shop/materials-checkout",
-            params: { items: JSON.stringify(expectedItems) },
-        });
+        // duration=2 days => total = 25 * 2 = 50
+        expect(cart.__mock.mockAddMaterial).toHaveBeenCalledWith(
+            expect.objectContaining({ id: "mat-1", name: "Boots", total: 50 })
+        );
+        expect(__mockBack).toHaveBeenCalled();
     });
 });

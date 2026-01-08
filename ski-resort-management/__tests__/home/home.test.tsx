@@ -1,34 +1,23 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import Home from "../../app/(tabs)";
 
-jest.mock("expo-router", () => {
-    const mockPush = jest.fn();
-    return {
-        router: { push: mockPush },
-        __mockPush: mockPush,
-    };
-});
-
-jest.mock("@components/ThemeContext", () => () => ({
-    colors: {
-        background: "#fff",
-        surface: "#eee",
-        tabBackground: "#fff",
-        tabIndicator: "#000",
-        text: "#000",
-    },
-    border: {},
-    text: {
-        H1: {},
-        H2: {},
-        H3: {},
-        H4: {},
-        subHeading: {},
-        paragraph: {},
-        description: {},
+jest.mock("@/services/SkiPassService", () => ({
+    __esModule: true,
+    default: {
+        getCurrentSkiPassByUserId: jest.fn().mockResolvedValue([]),
     },
 }));
+
+jest.mock("@components/AuthContext", () => {
+    const React = require("react");
+    return {
+        AuthContext: React.createContext({
+            user: { uid: "u1" },
+            loading: false,
+        }),
+    };
+});
 
 jest.mock("@components/Header", () => {
     const React = require("react");
@@ -50,24 +39,62 @@ jest.mock("@components/slopes/SlopeOverview", () => {
     };
 });
 
+jest.mock("@components/StyledLink", () => {
+    const React = require("react");
+    const { TouchableOpacity, Text } = require("react-native");
+    const { router } = require("expo-router");
+
+    return function StyledLink({ href, children }: any) {
+        return (
+            <TouchableOpacity onPress={() => router.push(href)}>
+                {/* children kan tekst zijn of componenten */}
+                {typeof children === "string" ? <Text>{children}</Text> : children}
+            </TouchableOpacity>
+        );
+    };
+});
+
+jest.mock("@components/SkiPassCard", () => {
+    const React = require("react");
+    const { View, Text } = require("react-native");
+    return function SkiPassCard() {
+        return (
+            <View testID="mock-skipass-card">
+                <Text>Mock SkiPassCard</Text>
+            </View>
+        );
+    };
+});
+
 describe("Home screen", () => {
     beforeEach(() => {
-        const { __mockPush } = require("expo-router");
-        __mockPush.mockClear();
+        const expoRouter = require("expo-router");
+        expoRouter.__mocks.push.mockClear();
+
+        const { useUserStore } = require("@/store/UserStore");
+        const { useFavoriteSlopeStore } = require("@/store/FavoriteSlopeStore");
+        useUserStore.setState({ user: { firstName: "Mark" } });
+        useFavoriteSlopeStore.setState({ favoriteSlope: null });
     });
 
-    it("renders home screen content", () => {
+    it("renders home screen content", async () => {
         const { getByTestId, getByText } = render(<Home />);
-        expect(getByTestId("screen-home")).toBeTruthy();
-        expect(getByText("Ski-Free")).toBeTruthy();
-        expect(getByText("Welcome back, Mark!")).toBeTruthy();
+
+        await waitFor(() => {
+            expect(getByTestId("screen-home")).toBeTruthy();
+            expect(getByText("Ski-Free")).toBeTruthy();
+            expect(getByText("Welcome back, Mark!")).toBeTruthy();
+        });
     });
 
-    it('navigates to "slopes" when favorite slope is pressed', () => {
-        const { __mockPush } = require("expo-router");
-        const { getByTestId } = render(<Home />);
+    it('navigates to slopes when clicking "See slopes"', async () => {
+        const expoRouter = require("expo-router");
+        const { getByText } = render(<Home />);
 
-        fireEvent.press(getByTestId("btn-favorite-slope"));
-        expect(__mockPush).toHaveBeenCalledWith("slopes");
+        fireEvent.press(getByText(/See\s*slopes/i));
+
+        await waitFor(() => {
+            expect(expoRouter.__mocks.push).toHaveBeenCalledWith("(tabs)/slopes");
+        });
     });
 });

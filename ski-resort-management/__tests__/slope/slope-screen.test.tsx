@@ -2,6 +2,24 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import SlopesScreen from "../../app/(tabs)/slopes";
 
+jest.mock(
+    "@react-native-async-storage/async-storage",
+    () => require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
+
+// Mock SWR so we don't hit the real back-end in unit tests
+jest.mock("swr", () => {
+    return () => ({
+        data: [
+            { id: "1", slopeName: "Bluebird Ridge" },
+            { id: "2", slopeName: "Eagle Pass" },
+            { id: "3", slopeName: "Glacier Line" },
+        ],
+        isLoading: false,
+        error: null,
+    });
+});
+
 // Theme mock: voldoende props voor Card + text components
 jest.mock("@components/ThemeContext", () => () => ({
     colors: {
@@ -10,10 +28,16 @@ jest.mock("@components/ThemeContext", () => () => ({
         text: "#000",
         tabBackground: "#fff",
         tabIndicator: "#000",
+        textInputBackground: "#f5f5f5",
+        textPlaceholder: "#999",
     },
     border: {},
     shadow: {},
     card: {},
+    divider: {},
+    list: { listItem: {} },
+    spacing: { xs: 4, sm: 8, md: 12, lg: 16, xl: 20 },
+    radius: { sm: 6, md: 10, lg: 12 },
     text: {
         H1: {},
         H2: {},
@@ -26,7 +50,7 @@ jest.mock("@components/ThemeContext", () => () => ({
 }));
 
 // Maak Header simpel
-jest.mock("@components/Header", () => {
+jest.mock("@components/header/Header", () => {
     const React = require("react");
     const { View } = require("react-native");
     return function Header() {
@@ -34,9 +58,21 @@ jest.mock("@components/Header", () => {
     };
 });
 
-// We willen SlopeOverview NIET volledig mocken, want we willen echt togglen op "Weather".
-// Maar Image kan soms warnings geven; meestal ok.
-// Als je errors krijgt rond Image/assets, dan kunnen we SlopeOverview mocken óf Image mocken.
+// Mock SlopeOverview so we can test expand/collapse deterministically
+jest.mock("@components/slopes/SlopeOverview", () => {
+    const React = require("react");
+    const { Pressable, Text, View } = require("react-native");
+    return function SlopeOverview({ slope, expanded, onToggle }: any) {
+        return (
+            <View>
+                <Pressable onPress={onToggle}>
+                    <Text>{slope.slopeName}</Text>
+                </Pressable>
+                {expanded ? <Text>Weather</Text> : null}
+            </View>
+        );
+    };
+});
 
 describe("Slopes screen", () => {
     it("renders screen and all slopes initially", () => {
@@ -49,9 +85,9 @@ describe("Slopes screen", () => {
     });
 
     it("filters slopes using search input", () => {
-        const { getByTestId, queryByText } = render(<SlopesScreen />);
+        const { getByPlaceholderText, queryByText } = render(<SlopesScreen />);
 
-        fireEvent.changeText(getByTestId("input-slopes-search"), "Eagle");
+        fireEvent.changeText(getByPlaceholderText("Search"), "Eagle");
 
         expect(queryByText("Eagle Pass")).toBeTruthy();
         expect(queryByText("Bluebird Ridge")).toBeNull();

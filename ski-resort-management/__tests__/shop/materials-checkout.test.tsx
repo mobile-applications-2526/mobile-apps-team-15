@@ -1,110 +1,104 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import MaterialsCheckout from "../../app/(tabs)/shop/materials-checkout";
+import Cart from "../../app/(tabs)/shop/materials/cart";
 
-jest.mock("expo-router", () => {
-    const mockReplace = jest.fn();
+jest.mock(
+    "@react-native-async-storage/async-storage",
+    () => require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
 
-    return {
-        Stack: { Screen: () => null },
-        useRouter: () => ({ replace: mockReplace }),
-        useLocalSearchParams: () => ({
-            items: JSON.stringify([
-                {
-                    id: "Boots-123",
-                    name: "Boots",
-                    price: 10,
-                    quantity: 2,
-                    durationUnit: "days",
-                    durationValue: 2,
-                },
-            ]),
-        }),
-        __mockReplace: mockReplace,
-    };
-});
+const mockReplace = jest.fn();
+jest.mock("expo-router", () => ({
+    Stack: { Screen: () => null },
+    useRouter: () => ({ replace: mockReplace }),
+    router: { replace: mockReplace },
+    useLocalSearchParams: () => ({}),
+    Link: ({ children }: any) => children,
+    useFocusEffect: (effect: any) => {
+        const cleanup = effect?.();
+        if (typeof cleanup === "function") cleanup();
+    },
+    __mocks: { replace: mockReplace },
+}));
 
 jest.mock("@components/ThemeContext", () => () => ({
-    colors: {
-        background: "#fff",
-        surface: "#eee",
-        text: "#000",
-        buttonBackground: "#333",
-        button: "#fff",
-        border: "#ccc",
-    },
+    colors: { background: "#fff", surface: "#eee", text: "#000", border: "#ccc", textSecondary: "#666" },
     border: {},
     shadow: {},
     card: {},
     divider: {},
-    text: {
-        H1: {},
-        H2: {},
-        H3: {},
-        H4: {},
-        subHeading: {},
-        paragraph: {},
-        description: {},
-    },
+    spacing: { xs: 4, sm: 8, md: 12, lg: 16, xl: 20 },
+    radius: { sm: 6, md: 10, lg: 12 },
+    text: { H1: {}, H2: {}, H3: {}, H4: {}, subHeading: {}, paragraph: {}, description: {} },
 }));
 
-describe("MaterialsCheckout screen", () => {
+jest.mock("@/store/CartStore", () => {
+    const mockSetDuration = jest.fn();
+    const mockSetDurationType = jest.fn();
+    const mockClearCart = jest.fn();
+
+    return {
+        useCartStore: () => ({
+            materials: [{ id: "mat-1", name: "Boots", total: 20 }],
+            duration: 2,
+            durationType: "days",
+            setDuration: mockSetDuration,
+            setDurationType: mockSetDurationType,
+            getTotalPrice: () => 20,
+            clearCart: mockClearCart,
+        }),
+        __mock: { mockSetDuration, mockSetDurationType, mockClearCart },
+    };
+});
+
+jest.mock("@/store/UserStore", () => ({
+    useUserStore: () => ({ user: { id: "u1" } }),
+}));
+
+jest.mock("@/services/LoanService", () => ({
+    postLoan: jest.fn().mockResolvedValue({}),
+}));
+
+describe("Materials Cart screen", () => {
     beforeEach(() => {
-        const { __mockReplace } = require("expo-router");
-        __mockReplace.mockClear();
+        mockReplace.mockClear();
+        const { __mock } = require("@/store/CartStore");
+        __mock.mockClearCart.mockClear();
+        __mock.mockSetDuration.mockClear();
+        __mock.mockSetDurationType.mockClear();
     });
 
-    //Tests that checkout renders and initial totals are correct
-    it("renders items and shows initial totals", () => {
-        const { getByTestId, getByText, getAllByText } = render(<MaterialsCheckout />);
+    it("renders items and total", () => {
+        const { getByText, getAllByText } = render(<Cart />);
 
-        expect(getByTestId("screen-shop-materials-checkout")).toBeTruthy();
         expect(getByText("Checkout")).toBeTruthy();
         expect(getByText("Boots")).toBeTruthy();
 
-        // Calc:
-        // inferredRate = price/duration = 10/2 = 5
-        // single base price = duration * rate = 2 * 5 = 10
-        // line total = quantity * base = 2 * 10 = 20
-        // "$20" appears twice (line total + total)
-        expect(getAllByText("$20").length).toBeGreaterThanOrEqual(2);
+        // er kunnen meerdere "$20.00" zijn (bv. item + total)
+        expect(getAllByText("$20.00").length).toBeGreaterThan(0);
     });
 
-    //Tests that increasing quantity updates line total and overall total
-    it("increases total when quantity is increased", () => {
-        const { getAllByText } = render(<MaterialsCheckout />);
+    it("updates duration and duration type via buttons", () => {
+        const { __mock } = require("@/store/CartStore");
+        const { getByText } = render(<Cart />);
 
-        // Initial total should include $20 (line + total)
-        expect(getAllByText("$20").length).toBeGreaterThanOrEqual(1);
+        fireEvent.press(getByText("+"));
+        expect(__mock.mockSetDuration).toHaveBeenCalled();
 
-        // First "+" should be quantity "+"
-        fireEvent.press(getAllByText("+")[0]);
-
-        // Quantity: 2 -> 3, base stays 10 => line total 30 => total 30
-        // "$30" appears twice (line total + total)
-        expect(getAllByText("$30").length).toBeGreaterThanOrEqual(2);
+        fireEvent.press(getByText("d"));
+        expect(__mock.mockSetDurationType).toHaveBeenCalledWith("hours");
     });
 
-    // Tests that increasing duration updates totals (based on inferred rate)
-    it("increases total when duration is increased", () => {
-        const { getAllByText } = render(<MaterialsCheckout />);
-
-        // Initial total should include $20
-        expect(getAllByText("$20").length).toBeGreaterThanOrEqual(1);
-
-        // Second "+" is duration "+"
-        fireEvent.press(getAllByText("+")[1]);
-
-        // Duration: 2 -> 3 => total becomes $30 (line + total)
-        expect(getAllByText("$30").length).toBeGreaterThanOrEqual(2);
-    });
-
-    //Tests that pressing Pay navigates to payment-complete
-    it("navigates to payment-complete when pressing Pay", () => {
-        const { __mockReplace } = require("expo-router");
-        const { getByText } = render(<MaterialsCheckout />);
+    it("pays and navigates to payment complete", async () => {
+        const { __mock } = require("@/store/CartStore");
+        const { getByText } = render(<Cart />);
 
         fireEvent.press(getByText("Pay"));
-        expect(__mockReplace).toHaveBeenCalledWith("/(tabs)/shop/payment-complete");
+
+        await Promise.resolve();
+        await Promise.resolve();
+
+        expect(__mock.mockClearCart).toHaveBeenCalled();
+        expect(mockReplace).toHaveBeenCalledWith("/(tabs)/shop/payment-complete");
     });
 });

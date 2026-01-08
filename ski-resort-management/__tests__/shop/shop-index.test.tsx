@@ -4,10 +4,11 @@ import ShopIndex from "../../app/(tabs)/shop/index";
 
 // Mock expo-router + expose push so we can assert navigation
 jest.mock("expo-router", () => {
-    const mockPush = jest.fn();
+    const mockNavigate = jest.fn();
     return {
-        router: { push: mockPush },
-        __mockPush: mockPush,
+        useRouter: () => ({ navigate: mockNavigate }),
+        Stack: { Screen: () => null },
+        __mockNavigate: mockNavigate,
     };
 });
 
@@ -31,7 +32,7 @@ jest.mock("@components/ThemeContext", () => () => ({
 }));
 
 // Mock Header so it doesn't pull in extra dependencies
-jest.mock("@components/Header", () => {
+jest.mock("@components/header/Header", () => {
     const React = require("react");
     const { View } = require("react-native");
     return function Header() {
@@ -41,8 +42,8 @@ jest.mock("@components/Header", () => {
 
 describe("Shop Index screen", () => {
     beforeEach(() => {
-        const { __mockPush } = require("expo-router");
-        __mockPush.mockClear();
+        const { __mockNavigate } = require("expo-router");
+        __mockNavigate.mockClear();
     });
 
     // Tests that the Shop screen renders and shows the expected navigation items
@@ -57,19 +58,19 @@ describe("Shop Index screen", () => {
 
     // Tests that pressing "Materials" triggers navigation to shop/materials
     it("navigates to Materials when pressed", () => {
-        const { __mockPush } = require("expo-router");
+        const { __mockNavigate } = require("expo-router");
         const { getByText } = render(<ShopIndex />);
 
         fireEvent.press(getByText("Materials"));
-        expect(__mockPush).toHaveBeenCalledWith("shop/materials");
+        expect(__mockNavigate).toHaveBeenCalledWith("shop/materials");
     });
 
     // Tests that pressing "Ski Passes" triggers navigation to shop/skipass
     it("navigates to Ski Passes when pressed", () => {
-        const { __mockPush } = require("expo-router");
+        const { __mockNavigate } = require("expo-router");
         const { getByText } = render(<ShopIndex />);
 
         fireEvent.press(getByText("Ski Passes"));
-        expect(__mockPush).toHaveBeenCalledWith("shop/skipass");
+        expect(__mockNavigate).toHaveBeenCalledWith("shop/skipass");
     });
 });

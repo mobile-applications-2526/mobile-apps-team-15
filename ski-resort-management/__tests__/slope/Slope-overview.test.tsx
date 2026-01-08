@@ -2,16 +2,30 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import SlopeOverview from "@components/slopes/SlopeOverview";
 
-const slope = {
-    id: "1",
-    name: "Bluebird Ridge",
-    description: "A nice slope",
-    imageUrl: 1, // dummy
-    weather: { windKmh: 18, snowQuality: "good", visibility: "clear", busyness: "Calm" },
-};
+jest.mock(
+    "@react-native-async-storage/async-storage",
+    () => require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
+
+// Keep zustand store simple/deterministic for these unit tests
+jest.mock("@/store/FavoriteSlopeStore", () => ({
+    useFavoriteSlopeStore: () => ({
+        favoriteSlope: null,
+        setFavoriteSlope: jest.fn(),
+    }),
+}));
+
+// Vector icons shouldn't affect unit tests
+jest.mock("@expo/vector-icons/FontAwesome6", () => {
+    const React = require("react");
+    const { Text } = require("react-native");
+    return function Icon() {
+        return <Text>icon</Text>;
+    };
+});
 
 jest.mock("@components/ThemeContext", () => () => ({
-    colors: { text: "#000" },
+    colors: { text: "#000", textSecondary: "#666", error: "#f00" },
     text: {
         H1: {},
         H2: {},
@@ -24,46 +38,45 @@ jest.mock("@components/ThemeContext", () => () => ({
     card: {},
     shadow: {},
     border: {},
+    spacing: { xs: 4, sm: 8, md: 12, lg: 16 },
+    radius: { sm: 6, md: 10, lg: 12 },
 }));
 
+const slope = {
+    id: "1",
+    slopeName: "Bluebird Ridge",
+    domain: { name: "Domain A" },
+    status: "OPEN",
+    difficulty: "BLUE",
+};
+
 describe("SlopeOverview", () => {
-    it("renders slope name and description", () => {
+    it("renders slope name and domain", () => {
         const { getByText } = render(<SlopeOverview slope={slope as any} />);
         expect(getByText("Bluebird Ridge")).toBeTruthy();
-        expect(getByText("A nice slope")).toBeTruthy();
+        expect(getByText("Domain A")).toBeTruthy();
     });
 
-    it("shows Weather section when expandable and expanded", () => {
+    it("shows details when expandable and expanded", () => {
         const { getByText } = render(
             <SlopeOverview slope={slope as any} expandable expanded onToggle={() => {}} />
         );
+
         expect(getByText("Weather")).toBeTruthy();
-        expect(getByText("wind")).toBeTruthy();
-        expect(getByText("18 km/h")).toBeTruthy();
+        expect(getByText("Status:")).toBeTruthy();
+        expect(getByText("OPEN")).toBeTruthy();
+        expect(getByText("Difficulty:")).toBeTruthy();
+        expect(getByText("BLUE")).toBeTruthy();
     });
 
-    it("calls onToggle when pressed if expandable", () => {
+    it("calls onToggle when pressing the expand button", () => {
         const onToggle = jest.fn();
-        const { getByText } = render(
+        const { getByLabelText } = render(
             <SlopeOverview slope={slope as any} expandable expanded={false} onToggle={onToggle} />
         );
 
-        fireEvent.press(getByText("Bluebird Ridge"));
+        fireEvent.press(getByLabelText("expand"));
         expect(onToggle).toHaveBeenCalledTimes(1);
+
     });
-
-    it("renders '-' for missing weather values", () => {
-        const slopeMissing = {
-            ...slope,
-            weather: { windKmh: null, snowQuality: null, visibility: "low", busyness: null },
-        };
-
-        const { getAllByText } = render(
-            <SlopeOverview slope={slopeMissing as any} expandable expanded onToggle={() => {}} />
-        );
-
-        const dashes = getAllByText("-");
-        expect(dashes.length).toBeGreaterThan(0);
-    });
-
 });

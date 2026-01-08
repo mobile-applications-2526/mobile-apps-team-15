@@ -16,12 +16,18 @@
   "jest": {
     "preset": "jest-expo",
     "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
+      "@testing-library/jest-native/extend-expect",
+      "<rootDir>/jest.setup.ts"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/cypress/"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1",
+      "^@components/Header$": "<rootDir>/components/header/Header",
+      "^@components/(.*)$": "<rootDir>/components/$1"
+    }
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

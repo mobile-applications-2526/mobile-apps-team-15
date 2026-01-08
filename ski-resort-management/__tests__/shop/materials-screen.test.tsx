@@ -1,11 +1,31 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import MaterialsScreen from "../../app/(tabs)/shop/materials";
+import  MaterialsScreen  from "../../app/(tabs)/shop/materials/index";
+
+jest.mock(
+    "@react-native-async-storage/async-storage",
+    () => require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
+
+jest.mock("swr", () => {
+    return () => ({
+        data: [
+            { id: "1", name: "Boots" },
+            { id: "2", name: "Jacket" },
+            { id: "3", name: "Pants" },
+            { id: "4", name: "Skis" },
+        ],
+        isLoading: false,
+        error: null,
+    });
+});
 
 // Mock Stack.Screen (we don't need navigation header behavior in unit tests)
 jest.mock("expo-router", () => ({
     Stack: { Screen: () => null },
 }));
+
+jest.mock("@components/header/MaterialCartHeaderButton", () => () => null);
 
 // Mock safe area insets so paddingBottom doesn't crash
 jest.mock("react-native-safe-area-context", () => ({
@@ -14,11 +34,20 @@ jest.mock("react-native-safe-area-context", () => ({
 
 // Mock theme for Card + text components
 jest.mock("@components/ThemeContext", () => () => ({
-    colors: { background: "#fff", surface: "#eee", text: "#000", textSecondary: "#666" },
+    colors: {
+        background: "#fff",
+        surface: "#eee",
+        text: "#000",
+        textSecondary: "#666",
+        textInputBackground: "#f5f5f5",
+        textPlaceholder: "#999",
+    },
     border: {},
     shadow: {},
     card: {},
-    spacing: { sm: 8 },
+    divider: {},
+    spacing: { xs: 4, sm: 8, md: 12, lg: 16, xl: 20 },
+    radius: { sm: 6, md: 10, lg: 12 },
     list: { listItem: {} },
     text: {
         H1: {},
@@ -36,16 +65,16 @@ jest.mock("@components/shop/MaterialOverview", () => {
     const React = require("react");
     const { Text } = require("react-native");
     return function MaterialOverview(props: any) {
-        return <Text>{props.name}</Text>;
+        return <Text>{props.material?.name}</Text>;
     };
 });
 
 describe("Materials screen", () => {
     // Tests that the screen renders and shows all materials by default
     it("renders all materials initially", () => {
-        const { getByTestId, getByText } = render(<MaterialsScreen />);
+        const { getByText } = render(<MaterialsScreen />);
 
-        expect(getByTestId("screen-shop-materials")).toBeTruthy();
+        expect(getByText("Materials")).toBeTruthy();
         expect(getByText("Boots")).toBeTruthy();
         expect(getByText("Jacket")).toBeTruthy();
         expect(getByText("Pants")).toBeTruthy();
