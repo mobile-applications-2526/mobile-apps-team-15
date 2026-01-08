@@ -20,7 +20,7 @@ export default function SkiPass() {
     const safeAreaInsets = useSafeAreaInsets();
 
     const materialFetcher = async () => {
-        return await materialService.getAllMaterials()
+        return await materialService.getAllAvailableMaterials()
     }
 
     const {data: materials, isLoading, error} = useSWR("api/materials", materialFetcher)
