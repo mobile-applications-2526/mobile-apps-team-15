@@ -60,6 +60,7 @@ export default function Index() {
                             placeholder="Search"
                             value={query}
                             onChangeText={setQuery}
+                            testID="input-slopes-search"
                         />
                     </Card>
 

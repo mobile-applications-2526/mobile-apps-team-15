@@ -45,10 +45,20 @@ export default function SlopeOverview({
 
                 {expandable && (
                     <View style={{ flexDirection: "row" }}>
-                        <StyledButtonSmall onPress={() => favoriteSlope?.id === slope.id ? setFavoriteSlope(null) : setFavoriteSlope(slope) } style={{backgroundColor: "transparent"}} accessibilityLabel={favoriteSlope?.id === slope.id ? "Remove favorite" : "Favorite"} >
+                        <StyledButtonSmall
+                            onPress={() => favoriteSlope?.id === slope.id ? setFavoriteSlope(null) : setFavoriteSlope(slope)}
+                            style={{ backgroundColor: "transparent" }}
+                            accessibilityLabel={favoriteSlope?.id === slope.id ? "Remove favorite" : "Favorite"}
+                            testID="favorite-slope-btn"
+                        >
                             <FontAwesome6 name={"heart"} solid size={20} color={favoriteSlope?.id === slope.id ? theme.colors.error : theme.colors.textSecondary} />
                         </StyledButtonSmall>
-                        <StyledButtonSmall onPress={onToggle} style={{backgroundColor: "transparent"}} accessibilityLabel={expanded ? "close" : "expand"} >
+                        <StyledButtonSmall
+                            onPress={onToggle}
+                            style={{ backgroundColor: "transparent" }}
+                            accessibilityLabel={expanded ? "close" : "expand"}
+                            testID="expand-slope-btn"
+                        >
                             <FontAwesome6 name={expanded ? "chevron-up" : "chevron-down"} solid size={20} color={theme.colors.text} />
                         </StyledButtonSmall>
                     </View>

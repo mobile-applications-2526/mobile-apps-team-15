@@ -18,6 +18,7 @@ describe("Slopes tab - basic flows", () => {
 
     afterEach(() => {
         cy.visit("/(tabs)/")
+        cy.wait(1000);
         cy.get('button[aria-label="Account"]').should('be.visible').click();
         cy.wait(1000);
         cy.get('[data-testid="logout-button"]').should('be.visible').click();
@@ -26,21 +27,22 @@ describe("Slopes tab - basic flows", () => {
     })
 
     it("filters slopes using search", () => {
-        cy.get('[data-testid="input-slopes-search"]').type("Eagle");
+        cy.wait(2000)
+        cy.get('[data-testid="input-slopes-search"]').type("Green");
 
-        //Dit kan mometenteel makkelijk getest worden omdat data hardcoded is. Eenmaal link met backend moet dit misschien anders (tenzij we mocken)
-        cy.contains("Eagle Pass").should("be.visible");
-        cy.contains("Bluebird Ridge").should("not.exist");
+        cy.contains("Green Valley").should("be.visible");
+        cy.contains("Blue Ridge").should("not.exist");
     });
 
     it("can expand a slope card (toggle)", () => {
-        cy.contains("Bluebird Ridge").click();
+        cy.wait(2000);
+        cy.get('[data-testid="expand-slope-btn"]').first().click();
 
         // Check dat iets uit de description zichtbaar wordt wanneer expanded
         cy.contains("Weather").should("be.visible");
 
         // Klik opnieuw → description verdwijnt (als je UI zo werkt)
-        cy.contains("Bluebird Ridge").click();
+        cy.get('[data-testid="expand-slope-btn"]').first().click();
         cy.contains("Weather").should("not.exist");
     });
 });
