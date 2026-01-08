@@ -19,6 +19,7 @@ import { Loan, SkiPass } from "@constants/types";
 import H3 from "@components/text/H3";
 import Divider from "@components/text/Divider";
 import { useFavoriteSlopeStore } from "@/store/FavoriteSlopeStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function Account() {
@@ -67,6 +68,7 @@ export default function Account() {
         removeUser();
         clearCart();
         clearFavoriteSlope();
+        AsyncStorage.removeItem("user_notification_permission_asked")
     };
 
     return (
