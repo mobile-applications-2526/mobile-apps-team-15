@@ -10,7 +10,27 @@ jest.mock("@components/AuthContext", () => {
 });
 
 jest.mock("@/services/SkiPassService", () => ({
+    __esModule: true,
+    default: {
+        postSkiPass: jest.fn().mockResolvedValue({}),
+    },
     postSkiPass: jest.fn().mockResolvedValue({}),
+}));
+
+jest.mock("@/services/NotificationService", () => ({
+    __esModule: true,
+    requestNotificationPermissions: jest.fn().mockResolvedValue(false), // easiest path: no scheduling
+    scheduleSkiPassExpiryNotification: jest.fn(),
+}));
+
+jest.mock("@react-native-async-storage/async-storage", () => ({
+    __esModule: true,
+    default: {
+        getItem: jest.fn().mockResolvedValue(null),
+        setItem: jest.fn().mockResolvedValue(null),
+    },
+    getItem: jest.fn().mockResolvedValue(null),
+    setItem: jest.fn().mockResolvedValue(null),
 }));
 
 describe("SkiPassCheckout screen", () => {
@@ -20,7 +40,7 @@ describe("SkiPassCheckout screen", () => {
         // reset navigation mocks from jest.setup.ts
         expoRouter.__mocks.replace.mockClear();
 
-        // set predictable params for this test file
+        // predictable params
         expoRouter.useLocalSearchParams.mockImplementation(() => ({
             title: "Gold",
             price: 50,

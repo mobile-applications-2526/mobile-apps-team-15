@@ -1,11 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import MaterialOverview from "../../components/shop/MaterialOverview";
 
-// ✅ Fix: mock Image without loading full react-native (prevents DevMenu crash)
+// Mock Image zonder react-native volledig te require’en (vermijdt native issues)
 jest.mock("react-native/Libraries/Image/Image", () => "Image");
 
-// ✅ Fix: mock expo-router router.push (MaterialOverview uses `router.push`)
+// MaterialOverview gebruikt `router.push(...)`
 jest.mock("expo-router", () => {
     const push = jest.fn();
     return {
@@ -14,7 +13,7 @@ jest.mock("expo-router", () => {
     };
 });
 
-// ✅ Mock text components to plain Text (require inside factory!)
+// Mock H3/H4 naar plain Text
 jest.mock("@components/text/H3", () => {
     const React = require("react");
     const { Text } = require("react-native");
@@ -31,7 +30,7 @@ jest.mock("@components/text/H4", () => {
     };
 });
 
-// ✅ Mock StyledButton to a pressable Text
+// Mock StyledButton naar TouchableOpacity
 jest.mock("@components/StyledButton", () => {
     const React = require("react");
     const { Text, TouchableOpacity } = require("react-native");
@@ -44,7 +43,7 @@ jest.mock("@components/StyledButton", () => {
     };
 });
 
-// CartStore (MaterialOverview reads cart materials to disable button)
+// CartStore (MaterialOverview leest materials uit cart om button te disablen)
 jest.mock("@/store/CartStore", () => ({
     useCartStore: () => ({ materials: [] }),
 }));
@@ -57,8 +56,22 @@ jest.mock("@components/ThemeContext", () => () => ({
     border: {},
     shadow: {},
     card: {},
-    text: { H1: {}, H2: {}, H3: {}, H4: {}, subHeading: {}, paragraph: {}, description: {} },
+    text: {
+        H1: {},
+        H2: {},
+        H3: {},
+        H4: {},
+        subHeading: {},
+        paragraph: {},
+        description: {},
+    },
 }));
+
+
+function getMaterialOverviewComponent() {
+    const mod = require("../../components/shop/MaterialOverview");
+    return mod?.default ?? mod?.MaterialOverview ?? mod;
+}
 
 describe("MaterialOverview", () => {
     beforeEach(() => {
@@ -67,6 +80,8 @@ describe("MaterialOverview", () => {
     });
 
     it("renders name and price", () => {
+        const MaterialOverview = getMaterialOverviewComponent();
+
         const { getByText } = render(
             <MaterialOverview
                 material={{
@@ -75,7 +90,7 @@ describe("MaterialOverview", () => {
                     pricePerHour: 5,
                     pricePerDay: 25,
                     imageUrl: "https://example.com/boots.png",
-                } as any}
+                }}
             />
         );
 
@@ -85,6 +100,7 @@ describe("MaterialOverview", () => {
     });
 
     it("navigates to materials/add-to-cart with id when pressing View", () => {
+        const MaterialOverview = getMaterialOverviewComponent();
         const expoRouter = require("expo-router");
 
         const { getByText } = render(
@@ -95,7 +111,7 @@ describe("MaterialOverview", () => {
                     pricePerHour: 5,
                     pricePerDay: 25,
                     imageUrl: "https://example.com/boots.png",
-                } as any}
+                }}
             />
         );
 

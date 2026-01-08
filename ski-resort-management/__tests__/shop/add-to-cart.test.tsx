@@ -1,11 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import AddToCart from "../../app/(tabs)/shop/materials/add-to-cart";
 
-// ✅ Fix: mock Image without loading full react-native (prevents DevMenu crash)
+// Mock Image zonder react-native volledig te require’en
 jest.mock("react-native/Libraries/Image/Image", () => "Image");
 
-// ✅ Mock ErrorPopup / Card / Text components
+// UI mocks
 jest.mock("@components/ErrorPopup", () => {
     const React = require("react");
     const { Text } = require("react-native");
@@ -46,7 +45,6 @@ jest.mock("@components/text/SubHeading", () => {
     };
 });
 
-// ✅ Mock StyledButton to TouchableOpacity
 jest.mock("@components/StyledButton", () => {
     const React = require("react");
     const { Text, TouchableOpacity } = require("react-native");
@@ -69,10 +67,18 @@ jest.mock("@components/ThemeContext", () => () => ({
     list: { listItem: {} },
     spacing: { xs: 4, sm: 8, md: 12, lg: 16, xl: 20 },
     radius: { sm: 6, md: 10, lg: 12 },
-    text: { H1: {}, H2: {}, H3: {}, H4: {}, subHeading: {}, paragraph: {}, description: {} },
+    text: {
+        H1: {},
+        H2: {},
+        H3: {},
+        H4: {},
+        subHeading: {},
+        paragraph: {},
+        description: {},
+    },
 }));
 
-// expo-router hooks in this screen
+// expo-router hooks in AddToCart
 jest.mock("expo-router", () => {
     const mockBack = jest.fn();
     return {
@@ -96,19 +102,26 @@ jest.mock("@/store/CartStore", () => {
     };
 });
 
-// ✅ MaterialService default export
-jest.mock("@/services/MaterialService", () => ({
-    __esModule: true,
-    default: {
-        getMaterialById: jest.fn().mockResolvedValue({
-            id: "mat-1",
-            name: "Boots",
-            pricePerHour: 5,
-            pricePerDay: 25,
-            imageUrl: "https://example.com/boots.png",
-        }),
-    },
-}));
+jest.mock("@/services/MaterialService", () => {
+    const getMaterialById = jest.fn().mockResolvedValue({
+        id: "mat-1",
+        name: "Boots",
+        pricePerHour: 5,
+        pricePerDay: 25,
+        imageUrl: "https://example.com/boots.png",
+    });
+
+    return {
+        __esModule: true,
+        default: { getMaterialById },
+        getMaterialById,
+    };
+});
+
+function getAddToCartComponent() {
+    const mod = require("../../app/(tabs)/shop/materials/add-to-cart");
+    return mod?.default ?? mod?.AddToCart ?? mod;
+}
 
 describe("Materials AddToCart screen", () => {
     beforeEach(() => {
@@ -120,6 +133,7 @@ describe("Materials AddToCart screen", () => {
     });
 
     it("renders material info from back-end", async () => {
+        const AddToCart = getAddToCartComponent();
         const { findByText } = render(<AddToCart />);
 
         expect(await findByText("Boots")).toBeTruthy();
@@ -129,16 +143,15 @@ describe("Materials AddToCart screen", () => {
     });
 
     it("adds the material to the cart and goes back", async () => {
+        const AddToCart = getAddToCartComponent();
         const { __mockBack } = require("expo-router");
         const cart = require("@/store/CartStore");
 
         const { findByText, getByText } = render(<AddToCart />);
 
         await findByText("Add to cart");
-
         fireEvent.press(getByText("Add to cart"));
 
-        // duration=2 days => total = 25 * 2 = 50
         expect(cart.__mock.mockAddMaterial).toHaveBeenCalledWith(
             expect.objectContaining({ id: "mat-1", name: "Boots", total: 50 })
         );
