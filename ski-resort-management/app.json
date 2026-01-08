@@ -30,6 +30,13 @@
       "expo-router",
       "expo-secure-store"
     ],
-    "scheme": "ski-free"
+    "scheme": "ski-free",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6730c1c5-0f3c-4760-a3f8-4e3615be0b48"
+      }
+    },
+    "owner": "marnixwill"
   }
 }

@@ -10,6 +10,8 @@ import StyledButton from "@components/StyledButton";
 import SkiPassService from "@/services/SkiPassService";
 import { SkiPassType, SkiPassRequestDto } from "@constants/types";
 import { AuthContext } from "@components/AuthContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { scheduleSkiPassExpiryNotification, requestNotificationPermissions } from "@/services/NotificationService";
 
 export default function SkiPassCheckout() {
     const theme = useTheme();
@@ -18,6 +20,37 @@ export default function SkiPassCheckout() {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const { title, price, passType } = useLocalSearchParams();
+    //Use this param to lookup skipass price
+
+    const askForNotificationPermission = async () => {
+        console.log('=== Starting notification permission flow ===');
+        
+        const granted = await requestNotificationPermissions();
+        console.log('Permission result:', granted);
+        
+        if (granted) {
+            const notificationTime = new Date(Date.now() + (61 * 60 * 1000)); //Normaal passeren we hier de expiryDate van de SkiPass, maar voor testing 1 minuut in de toekomst.
+            scheduleSkiPassExpiryNotification(notificationTime);
+            await AsyncStorage.setItem('user_notification_permission_asked', 'true');
+        } else {            
+            const hasAsked = await AsyncStorage.getItem('user_notification_permission_asked');
+            
+            if (hasAsked === 'true') {
+                return;
+            }
+            
+            
+            const secondAttempt = await requestNotificationPermissions();
+            if (secondAttempt) {
+                const notificationTime = new Date(Date.now() + (61 * 60 * 1000));
+                scheduleSkiPassExpiryNotification(notificationTime);
+            } else {
+                console.log('Second attempt also denied');
+            }
+            
+            await AsyncStorage.setItem('user_notification_permission_asked', 'true');
+        }
+    };
 
 
     return (
@@ -79,6 +112,10 @@ export default function SkiPassCheckout() {
                                 };
 
                                 await SkiPassService.postSkiPass(skiPassRequest);
+                                
+                                // Ask for notification permissions after successful purchase
+                                await askForNotificationPermission();
+                                
                                 router.replace("/(tabs)/shop/payment-complete");
                             } catch (error) {
                                 console.error('Failed to create ski pass:', error);
