@@ -29,8 +29,8 @@ export default function SkiPass() {
 
     const filteredMaterials = useMemo(() => {
         const q = query.trim().toLowerCase();
-        if (!q) return materials ?? [];
-        return materials.filter((s) => s.name.toLowerCase().includes(q));
+        if (!q || isLoading) return materials ?? [];
+        return (materials ?? []).filter((s) => s.name.toLowerCase().includes(q));
     }, [materials, query]);
 
     return (
